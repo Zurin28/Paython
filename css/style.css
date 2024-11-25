@@ -1,0 +1,137 @@
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins';
+  
+}
+
+.error{
+    color: red;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+}
+
+section.login-container {
+    display: flex;
+    width: 80%;
+    max-width: 1200px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.login {
+    width: 50%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.login img {
+    width: 60px;
+    margin-bottom: 20px;
+}
+
+.login h2 {
+    font-size: 32px;
+    color: #2E7D32;
+    margin-bottom: 10px;
+}
+
+.login h2 span {
+    color: #76C043;
+}
+
+.login p {
+    color: #666666;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+form {
+    width: 100%;
+}
+
+form label {
+    display: block;
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+form input[type="email"],
+form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+     border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+form a {
+  color: #2e337d;
+  text-decoration: none;
+  font-size: 12px;
+  margin-right: auto; 
+  margin-bottom: 20px;
+}
+
+form a:hover {
+    text-decoration: underline;
+}
+
+form button[type="loginbtn"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #2E7D32;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+form button[type="loginbtn"]:hover {
+    background-color: #256029;
+}
+
+form p {
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+    margin: 15px 0;
+}
+
+
+.design {
+    width: 50%;
+    background-color: #28B446;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.design {
+    width: 80%;
+    height: auto;
+}
+
+.design img {
+  width: 250px;
+  margin-bottom: 20px;
+}
+
+
