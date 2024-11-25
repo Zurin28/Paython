@@ -46,7 +46,7 @@ session_start() ?>
                     exit();
                 }
                 else if (!empty($accInfo) && $accRole == "Admin"){
-                    header("Location: admin.php");
+                    header("Location: admin.page.php");
                     exit();
                 }
                 else{
