@@ -1,5 +1,6 @@
 <?php 
 // Hello JM, Hello niko, Godbless you.
+// Changes made
 require_once "account.class.php";
 $accObj = new Account;
 
