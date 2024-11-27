@@ -1,7 +1,7 @@
 <?php
 require_once '../tools/functions.php';
 require_once '../classes/account.class.php';
-
+// Change
 session_start();
 
 $username = $password = '';
