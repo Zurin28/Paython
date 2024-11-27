@@ -34,7 +34,7 @@ class Account{
       }
 
       function login($email, $password) {
-    $sql = "SELECT * from Account where WmsuEmail = :email and Password = :password LIMIT 1;";
+    $sql = "SELECT * from account where WmsuEmail = :email and Password = :password LIMIT 1;";
     $qry = $this->db->connect()->prepare($sql);
     $qry->execute([
         ':email' => $email,
@@ -52,7 +52,7 @@ class Account{
 
 
       function fetch($email, $password) {
-    $sql = "SELECT * from Account where WmsuEmail = :email and Password = :password LIMIT 1;";
+    $sql = "SELECT * from account where WmsuEmail = :email and Password = :password LIMIT 1;";
     $qry = $this->db->connect()->prepare($sql);
     $qry->execute([
         ':email' => $email,
