@@ -1,0 +1,38 @@
+<!-- Stock Modal -->
+<div class="modal fade" id="stockModal" tabindex="-1" aria-labelledby="stockModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="stockModalLabel">Manage Product Stock</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="" method="post" id="form-stock-action" >
+          <!-- Display a note indicating required fields -->
+          <span class="error">* are required fields</span>
+          <br>
+
+          <label for="quantity">Quantity</label><span class="error">*</span>
+          <br>
+          <input type="number" name="quantity" id="quantity" value="" required>
+          <br>
+          <input type="hidden" id="product_id">
+
+          <div class="mb-3">
+            <label for="stock_action">Stock Action</label><span class="error">*</span>
+            <br>
+            <input type="radio" id="stock-in" name="stock_action" value="in" checked> In
+            <input type="radio" id="stock-out" name="stock_action" value="out"> Out
+          </div>
+
+          <div class="mb-3 d-none" id="reason-field">
+            <label for="reason">Reason for Stock Out</label><span class="error">*</span>
+            <textarea class="form-control" id="reason" name="reason"></textarea>
+            <div class="invalid-feedback" id="reason-error"></div>
+          </div>
+          <input type="submit" value="Save Changes">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

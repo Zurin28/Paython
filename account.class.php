@@ -34,37 +34,38 @@ class Account{
       }
 
       function login($email, $password) {
-        $sql = "SELECT * from Account where WmsuEmail = :email and Password = :password LIMIT 1;";
-        $qry = $this->db->connect()->prepare($sql);
-        $result = $qry->execute([
-            ':email' => $email,
-            ':password' => $password
-        ]);
+    $sql = "SELECT * from Account where WmsuEmail = :email and Password = :password LIMIT 1;";
+    $qry = $this->db->connect()->prepare($sql);
+    $qry->execute([
+        ':email' => $email,
+        ':password' => $password
+    ]);
 
-        if ($result) {
-            return true;
-        } else {
-            return false; // Or handle the error appropriately
-        }
-      }
+    // Check if any rows were returned
+    if ($qry->rowCount() > 0) {
+        return true;  // User found with the matching credentials
+    } else {
+        return false;  // No matching user
+    }
+}
+
 
 
       function fetch($email, $password) {
-        $sql = "SELECT * from Account where WmsuEmail = :email and Password = :password LIMIT 1;";
-        $qry = $this->db->connect()->prepare($sql);
-        $result = $qry->execute([
-            ':email' => $email,
-            ':password' => $password
-        ]);
-        
-        $data = '';
-
-        // If you need to fetch the results:
-        if ($result) {
-            $data = $qry->fetch();  
-        }
-        return $data;
+    $sql = "SELECT * from Account where WmsuEmail = :email and Password = :password LIMIT 1;";
+    $qry = $this->db->connect()->prepare($sql);
+    $qry->execute([
+        ':email' => $email,
+        ':password' => $password
+    ]);
+    
+    // Check if any rows were returned and fetch the data
+    if ($qry->rowCount() > 0) {
+        return $qry->fetch();
+    } else {
+        return null;  // No matching record found
     }
+}
 }
 
 

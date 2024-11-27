@@ -6,28 +6,8 @@ session_start();
 
 $password = $email = '';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = htmlspecialchars($_POST["email"]);
-    $password = htmlspecialchars($_POST['password']);
-
-    if ($accObj->login($email, $password)) {
-        $data = $accObj->fetch($email, $password);
-        $_SESSION['account'] = $data;
-        if (isset($_SESSION['account'])) {
-            if ($_SESSION['account']['isstaff'] == false && $_SESSION['account']['isadmin'] == false) {
-                header("Location: dashboard.php");
-            }elseif ($_SESSION['account']['isadmin']) {
-                print('admin ako');
-                header("Location: admin.page.php");
-            }elseif ($_SESSION['account']['isstaff'] == true && $_SESSION['account']['isadmin'] == false) {
-                header("Location: student.staff.php");
-            }
-        }
-    } else {
-        echo '<p class="errorMsg">*Wrong Email or Password</p>';
-    }
-}
 ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -53,7 +33,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <button type="loginbtn">Log In</button>
             </form>
+            <?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = htmlspecialchars($_POST["email"]);
+    $password = htmlspecialchars($_POST['password']);
+
+
+    if ($accObj->login($email, $password)) {
+        $data = $accObj->fetch($email, $password);
+        $_SESSION['account'] = $data;
+        if (isset($_SESSION['account'])) {
+             if ($_SESSION['account']['isstaff'] == false && $_SESSION['account']['isadmin'] == false){
+                header("Location: dashboard.php");
+            }elseif ($_SESSION['account']['isstaff'] == true && $_SESSION['account']['isadmin'] == false) {
+                header("Location: student.staff.php");
+            }elseif ($_SESSION['account']['isadmin']) {
+                header("Location: admin.page.php");
+            }
+            }
+
+    }else {
+        echo '<p class="errorMsg">*Wrong Email or Password</p>';
+    }
+}?>
         </div>
+        
         <div class="design">
             <img src="img/Screenshot 2024-11-02 034438.png" alt="basta design kay d ko alam paano ilagay yung mga border chuchu kaya yung img na lng yung ano sa figma niglagay ko dito yung sa side d ko alm paano yun"> 
         </div>
