@@ -7,6 +7,8 @@ class Account{
     public $password;
 
     public $role;
+    public $isstaff = null;
+    public $isadmin = null;
     protected $db;
 
     function __construct() {
@@ -31,21 +33,37 @@ class Account{
         return $data;
       }
 
-      function fetch($email, $password) {
-        $sql = "SELECT * from Account where WmsuEmail = :email and Password = :password ";
+      function login($email, $password) {
+        $sql = "SELECT * from Account where WmsuEmail = :email and Password = :password LIMIT 1;";
         $qry = $this->db->connect()->prepare($sql);
         $result = $qry->execute([
             ':email' => $email,
             ':password' => $password
         ]);
-    
-        // If you need to fetch the results:
+
         if ($result) {
-            $rows = $qry->fetchAll(PDO::FETCH_ASSOC);
-            return $rows;
+            return true;
         } else {
             return false; // Or handle the error appropriately
         }
+      }
+
+
+      function fetch($email, $password) {
+        $sql = "SELECT * from Account where WmsuEmail = :email and Password = :password LIMIT 1;";
+        $qry = $this->db->connect()->prepare($sql);
+        $result = $qry->execute([
+            ':email' => $email,
+            ':password' => $password
+        ]);
+        
+        $data = '';
+
+        // If you need to fetch the results:
+        if ($result) {
+            $data = $qry->fetch();  
+        }
+        return $data;
     }
 }
 

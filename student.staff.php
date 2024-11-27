@@ -94,7 +94,7 @@
 
           <div class="box">
             <div class="box-inner">
-              <p class="text-primary">box box lng muna para hnd talga plain</p>
+              <a href="staff.php">CHANGE TO STAFF PAGE</a>
             </div>
           </div>
 
