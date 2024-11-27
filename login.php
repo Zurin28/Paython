@@ -1,4 +1,5 @@
 <?php 
+// Hello JM
 require_once "account.class.php";
 $accObj = new Account;
 
