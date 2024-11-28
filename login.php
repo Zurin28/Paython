@@ -2,6 +2,7 @@
 // Hello JM, Hello niko, Godbless you.
 // Changes made, Changes 2.0
 // I am removed as collav
+// Hello i am trisha 
 require_once "account.class.php";
 $accObj = new Account;
 
