@@ -1,5 +1,6 @@
 <?php 
 require_once "account.class.php";
+require_once "tools/functions.php";
 $accObj = new Account;
 
 session_start();
@@ -35,8 +36,8 @@ $password = $email = '';
             </form>
             <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = htmlspecialchars($_POST["email"]);
-    $password = htmlspecialchars($_POST['password']);
+    $email = clean_input($_POST["email"]);
+    $password = clean_input($_POST['password']);
 
 
     if ($accObj->login($email, $password)) {
@@ -48,7 +49,7 @@ $password = $email = '';
             }elseif ($_SESSION['account']['isstaff'] == true && $_SESSION['account']['isadmin'] == false) {
                 header("Location: student.staff.php");
             }elseif ($_SESSION['account']['isadmin']) {
-                header("Location: admin.page.php");
+                header("Location: admin.php");
             }
             }
 

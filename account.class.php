@@ -16,7 +16,7 @@ class Account{
     }
 
     function viewAll() {
-        $sql = "SELECT * from Account";
+        $sql = "SELECT * from account";
         $qry = $this->db->connect()->prepare($sql);
         if ($qry -> execute()){
             $data = $qry->fetchAll();
@@ -25,7 +25,7 @@ class Account{
       }
 
       function viewRole() {
-        $sql = "SELECT role from Account";
+        $sql = "SELECT role from account";
         $qry = $this->db->connect()->prepare($sql);
         if ($qry -> execute()){
             $data = $qry->fetchAll();
@@ -66,6 +66,24 @@ class Account{
         return null;  // No matching record found
     }
 }
+
+function createOrg() {
+    $sql = "CREATE TABLE `pms1`.`SESSION` (
+    `OrganizationID` VARCHAR(100) NOT NULL , 
+    `StudentID` INT(11) NOT NULL , 
+    `first_name` VARCHAR(255) NOT NULL , 
+    `last_name` VARCHAR(255) NOT NULL , 
+    `WmsuEmail` VARCHAR(255) NOT NULL , 
+    `Position` VARCHAR(255) NOT NULL,
+    
+    CONSTRAINT fk_OrgID FOREIGN KEY OrganizationID REFERENCES organizations(OrganizationID),
+    CONSTRAINT fk_StudID FOREIGN KEY StudentID REFERENCES account(StudentID)) ENGINE = InnoDB;";
+    $qry = $this->db->connect()->prepare($sql);
+    if ($qry -> execute()){
+        $data = $qry->fetchAll();
+    }
+    return $data;
+  }
 }
 
 
