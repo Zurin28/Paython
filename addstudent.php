@@ -1,3 +1,5 @@
+<?php require_once "account.class.php"; ?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
@@ -78,22 +80,61 @@
             </select>
           </div>
 
-        <button id="addStudentBtn">Add Student</button>
         <table id="studentTable">
           <thead>
             <tr>
               <th>NO.</th>
               <th>StudentID</th>
               <th>Name</th>
-              <th>email</th>
-              <th>course</th>
-              <th>year</th>
-              <th>section</th>
+              <th>Email</th>
+              <th>Course</th>
+              <th>Year</th>
+              <th>Section</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            <!-- Dynamic rows will be added here -->
+            <tr>
+            <?php 
+            $account = new Account;
+            $accInfo = $account->viewAccounts();
+?> <pre>
+            <?php echo $accInfo[0]["StudentID"];?>
+   </pre>
+<?php
+
+
+
+            if (empty($accInfo)) {
+        ?>
+        <tr>
+            <td colspan="6">
+                <p class="search">No Student Information </p>
+            </td>
+        </tr>
+        <?php 
+            } else {
+                $i = 1;
+                foreach ($accInfo as $arr) {
+        ?>
+        <tr>
+            <td><?= $i ?></td>
+            <td><?= htmlspecialchars($arr['StudentID']) ?></td>
+            <td><?= htmlspecialchars($arr['first_name']), " ", htmlspecialchars($arr['MI']), " ",htmlspecialchars($arr['last_name'])  ?></td>
+            <td><?= htmlspecialchars($arr['WmsuEmail']) ?></td>
+            <td><?= htmlspecialchars($arr['Course']) ?></td>
+            <td><?= htmlspecialchars($arr['Year']) ?></td>
+            <td><?= htmlspecialchars($arr['Section']) ?></td>
+            <td>
+                  <a href="delete">Edit</a><a href="edit"></a>
+            </td>
+        </tr>
+        <?php 
+                $i++;
+                }
+            }
+        ?>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -101,7 +142,7 @@
   </section>
 
   <!-- Modal for Adding/Editing Students -->
-  <div id="studentModal" class="modal">
+  <!-- <div id="studentModal" class="modal">
     <div class="modal-content">
       <h3 id="modalTitle">Add Student</h3>
       
@@ -131,7 +172,7 @@
       <button id="saveStudentBtn">Save</button>
       <button id="closeModalBtn">Cancel</button>
     </div>
-  </div>
+  </div> -->
   
   <script src="student.js"></script>
   <script src="script.js"></script>

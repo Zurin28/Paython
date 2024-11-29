@@ -21,7 +21,7 @@
         </a>
       </li>
       <li>
-        <a href="addstudent.html">
+        <a href="addstudent.php">
            <i class='bx bx-face'></i>
           <span class="list_name">Student</span>
         </a>

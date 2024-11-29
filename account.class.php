@@ -15,7 +15,7 @@ class Account{
         $this->db = new Database();
     }
 
-    function viewAll() {
+    function viewAccounts() {
         $sql = "SELECT * from account";
         $qry = $this->db->connect()->prepare($sql);
         if ($qry -> execute()){
