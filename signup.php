@@ -34,6 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $isCreated = $accObj->create($studentId, $first_name, $last_name, $mi, $wmsuEmail, $hashedPassword, $role, $course, $year, $section);
             if ($isCreated) {
                 echo "<p style='color: green;'>Account created successfully. You can now log in.</p>";
+
+                // Delay using sleep and a meta-refresh tag
+                echo "<meta http-equiv='refresh' content='3;url=login.php'>";
+
+                exit;
             } else {
                 echo "<p style='color: red;'>Failed to create account. Please try again later.</p>";
             }
