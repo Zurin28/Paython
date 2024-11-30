@@ -66,6 +66,27 @@ class Account{
         return null;  // No matching record found
     }
 }
+
+public function register($firstName, $lastName, $email, $password) {
+    // Hash the password for security
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    
+    // Check if email already exists
+    $stmt = $this->conn->prepare("SELECT email FROM accounts WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        return false; // Email already exists
+    }
+    
+    // Insert new user
+    $stmt = $this->conn->prepare("INSERT INTO accounts (firstName, lastName, email, password, isstaff, isadmin) VALUES (?, ?, ?, ?, false, false)");
+    $stmt->bind_param("ssss", $firstName, $lastName, $email, $hashedPassword);
+    
+    return $stmt->execute();
+}
 }
 
 
