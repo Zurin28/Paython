@@ -34,6 +34,7 @@ $password = $email = '';
 
                 <button type="loginbtn">Log In</button>
             </form>
+            <p class="signup-link">Don't have an account? <a href="signup.php">Create Account</a></p>
             <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = clean_input($_POST["email"]);
