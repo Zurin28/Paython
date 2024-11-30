@@ -152,6 +152,17 @@ function create($studentId, $first_name, $last_name, $mi, $wmsuEmail, $password,
         return false; // Error occurred
     }
 }
+
+public function deleteAccount($studentId) {
+    $sql = "DELETE FROM account WHERE StudentID = :studentId"; // SQL statement
+    $qry = $this->db->connect()->prepare($sql); // Prepare the statement
+    $qry->bindParam(':studentId', $studentId, PDO::PARAM_STR); // Bind the parameter
+    if ($qry->execute()) { // Execute the statement
+        return true; // Return true if successful
+    }
+    return false; // Return false if unsuccessful
+}
+
 }
 
 

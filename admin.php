@@ -21,7 +21,7 @@
         </a>
       </li>
       <li>
-        <a href="addstudent.php">
+        <a href="studentlist.php">
            <i class='bx bx-face'></i>
           <span class="list_name">Student</span>
         </a>
@@ -39,7 +39,7 @@
         </a>
       </li>
       <li class="log_out">
-        <a href="#">
+        <a href="login.php">
           <i class='bx bx-log-out'></i>
           <span class="list_name">Log out</span>
         </a>
