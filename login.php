@@ -40,11 +40,13 @@ $password = $email = '';
     $email = clean_input($_POST["email"]);
     $password = clean_input($_POST['password']);
 
+   
 
     if ($accObj->login($email, $password)) {
         $data = $accObj->fetch($email, $password);
         $_SESSION['account'] = $data;
         if (isset($_SESSION['account'])) {
+            $_SESSION['StudentID'] = $_SESSION['account']['StudentID'];
              if ($_SESSION['account']['isstaff'] == false && $_SESSION['account']['isadmin'] == false){
                 header("Location: dashboard.php");
             }elseif ($_SESSION['account']['isstaff'] == true && $_SESSION['account']['isadmin'] == false) {

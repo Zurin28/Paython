@@ -2,11 +2,12 @@
 session_start();
 require_once 'database.class.php';
 require_once 'classes/Organization.php';
+require_once 'account.class.php';
 
 // Check if user is logged in
 
 
-try {
+value: try {
     // Create database connection
     $host = 'localhost';
     $dbname = 'pms1';

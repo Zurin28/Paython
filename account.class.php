@@ -34,61 +34,51 @@ class Account{
       }
 
       function login($email, $password) {
-        $sql = "SELECT Password FROM account WHERE WmsuEmail = :email LIMIT 1;";
-        $qry = $this->db->connect()->prepare($sql);
-        $qry->execute([':email' => $email]);
+        try {
+            $sql = "SELECT Password FROM account WHERE WmsuEmail = :email LIMIT 1;";
+            $qry = $this->db->connect()->prepare($sql);
     
-        if ($qry->rowCount() > 0) {
-            $row = $qry->fetch(PDO::FETCH_ASSOC);
-            if (password_verify($password, $row['Password'])) {
-                return true; // Password matches
+            // Use bindParam for parameter binding
+            $qry->bindParam(':email', $email, PDO::PARAM_STR);
+            $qry->execute();
+    
+            if ($qry->rowCount() > 0) {
+                $row = $qry->fetch(PDO::FETCH_ASSOC);
+                if (password_verify($password, $row['Password'])) {
+                    return true; // Password matches
+                }
             }
+            return false; // No match or user not found
+        } catch (PDOException $e) {
+            // Handle errors
+            error_log("Login error: " . $e->getMessage());
+            return false;
         }
-        return false; // No match or user not found
     }
 
-    function fetch($wmsuEmail, $password) {
+    function fetch($email, $password) {
         try {
-            // SQL to get the account details by email
-            $sql = "SELECT * FROM account WHERE WmsuEmail = :wmsuEmail";
+            $sql = "SELECT * FROM account WHERE WmsuEmail = :email LIMIT 1;";
             $qry = $this->db->connect()->prepare($sql);
-            $qry->execute([':wmsuEmail' => $wmsuEmail]);
-
-            // Check if account exists
-            if ($qry->rowCount() === 1) {
-                $account = $qry->fetch(PDO::FETCH_ASSOC); // Fetch account details
-
-                // Verify the hashed password
-                if (password_verify($password, $account['Password'])) {
-                    // Password matches
-                    return [
-                        'success' => true,
-                        'message' => 'Login successful.',
-                        'account' => $account // Return account details if needed
-                    ];
-                } else {
-                    // Password does not match
-                    return [
-                        'success' => false,
-                        'message' => 'Invalid password.'
-                    ];
+    
+            // Use bindParam for parameter binding
+            $qry->bindParam(':email', $email, PDO::PARAM_STR);
+            $qry->execute();
+    
+            if ($qry->rowCount() > 0) {
+                $row = $qry->fetch(PDO::FETCH_ASSOC); // Fetch account details
+                if (password_verify($password, $row['Password'])) {
+                    return $row; // Return account details if password matches
                 }
-            } else {
-                // No account found
-                return [
-                    'success' => false,
-                    'message' => 'Account not found.'
-                ];
             }
+            return false; // No match or user not found
         } catch (PDOException $e) {
             // Handle errors
             error_log("Fetch error: " . $e->getMessage());
-            return [
-                'success' => false,
-                'message' => 'An error occurred. Please try again later.'
-            ];
+            return false;
         }
     }
+    
 
 function createOrg() {
     $sql = "CREATE TABLE `pms1`.`SESSION` (
@@ -150,6 +140,41 @@ function create($studentId, $first_name, $last_name, $mi, $wmsuEmail, $password,
         return true; // Successfully created account
     } catch (PDOException $e) {
         return false; // Error occurred
+    }
+}
+ function deleteAccount($studentId) {
+    $sql = "DELETE FROM account WHERE StudentID = :studentId"; // SQL statement
+    $qry = $this->db->connect()->prepare($sql); // Prepare the statement
+    $qry->bindParam(':studentId', $studentId, PDO::PARAM_STR); // Bind the parameter
+    if ($qry->execute()) { // Execute the statement
+        return true; // Return true if successful
+    }
+    return false; // Return false if unsuccessful
+}
+
+function getUserDetails($studentID) {
+    try {
+        $sql = "SELECT first_name, last_name FROM account WHERE StudentID = :studentID";
+        $qry = $this->db->connect()->prepare($sql);
+        $qry->bindParam(':studentID', $studentID, PDO::PARAM_INT);
+        $qry->execute();
+        return $qry->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error fetching user details: " . $e->getMessage());
+        return null;
+    }
+}
+
+// Fetch organizations
+function getOrganizations() {
+    try {
+        $sql = "SELECT OrganizationID AS org_id, OrgName AS name FROM organizations";
+        $qry = $this->db->connect()->prepare($sql);
+        $qry->execute();
+        return $qry->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error fetching organizations: " . $e->getMessage());
+        return [];
     }
 }
 }

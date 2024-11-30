@@ -30,7 +30,9 @@
         </a>
       </li>
       <li>
-        <a href="admin_organizations.html">
+
+        <a href="admin_organizations.php">
+
             <i class='bx bx-group'></i>
           <span class="list_name">Organization</span>
         </a>
