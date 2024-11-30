@@ -126,4 +126,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit">Signup</button>
     </form>
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> c58c6b79f63d9074df6225f2277398eb4a58e6d7
