@@ -24,7 +24,7 @@
         </a>
       </li>
       <li>
-        <a href="#" class="active">
+        <a href="studentlist.php" class="active">
             <i class='bx bx-face'></i>
           <span class="list_name">Student</span>
         </a>
@@ -126,7 +126,10 @@
             <td><?= htmlspecialchars($arr['Year']) ?></td>
             <td><?= htmlspecialchars($arr['Section']) ?></td>
             <td>
-                  <a href="delete">Edit</a><a href="edit"></a>
+                <form method="POST" action="delete_account.php">
+                      <input type="hidden" name="studentId" value="<?= htmlspecialchars($arr['StudentID']) ?>">
+                      <button type="submit" class="delete-btn">Delete</button>
+                </form>
             </td>
         </tr>
         <?php 
