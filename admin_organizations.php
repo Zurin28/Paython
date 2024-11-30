@@ -75,7 +75,7 @@ value: try {
                     </a>
                 </li>
                 <li>
-                    <a href="addstudent.php">
+                    <a href="studentlist.php">
                         <i class='bx bx-user-pin'></i>
                         <span class="list_name">Student List</span>
                     </a>
@@ -99,7 +99,7 @@ value: try {
                     </a>
                 </li>
                 <li class="log_out">
-                    <a href="logout.php">
+                    <a href="login.php">
                         <i class='bx bx-log-out'></i>
                         <span class="list_name">Log out</span>
                     </a>
