@@ -1,0 +1,131 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f5f5;
+}
+
+.main {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.title {
+    font-size: 2rem;
+    margin-bottom: 0;
+    color: #333;
+}
+
+.payment-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.payment-table th {
+    background-color: #f8f9fa;
+    padding: 1.2rem;
+    text-align: left;
+    color: #444;
+    font-weight: 600;
+}
+
+.payment-table td {
+    padding: 1.2rem;
+    border-bottom: 1px solid #eee;
+    color: #666;
+}
+
+.payment-table tr:last-child td {
+    border-bottom: none;
+}
+
+.action-button {
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.pay-now {
+    background-color: #1a7431;
+    color: white;
+}
+
+.pay-now:hover {
+    background-color: #145a26;
+}
+
+.paid {
+    background-color: transparent;
+    color: #1a7431;
+    border: 1px solid #1a7431;
+}
+
+.paid:hover {
+    background-color: #f0f7f2;
+}
+
+.nav {
+    margin-right: auto;
+    margin-left: 300px;
+}
+
+.nav a:not(:last-child) {
+    margin-right: 50px;
+}
+
+.search-container {
+    margin-left: 100px;
+}
+
+.title-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.filter-container {
+    position: relative;
+}
+
+.filter-dropdown {
+    padding: 10px 20px;
+    border: 2px solid #1a7431;
+    border-radius: 5px;
+    background-color: white;
+    color: #1a7431;
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+    min-width: 150px;
+}
+
+.filter-dropdown:hover {
+    background-color: #f0f7f2;
+}
+
+.filter-dropdown:focus {
+    border-color: #145a26;
+    box-shadow: 0 0 0 2px rgba(26, 116, 49, 0.1);
+}
+
+.filter-dropdown {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a7431' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 1em;
+    padding-right: 40px;
+}
+  
