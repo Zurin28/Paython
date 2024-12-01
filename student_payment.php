@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="student_payment.css">
 </head>
 <body>
+
     <header class="header">
         <div class="logo">
             <i class='bx bx-wallet'></i>
@@ -34,6 +35,9 @@
             </div>
         </div>
     </header>
+
+    <?php include 'header.php'; ?>
+
 
     <main class="main">
         <div class="title-section">
@@ -63,7 +67,7 @@
                     <td>Palaro Fee</td>
                     <td>Not paid yet</td>
                     <td>150 php</td>
-                    <td><button class="action-button pay-now">Pay Now</button></td>
+                    <td><button class="action-button pay-now" id="payNowBtn">Pay Now</button></td>
                 </tr>
                 <tr>
                     <td>VENOM Fee</td>
@@ -76,23 +80,21 @@
         </table>
     </main>
 
-    <script>
-        function toggleDropdown() {
-            const dropdown = document.getElementById('dropdownMenu');
-            dropdown.classList.toggle('show');
-        }
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <!-- Content will be loaded here via AJAX -->
+    </div>
 
-        // Close dropdown when clicking outside
-        window.onclick = function(event) {
-            if (!event.target.matches('.user-icon') && !event.target.matches('.bx-user')) {
-                const dropdowns = document.getElementsByClassName('dropdown-menu');
-                for (let dropdown of dropdowns) {
-                    if (dropdown.classList.contains('show')) {
-                        dropdown.classList.remove('show');
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Success Modal -->
+    <div id="successModal" class="success-modal">
+        <div class="success-modal-content">
+            <div class="success-icon">✓</div>
+            <h1 class="success-title">Done!</h1>
+            <p class="success-message">Your Payment Has Been Processed Successfully</p>
+        </div>
+    </div>
+
+    <script src="studentside.js"></script>
 </body>
 </html>
+
