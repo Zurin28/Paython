@@ -30,6 +30,14 @@
                             <option value="Unpaid">Unpaid</option>
                         </select>
                     </div>
+                    <div class="filter-group">
+                        <select class="filter-dropdown" id="orgFilter">
+                            <option value="">All Organizations</option>
+                            <option value="CCSS">CCSS</option>
+                            <option value="JPCS">JPCS</option>
+                            <option value="PICE">PICE</option>
+                        </select>
+                    </div>
                 </div>
 
                 <table class="student-table">
@@ -40,6 +48,8 @@
                             <th>Course</th>
                             <th>Year</th>
                             <th>Section</th>
+                            <th>Fee Name</th>
+                            <th>Amount</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -51,6 +61,8 @@
                             <td>BSCS</td>
                             <td>3rd Year</td>
                             <td>A</td>
+                            <td>Membership Fee</td>
+                            <td>₱500.00</td>
                             <td>Unpaid</td>
                             <td>
                                 <label class="checkbox-container">
@@ -65,6 +77,8 @@
                             <td>BSCS</td>
                             <td>2nd Year</td>
                             <td>B</td>
+                            <td>Tuition Fee</td>
+                            <td>₱1000.00</td>
                             <td>Paid</td>
                             <td><span class="paid-status">Paid</span></td>
                         </tr>
@@ -74,6 +88,8 @@
                             <td>BSIT</td>
                             <td>1st Year</td>
                             <td>A</td>
+                            <td>Library Fee</td>
+                            <td>₱200.00</td>
                             <td>Unpaid</td>
                             <td>
                                 <label class="checkbox-container">
@@ -107,7 +123,7 @@
         function updateStatus(checkbox, studentId) {
             if(checkbox.checked) {
                 const row = checkbox.closest('tr');
-                row.querySelector('td:nth-child(6)').textContent = 'Paid';
+                row.querySelector('td:nth-child(8)').textContent = 'Paid';
                 checkbox.parentElement.innerHTML = '<span class="paid-status">Paid</span>';
                 alert(`Payment status updated for Student ID: ${studentId}`);
             }
