@@ -248,4 +248,35 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('Error refreshing payments list');
             });
     }
+
+    $(document).ready(function() {
+    $("#org-form").submit(function(e) {
+        e.preventDefault(); // Prevent default form submission
+
+        // Get form data
+        var orgName = $("#org_name").val();
+        var orgID = $("#org_id").val();
+
+        // Send data to the server using AJAX
+        $.ajax({
+            url: "add_organization_handler.php", // Create a new PHP file for handling the request
+            method: "POST",
+            data: {
+                org_name: orgName,
+                org_id: orgID
+            },
+            success: function(response) {
+                if (response == 'success') {
+                    alert('Organization added successfully!');
+                    location.reload(); // Reload the page to reflect the new organization
+                } else {
+                    alert('Failed to add organization.');
+                }
+            },
+            error: function() {
+                alert('Error occurred. Please try again.');
+            }
+        });
+    });
+});
 }); 

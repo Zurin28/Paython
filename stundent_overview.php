@@ -16,7 +16,7 @@
         </div>
         <nav class="nav">
             <a href="#" class="active">Overview</a>
-            <a href="student_payment.html" >Payments</a>
+            <a href="student_payment.php" >Payments</a>
             
         </nav>
         <div style="display: flex; align-items: center; gap: 20px;">

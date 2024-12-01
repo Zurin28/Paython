@@ -47,6 +47,14 @@ value: try {
     error_log("Database error: " . $e->getMessage());
     die("An error occurred. Please try again later.");
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $orgName = $_POST['org_name'];
+    $orgID = $_POST['org_id'];
+    $_SESSION['orgName'] = $orgName;
+
+
+} 
 ?>
 
 <!DOCTYPE html>

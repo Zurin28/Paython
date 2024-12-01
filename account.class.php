@@ -177,6 +177,27 @@ function getOrganizations() {
         return [];
     }
 }
+
+    // Function to insert organization data
+    public function addOrganization($orgName, $orgID) {
+        try {
+            // Prepare SQL statement
+            $sql = "INSERT INTO organizations (OrgName, OrganizationID) VALUES (:OrgName, :OrganizationID)";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("ss", $orgName, $orgID); // 'ss' means two strings
+
+            // Execute the statement
+            if ($stmt->execute()) {
+                return true; // Return true if insertion is successful
+            } else {
+                return false; // Return false if there is an issue
+            }
+        } catch (Exception $e) {
+            error_log("Error in adding organization: " . $e->getMessage());
+            return false; // Return false if an error occurs
+        }
+    }
+
 }
 
 

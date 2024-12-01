@@ -48,7 +48,7 @@ $password = $email = '';
         if (isset($_SESSION['account'])) {
             $_SESSION['StudentID'] = $_SESSION['account']['StudentID'];
              if ($_SESSION['account']['isstaff'] == false && $_SESSION['account']['isadmin'] == false){
-                header("Location: dashboard.php");
+                header("Location: stundent_overview.php");
             }elseif ($_SESSION['account']['isstaff'] == true && $_SESSION['account']['isadmin'] == false) {
                 header("Location: student.staff.php");
             }elseif ($_SESSION['account']['isadmin']) {

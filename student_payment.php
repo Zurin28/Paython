@@ -15,7 +15,7 @@
             PayThon
         </div>
         <nav class="nav">
-            <a href="stundent_overview.html">Overview</a>
+            <a href="stundent_overview.php">Overview</a>
             <a href="#" class="active">Payments</a>
             
         </nav>
