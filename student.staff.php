@@ -1,139 +1,68 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Paython</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayThon - Payment Management System</title>
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="student_overview.css">
+    <link rel="stylesheet" href="header.css">
+</head>
+<body>
+    
+<?php include 'header.php'; ?>
 
 
-    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-
-
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-
-
-    <link rel="stylesheet" href="css/Student.HomePage.css">
-  </head>
-  <body>
-    <div class="navbar-container">
-
-
-      <header class="header">
-        <div class="header-left">
-          <span class="material-icons-outlined">search</span>
-        </div>
-        <div class="header-right">
-          <span class="material-icons-outlined">account_circle</span>
-        </div>
-      </header>
-     
-      <aside id="sidebar">
-      <img src="" alt="">
-        <div class="sidebar-title">
-          <div class="sidebar-brand">
-           logo
-          </div>
-        </div>
-
-
-        <ul class="sidebar-list">
-          <li class="sidebar-content">
-            <a href="" >
-            Not sure kung ano ilagay
-            </a>
-          </li>
-          <li class="sidebar-content">
-            <a href="" >
-            Not sure kung ano ilagay
-            </a>
-          </li>
-          <li class="sidebar-content">
-            <a href="" >
-            Not sure kung ano ilagay
-            </a>
-          </li>
-          <li class="sidebar-content">
-            <a href="">
-            Not sure kung ano ilagay
-            </a>
-          </li>
-        </ul>
-      </aside>
-
-
-      <main class="main-container">
-        <div class="main-title">
-          <p class="font-bold">Not sure kung ano ilagay</p>
-        </div>
-
-
-        <div class="main-box">
-
-
-          <div class="box">
-            <div class="box-inner">
-              <p class="text-primary">box box lng muna para hnd talga plain</p>
+    <main class="main-content">
+        <h1 class="welcome-text">Welcome, <span class="welcome-name">Juan De La Cruz!</span></h1>
+        <div class="main-logo">PayThon</div>
+        <div class="subtitle">CSC-CCS Payment Management System</div>
+        
+        <div class="payment-container">
+            <div class="payment-item">
+                <div class="payment-icon"></div>
+                <div class="payment-details">
+                    <h3>CSC Palaro Fee</h3>
+                    <p>College of Computing Studies - Student Council</p>
+                </div>
             </div>
-          </div>
 
-
-          <div class="box">
-            <div class="box-inner">
-              <p class="text-primary">box box lng muna para hnd talga plain</p>
+            <div class="payment-item">
+                <div class="payment-icon"></div>
+                <div class="payment-details">
+                    <h3>The University Digest Fee</h3>
+                    <p>University Publication</p>
+                </div>
             </div>
-          </div>
 
-
-          <div class="box">
-            <div class="box-inner">
-              <p class="text-primary">box box lng muna para hnd talga plain</p>
+            <div class="payment-item">
+                <div class="payment-icon"></div>
+                <div class="payment-details">
+                    <h3>Gender Club - CCS Fee</h3>
+                    <p>University Organization</p>
+                </div>
             </div>
-          </div>
 
-
-          <div class="box">
-            <div class="box-inner">
-              <a href="staff.php">CHANGE TO STAFF PAGE</a>
-            </div>
-          </div>
-
-
+            <button class="view-all"><a href="student_payment.php">View All</a></button>
         </div>
+    </main>
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdownMenu');
+            dropdown.classList.toggle('show');
+        }
 
-
-        </div>
-      </main>
-
-
-    </div>
-  </body>
+        // Close dropdown when clicking outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.user-icon') && !event.target.matches('.bx-user')) {
+                const dropdowns = document.getElementsByClassName('dropdown-menu');
+                for (let dropdown of dropdowns) {
+                    if (dropdown.classList.contains('show')) {
+                        dropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

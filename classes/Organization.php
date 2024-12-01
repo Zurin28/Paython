@@ -2,7 +2,7 @@
 class Organization {
     private $db;
 
-    public function __construct($db) {
+     function __construct($db) {
         $this->db = $db;
     }
 
@@ -28,46 +28,33 @@ class Organization {
         }
     }
 
-    public function addOrganization($orgId, $orgName) {
-        try {
-            // Check if organization exists
-            $stmt = $this->db->prepare("SELECT COUNT(*) as count FROM organizations WHERE OrganizationID = ?");
-            if (!$stmt) {
-                throw new Exception("Prepare failed: " . $this->db->error);
-            }
-            
-            $stmt->bind_param("s", $orgId);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $row = $result->fetch_assoc();
-            $stmt->close();
-
-            if ($row['count'] > 0) {
-                throw new Exception("Organization ID already exists");
-            }
-
-            // Add new organization
-            $stmt = $this->db->prepare("INSERT INTO organizations (OrganizationID, OrgName) VALUES (?, ?)");
-            if (!$stmt) {
-                throw new Exception("Prepare failed: " . $this->db->error);
-            }
-
-            $stmt->bind_param("ss", $orgId, $orgName);
-            
-            if (!$stmt->execute()) {
-                throw new Exception("Error adding organization: " . $stmt->error);
-            }
-
-            $stmt->close();
-            return true;
-            
-        } catch (Exception $e) {
-            error_log("Error in addOrganization: " . $e->getMessage());
-            throw $e;
+    function addOrganization($orgId, $orgName) {
+        // Check if organization exists
+        $sqlCheck = "SELECT COUNT(*) as count FROM organizations WHERE OrganizationID = ?";
+        $stmtCheck = $this->db->connect()->prepare($sqlCheck);
+        $stmtCheck->bind_param("s", $orgId);
+        $stmtCheck->execute();
+        $result = $stmtCheck->get_result();
+        $row = $result->fetch_assoc();
+        $stmtCheck->close();
+    
+        if ($row['count'] > 0) {
+            return false; // Organization ID already exists
         }
+    
+        // Add new organization
+        $sqlInsert = "INSERT INTO organizations (OrganizationID, OrgName) VALUES (?, ?)";
+        $stmtInsert = $this->db->connect()->prepare($sqlInsert);
+        $stmtInsert->bind_param("ss", $orgId, $orgName);
+    
+        $success = $stmtInsert->execute();
+        $stmtInsert->close();
+    
+        return $success;
     }
+    
 
-    public function deleteOrganization($orgId) {
+     function deleteOrganization($orgId) {
         try {
             // Get the database connection
             $conn = $this->db->getConnection();

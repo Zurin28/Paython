@@ -1,8 +1,7 @@
 <?php
 session_start();
-require_once 'database.class.php';
 require_once 'classes/Organization.php';
-require_once 'account.class.php';
+
 
 // Check if user is logged in
 
@@ -170,6 +169,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <i class="fas fa-plus-circle"></i> Add Payment
                                 </button>
                                 <button class="btn btn-danger delete-org-btn" data-id="<?php echo htmlspecialchars($org['org_id']); ?>">
+                                    <i class="fas fa-trash"></i> View Status
+                                </button>
+                                <button class="btn btn-danger delete-org-btn" data-id="<?php echo htmlspecialchars($org['org_id']); ?>">
                                     <i class="fas fa-trash"></i> Delete
                                 </button>
                             </td>
@@ -184,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="modal-content">
                     <span class="close">&times;</span>
                     <h3 id="modal-title">Add Organization</h3>
-                    <form id="org-form" method="post">
+                    <form action="add_organization_handler.php" id="org-form" method="post">
                         <div class="form-group">
                             <label for="org_name">Organization Name</label>
                             <input type="text" id="org_name" name="org_name" required>
@@ -193,7 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <label for="org_id">Organization ID</label>
                             <input type="text" id="org_id" name="org_id" required>
                         </div>
-                        <button type="submit" name="add_org" class="btn">
+                        <button type="submit" name="add_org" class="btn" >
                             <i class="fas fa-plus"></i> Add Organization
                         </button>
                     </form>
@@ -310,7 +312,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </div>
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="organizations.js"></script>
     <script>
         // Add the sidebar toggle functionality
