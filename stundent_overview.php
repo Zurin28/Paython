@@ -9,31 +9,8 @@
     <link rel="stylesheet" href="header.css">
 </head>
 <body>
-    <header class="header">
-        <div class="logo">
-            <i class='bx bx-wallet'></i>
-            PayThon
-        </div>
-        <nav class="nav">
-            <a href="#" class="active">Overview</a>
-            <a href="student_payment.html" >Payments</a>
-            
-        </nav>
-        <div style="display: flex; align-items: center; gap: 20px;">
-            <div class="search-container">
-                <i class='bx bx-search search-icon'></i>
-                <input type="text" class="search-input" placeholder="Search payments...">
-            </div>
-            <div class="user-icon-container">
-                <div class="user-icon" onclick="toggleDropdown()">
-                    <i class='bx bx-user'></i>
-                </div>
-                <div class="dropdown-menu" id="dropdownMenu">
-                    <a href="#" class="dropdown-item">Logout</a>
-                </div>
-            </div>
-        </div>
-    </header>
+    
+<?php include 'header.php'; ?>
 
 
     <main class="main-content">
@@ -41,7 +18,6 @@
         <div class="main-logo">PayThon</div>
         <div class="subtitle">CSC-CCS Payment Management System</div>
         
-    
         <div class="payment-container">
             <div class="payment-item">
                 <div class="payment-icon"></div>
@@ -67,7 +43,7 @@
                 </div>
             </div>
 
-            <button class="view-all"><a href="student_payment.html">View All</a></button>
+            <button class="view-all"><a href="student_payment.php">View All</a></button>
         </div>
     </main>
     <script>
