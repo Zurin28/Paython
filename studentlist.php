@@ -97,7 +97,7 @@
               <th>Course</th>
               <th>Year</th>
               <th>Section</th>
-              <th>Action</th>
+              <th rowspan="2">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -133,6 +133,9 @@
             <td><?= htmlspecialchars($arr['Year']) ?></td>
             <td><?= htmlspecialchars($arr['Section']) ?></td>
             <td>
+                  <button id="openModalButton" class="btn btn-danger delete-org-btn" data-id="<?php echo htmlspecialchars($arr['StudentID']); ?>">
+                                    <i class="fas fa-trash"></i> View Status
+                  </button>
                 <form method="POST" action="delete_account.php">
                       <input type="hidden" name="studentId" value="<?= htmlspecialchars($arr['StudentID']) ?>">
                       <button type="submit" class="delete-btn">Delete</button>
@@ -151,38 +154,38 @@
     </section>
   </section>
 
-  <!-- Modal for Adding/Editing Students -->
-  <!-- <div id="studentModal" class="modal">
-    <div class="modal-content">
-      <h3 id="modalTitle">Add Student</h3>
-      
-      <label for="studentID">Student ID:</label>
-      <input type="text" id="studentID" placeholder="Enter Student ID">
-      
-      <label for="studentName">Name:</label>
-      <input type="text" id="studentName" placeholder="Enter Name">
-      
-      <label for="studentEmail">Email:</label>
-      <input type="email" id="studentEmail" placeholder="Enter Email">
-      
-      <label for="studentCourse">Course:</label>
-      <select id="studentCourse">
-        <option value="CS">CS</option>
-        <option value="IT">IT</option>
-        <option value="ACT">ACT</option>
-      </select>
-      
-      
-      <label for="studentYear">Year:</label>
-      <input type="number" id="studentYear" placeholder="Enter Year">
-      
-      <label for="studentSection">Section:</label>
-      <input type="text" id="studentSection" placeholder="Enter Section">
-      
-      <button id="saveStudentBtn">Save</button>
-      <button id="closeModalBtn">Cancel</button>
-    </div>
-  </div> -->
+  <!-- The Modal -->
+  <div id="dataModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Data List</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Table to display data -->
+                        <table class="table" id="dataTable">
+                        <thead>
+                            <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <!-- Add more columns as needed -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be inserted here via AJAX -->
+                        </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                    </div>
+                </div>
+                </div>
   
   <script src="student.js"></script>
   <script src="script.js"></script>

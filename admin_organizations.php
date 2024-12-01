@@ -169,9 +169,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <i class="fas fa-plus-circle"></i> Add Payment
                                 </button>
                                 <button class="btn btn-danger delete-org-btn" data-id="<?php echo htmlspecialchars($org['org_id']); ?>">
-                                    <i class="fas fa-trash"></i> View Status
-                                </button>
-                                <button class="btn btn-danger delete-org-btn" data-id="<?php echo htmlspecialchars($org['org_id']); ?>">
                                     <i class="fas fa-trash"></i> Delete
                                 </button>
                             </td>
@@ -310,6 +307,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </form>
                 </div>
             </div>
+            
+
+                
+
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
