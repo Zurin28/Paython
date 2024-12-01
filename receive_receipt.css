@@ -1,0 +1,207 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #f5f5f5;
+}
+
+.content-wrapper {
+    flex: 1;
+    margin-left: 240px;
+    height: 100vh;
+    background: #f5f5f5;
+    transition: all 0.5s ease;
+    overflow-y: auto;
+    position: relative;
+}
+
+nav {
+    background-color: #fff;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+
+.table-container {
+    padding: 20px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 20px 0;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+thead {
+    background-color: #1a7431;
+    color: white;
+}
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+td {
+    font-size: 14px;
+    color: #333;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn.view {
+    background-color: #3498db;
+    color: white;
+}
+
+.btn.accept {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.btn.reject {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+}
+
+
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 998;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 120px auto;
+    padding: 20px;
+    border: none;
+    width: 400px;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+#receiptImage {
+    width: 100%;
+    height: 500px;
+    object-fit: contain;
+    border-radius: 5px;
+    display: block;
+    margin: 0 auto;
+}
+.close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    color: #666;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    z-index: 1;
+}
+.close:hover {
+    color: #333;
+}
+
+.sidebar.active ~ .content-wrapper {
+    margin-left: 60px;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+    .content-wrapper {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    nav {
+        width: 100%;
+        left: 0;
+    }
+
+    .table-container {
+        padding: 10px;
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 800px;
+    }
+
+    .modal-content {
+        width: 90%;
+        max-width: 400px;
+        margin: 100px auto;
+    }
+
+    #receiptImage {
+        height: 400px;
+    }
+}
+
