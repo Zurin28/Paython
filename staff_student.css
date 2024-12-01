@@ -203,7 +203,7 @@ nav {
     }
 }
 
-/* Filter styles */
+/* Search and Filter styles */
 .filter-section {
     display: flex;
     gap: 20px;
@@ -212,8 +212,48 @@ nav {
     flex-wrap: wrap;
 }
 
+.search-group {
+    flex: 1;
+    min-width: 300px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 8px 15px;
+    transition: all 0.3s ease;
+}
+
+.search-box:hover,
+.search-box:focus-within {
+    border-color: #1a7431;
+    box-shadow: 0 0 0 2px rgba(26, 116, 49, 0.1);
+}
+
+.search-box i {
+    color: #666;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    color: #333;
+    background: transparent;
+}
+
+.search-box input::placeholder {
+    color: #999;
+}
+
 .filter-group {
-    min-width: 200px;
+    min-width: 180px;
 }
 
 .filter-dropdown {
@@ -242,3 +282,5 @@ nav {
     border-color: #1a7431;
     box-shadow: 0 0 0 2px rgba(26, 116, 49, 0.1);
 }
+
+

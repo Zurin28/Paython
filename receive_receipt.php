@@ -19,6 +19,22 @@
             <?php include 'navbar.php'; ?>
 
             <div class="table-container">
+                <!-- Updated filter section -->
+                <div class="filter-section">
+                    <div class="search-group">
+                        <div class="search-box">
+                            <i class='bx bx-search'></i>
+                            <input type="text" id="searchInput" placeholder="Search student name or ID...">
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <button class="filter-date-btn" id="dateFilter">
+                            <i class='bx bx-sort'></i>
+                            Sort by Date
+                        </button>
+                    </div>
+                </div>
+
                 <table>
                     <thead>
                         <tr>
@@ -114,6 +130,55 @@
                 modal.style.display = "none";
             }
         }
+
+        // Add filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const courseFilter = document.getElementById('courseFilter');
+            const yearFilter = document.getElementById('yearFilter');
+            const dateFilter = document.getElementById('dateFilter');
+            let isDateAscending = true;
+
+            function filterTable() {
+                const rows = Array.from(document.querySelectorAll('table tbody tr'));
+                const course = courseFilter.value.toLowerCase();
+                const year = yearFilter.value;
+
+                rows.forEach(row => {
+                    const courseMatch = !course || row.cells[0].textContent.toLowerCase().includes(course);
+                    const yearMatch = !year || row.cells[0].textContent.includes(year);
+                    row.style.display = courseMatch && yearMatch ? '' : 'none';
+                });
+            }
+
+            function sortByDate() {
+                const tbody = document.querySelector('table tbody');
+                const rows = Array.from(tbody.querySelectorAll('tr'));
+
+                rows.sort((a, b) => {
+                    const dateA = new Date(a.cells[4].textContent);
+                    const dateB = new Date(b.cells[4].textContent);
+                    return isDateAscending ? dateA - dateB : dateB - dateA;
+                });
+
+                // Clear the table body
+                tbody.innerHTML = '';
+                
+                // Add sorted rows back
+                rows.forEach(row => tbody.appendChild(row));
+                
+                // Toggle sort direction
+                isDateAscending = !isDateAscending;
+                
+                // Update button icon
+                const icon = dateFilter.querySelector('i');
+                icon.className = isDateAscending ? 'bx bx-sort-up' : 'bx bx-sort-down';
+            }
+
+            // Add event listeners
+            courseFilter.addEventListener('change', filterTable);
+            yearFilter.addEventListener('change', filterTable);
+            dateFilter.addEventListener('click', sortByDate);
+        });
     </script>
 </body>
 </html>

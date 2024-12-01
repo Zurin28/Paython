@@ -17,22 +17,11 @@
 
             <div class="student-list-container">
                 <div class="filter-section">
-                    <div class="filter-group">
-                        <select class="filter-dropdown" id="courseFilter">
-                            <option value="">All Courses</option>
-                            <option value="BSCS">BSCS</option>
-                            <option value="BSIT">BSIT</option>
-                            <option value="BSIS">BSIS</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <select class="filter-dropdown" id="yearFilter">
-                            <option value="">All Years</option>
-                            <option value="1st Year">1st Year</option>
-                            <option value="2nd Year">2nd Year</option>
-                            <option value="3rd Year">3rd Year</option>
-                            <option value="4th Year">4th Year</option>
-                        </select>
+                    <div class="search-group">
+                        <div class="search-box">
+                            <i class='bx bx-search'></i>
+                            <input type="text" id="searchInput" placeholder="Search student name or ID...">
+                        </div>
                     </div>
                     <div class="filter-group">
                         <select class="filter-dropdown" id="statusFilter">
