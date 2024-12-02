@@ -1,13 +1,15 @@
 <?php
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 // The Database class is designed to handle the connection to a MySQL database.
-class Database
+class Database1
 {
     // These are the properties that store the database connection details.
     private $host = 'localhost';      // The hostname of the database server.
     private $username = 'root';       // The username used to connect to the database.
     private $password = '';           // The password used to connect to the database (empty string means no password).
-    private $dbname = 'sample_db'; // The name of the database to connect to.
+    private $dbname = 'pms1'; // The name of the database to connect to.
 
     protected $connection; // This property will hold the PDO connection object once connected.
 

@@ -1,9 +1,10 @@
 <?php
+require_once "database.class.php";
 class Organization {
     private $db;
 
      function __construct($db) {
-        $this->db = $db;
+        $this->db = new Database;
     }
 
     public function getAllOrganizations() {
@@ -29,63 +30,61 @@ class Organization {
     }
 
     function addOrganization($orgId, $orgName) {
-        // Check if organization exists
-        $sqlCheck = "SELECT COUNT(*) as count FROM organizations WHERE OrganizationID = ?";
-        $stmtCheck = $this->db->connect()->prepare($sqlCheck);
-        $stmtCheck->bind_param("s", $orgId);
-        $stmtCheck->execute();
-        $result = $stmtCheck->get_result();
-        $row = $result->fetch_assoc();
-        $stmtCheck->close();
+        // Check if the organization exists
+        $sqlCheck = "SELECT COUNT(*) as count FROM organizations WHERE OrganizationID = :orgId";
+        $qryCheck = $this->db->connect()->prepare($sqlCheck);
+    
+        // Bind parameters
+        $qryCheck->bindParam(':orgId', $orgId, PDO::PARAM_STR);
+    
+        // Execute and fetch the result
+        $qryCheck->execute();
+        $row = $qryCheck->fetch(PDO::FETCH_ASSOC);
     
         if ($row['count'] > 0) {
             return false; // Organization ID already exists
         }
     
-        // Add new organization
-        $sqlInsert = "INSERT INTO organizations (OrganizationID, OrgName) VALUES (?, ?)";
-        $stmtInsert = $this->db->connect()->prepare($sqlInsert);
-        $stmtInsert->bind_param("ss", $orgId, $orgName);
+        // Add a new organization
+        $sqlInsert = "INSERT INTO organizations (OrganizationID, OrgName) VALUES (:orgId, :orgName)";
+        $qryInsert = $this->db->connect()->prepare($sqlInsert);
     
-        $success = $stmtInsert->execute();
-        $stmtInsert->close();
+        // Bind parameters
+        $qryInsert->bindParam(':orgId', $orgId, PDO::PARAM_STR);
+        $qryInsert->bindParam(':orgName', $orgName, PDO::PARAM_STR);
     
-        return $success;
+        // Execute the insert query and return the result
+        return $qryInsert->execute();
     }
     
+    
 
-     function deleteOrganization($orgId) {
+    function deleteOrganization($orgId) {
         try {
-            // Get the database connection
-            $conn = $this->db->getConnection();
-            
-            // Prepare the statement
-            $stmt = $conn->prepare("DELETE FROM organizations WHERE OrganizationID = ?");
-            if (!$stmt) {
-                throw new Exception("Failed to prepare delete statement: " . $conn->error);
-            }
-
+            // Prepare the delete statement
+            $sqlDelete = "DELETE FROM organizations WHERE OrganizationID = :orgId";
+            $stmt = $this->db->connect()->prepare($sqlDelete);
+    
             // Bind the parameter
-            $stmt->bind_param("s", $orgId);
-            
+            $stmt->bindParam(':orgId', $orgId, PDO::PARAM_STR);
+    
             // Execute the statement
-            if (!$stmt->execute()) {
-                throw new Exception("Failed to execute delete statement: " . $stmt->error);
-            }
-
+            $stmt->execute();
+    
             // Check if any rows were affected
-            if ($stmt->affected_rows === 0) {
+            if ($stmt->rowCount() === 0) {
                 throw new Exception("No organization found with ID: " . $orgId);
             }
-
-            $stmt->close();
+    
             return true;
-
-        } catch (Exception $e) {
+    
+        } catch (PDOException $e) {
+            // Log the error and rethrow it
             error_log("Error in deleteOrganization: " . $e->getMessage());
             throw $e;
         }
     }
+    
 
     public function getOrganizationById($orgId) {
         try {

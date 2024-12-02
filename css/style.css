@@ -1,14 +1,12 @@
-
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins';
-  
+    overflow: scroll;
 }
 
-.error{
+.error {
     color: red;
 }
 
@@ -77,16 +75,16 @@ form input[type="password"] {
     padding: 10px;
     margin-bottom: 15px;
     border: none;
-     border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
     font-size: 14px;
 }
 
 form a {
-  color: #2e337d;
-  text-decoration: none;
-  font-size: 12px;
-  margin-right: auto; 
-  margin-bottom: 20px;
+    color: #2e337d;
+    text-decoration: none;
+    font-size: 12px;
+    margin-right: auto;
+    margin-bottom: 20px;
 }
 
 form a:hover {
@@ -130,8 +128,8 @@ form p {
 }
 
 .design img {
-  width: 250px;
-  margin-bottom: 20px;
+    width: 250px;
+    margin-bottom: 20px;
 }
 
 .signup-link {
@@ -147,5 +145,3 @@ form p {
 .signup-link a:hover {
     text-decoration: underline;
 }
-
-

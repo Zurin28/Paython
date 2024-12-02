@@ -10,22 +10,34 @@
     --gray-text: #4b5563;
     --border-color: #e5e7eb;
     --white: #ffffff;
-    --shadow: 0 1px 3px rgba(0,0,0,0.1);
-    --shadow-lg: 0 4px 6px -1px rgba(0,0,0,0.1);
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 /* Main Layout Refinements */
 .container {
     display: flex;
     min-height: 100vh;
+    height: 100%;
     background: var(--light-bg);
 }
 
+
+/* LINE 28 - LINE 41 - To fix scrolling issue, it's the "overflow" css attribute */
+/* I add display to none the scrollbar para di na visible yet scrollable pa din */
 .main-content {
     flex: 1;
+    min-height: 100vh;
+    height: 100%;
     margin-left: 250px;
     padding: 30px;
     transition: all 0.3s ease;
+    /* border: 1px solid red; */
+    overflow-y: auto;
+}
+
+.main-content::-webkit-scrollbar {
+    display: none;
 }
 
 /* Cleaner Topbar */
@@ -79,10 +91,8 @@
     width: 100%;
     background: var(--white);
     border-radius: 12px;
-    overflow: hidden;
     box-shadow: var(--shadow);
     border-collapse: collapse;
-    overflow-x: auto;
     display: block;
 }
 
@@ -200,7 +210,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0, 0, 0, 0.4);
     z-index: 1000;
     backdrop-filter: blur(4px);
     overflow-y: auto;
@@ -315,7 +325,7 @@
         margin-left: 0;
         padding: 20px;
     }
-    
+
     .actions {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -335,6 +345,7 @@
     #org-table {
         display: block;
         overflow-x: auto;
+
     }
 
     .modal-content {
@@ -467,4 +478,4 @@
     color: var(--danger-color);
     text-align: center;
     padding: 20px;
-} 
+}
