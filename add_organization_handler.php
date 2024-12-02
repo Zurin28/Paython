@@ -8,13 +8,15 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+
+
 header('Content-Type: application/json');
 
 // Database connection setup
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "your_database"; // Change this to your actual database name
+$dbname = "pms1"; // Change this to your actual database name
 
 // Create the database connection
 $conn = new mysqli($servername, $username, $password, $dbname);

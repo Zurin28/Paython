@@ -261,6 +261,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 url: 'add_organization_handler.php',
                 type: 'POST',
                 data: { org_name, org_id },
+                dataType: "JSON",
                 success: function(response) {
                     console.log(response); // Log the server's response
                     const data = JSON.parse(response);

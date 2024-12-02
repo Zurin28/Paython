@@ -23,6 +23,24 @@ class Account{
         }
         return $data;
       }
+      function searchAccounts($query) {
+        $sql = "SELECT * FROM account WHERE 
+                StudentID LIKE ? OR 
+                first_name LIKE ? OR 
+                last_name LIKE ? OR 
+                WmsuEmail LIKE ? OR 
+                Course LIKE ?";
+        
+        $qry = $this->db->connect()->prepare($sql);
+        $searchTerm = '%' . $query . '%';
+    
+        if ($qry->execute([$searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm])) {
+            $data = $qry->fetchAll();
+        }
+        
+        return $data ?? [];
+    }
+    
 
       function viewRole() {
         $sql = "SELECT role from account";

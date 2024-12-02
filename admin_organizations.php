@@ -183,7 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="modal-content">
                     <span class="close">&times;</span>
                     <h3 id="modal-title">Add Organization</h3>
-                    <form action="add_organization_handler.php" id="org-form" method="post">
+                    <form action="add_organization_handler.php"  method="post">
                         <div class="form-group">
                             <label for="org_name">Organization Name</label>
                             <input type="text" id="org_name" name="org_name" required>
@@ -192,7 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <label for="org_id">Organization ID</label>
                             <input type="text" id="org_id" name="org_id" required>
                         </div>
-                        <button type="submit" name="add_org" class="btn" >
+                        <button type="submit" name="add_org" class="btn" id="org-form" >
                             <i class="fas fa-plus"></i> Add Organization
                         </button>
                     </form>
