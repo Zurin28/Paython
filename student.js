@@ -1,20 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Elements for student management
   const studentTable = document.querySelector("#studentTable tbody");
   const studentModal = document.getElementById("studentModal");
   const modalTitle = document.getElementById("modalTitle");
   const studentIDInput = document.getElementById("studentID");
   const studentNameInput = document.getElementById("studentName");
   const studentEmailInput = document.getElementById("studentEmail");
-  const studentCourseSelect = document.getElementById("studentCourse"); // Updated
+  const studentCourseSelect = document.getElementById("studentCourse");
   const studentYearInput = document.getElementById("studentYear");
   const studentSectionInput = document.getElementById("studentSection");
   const saveStudentBtn = document.getElementById("saveStudentBtn");
   const closeModalBtn = document.getElementById("closeModalBtn");
   const addStudentBtn = document.getElementById("addStudentBtn");
 
+  // Elements for fee management
+  const showFeesModal = document.getElementById("show-fees-modal");
+  const feesTableBody = document.querySelector("#feesTable tbody");
+  const closeFeesModalButton = document.getElementById("closeFeesModalButton");
+
   let students = [];
   let editIndex = null;
 
+  // Student Management Functions
   function showModal(editMode = false, index = null) {
       if (editMode) {
           modalTitle.textContent = "Edit Student";
@@ -22,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
           studentIDInput.value = student.studentID;
           studentNameInput.value = student.name;
           studentEmailInput.value = student.email;
-          studentCourseSelect.value = student.course; // Updated
+          studentCourseSelect.value = student.course;
           studentYearInput.value = student.year;
           studentSectionInput.value = student.section;
           editIndex = index;
@@ -31,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
           studentIDInput.value = "";
           studentNameInput.value = "";
           studentEmailInput.value = "";
-          studentCourseSelect.value = "CS"; // Default selection
+          studentCourseSelect.value = "CS";
           studentYearInput.value = "";
           studentSectionInput.value = "";
           editIndex = null;
@@ -47,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const studentID = studentIDInput.value.trim();
       const name = studentNameInput.value.trim();
       const email = studentEmailInput.value.trim();
-      const course = studentCourseSelect.value; // Updated
+      const course = studentCourseSelect.value;
       const year = studentYearInput.value.trim();
       const section = studentSectionInput.value.trim();
 
@@ -59,9 +66,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const student = { studentID, name, email, course, year, section };
 
       if (editIndex !== null) {
-          students[editIndex] = student;  // Update existing student
+          students[editIndex] = student;
       } else {
-          students.push(student);  // Add new student
+          students.push(student);
       }
 
       renderTable();
@@ -86,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <td>${student.year}</td>
               <td>${student.section}</td>
               <td>
-                  <button onclick="showModal(true, ${index})">Edit</button>
+                  <button class="view-status-btn" data-student-id="${student.studentID}">View Status</button>
                   <button onclick="deleteStudent(${index})">Delete</button>
               </td>
           `;
@@ -94,46 +101,58 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  $(document).ready(function() {
-    // When the button is clicked, open the modal and fetch data
-    $("#openModalButton").click(function() {
-      // Show the modal
-      $("#dataModal").modal("show");
-  
-      // Make an AJAX request to fetch data
-      $.ajax({
-        url: 'fetch_data.php',  // Server-side script to fetch data
-        method: 'GET',
-        success(response) { // Removed the function keyword
-          // Clear any existing table rows
-          $('#dataTable tbody').empty();
-  
-          // Check if the response contains data
-          if (response && response.length > 0) {
-            // Loop through the response and append rows to the table
-            $.each(response, (index, item) => { // Using arrow function for cleaner syntax
-              $('#dataTable tbody').append(
-                `<tr>
-                  <td>${item.id}</td>
-                  <td>${item.name}</td>
-                  <td>${item.email}</td>
-                </tr>`
-              );
-            });
-          } else {
-            // If no data is found, show a message
-            $('#dataTable tbody').append('<tr><td colspan="3">No data available</td></tr>');
-          }
-        },
-        error() { // Removed the function keyword
-          // Show an error message in case of failure
-          $('#dataTable tbody').append('<tr><td colspan="3">Error fetching data</td></tr>');
-        }
-      });
-    });
+  // Fee Management Functions
+  function populateFeesTable(data) {
+      feesTableBody.innerHTML = ""; // Clear existing rows
+      if (data.length > 0) {
+          data.forEach((fee, index) => {
+              const row = document.createElement("tr");
+              row.innerHTML = `
+                  <td>${index + 1}</td>
+                  <td>${fee.FeeName}</td>
+                  <td>${fee.paymentStatus}</td>
+              `;
+              feesTableBody.appendChild(row);
+          });
+      } else {
+          // If no data is available, display a message
+          const row = document.createElement("tr");
+          row.innerHTML = `<td colspan="3">No fees data found</td>`;
+          feesTableBody.appendChild(row);
+      }
+  }
+
+  // Event delegation to handle clicks on all "View Status" buttons
+  studentTable.addEventListener("click", (event) => {
+      // Check if the clicked element is a "view status" button
+      if (event.target && event.target.classList.contains("view-status-btn")) {
+          const studentId = event.target.dataset.studentId;
+
+          // Show the fees modal
+          showFeesModal.style.display = "block";
+
+          // Fetch the fees data related to the student
+          fetch(`fetch_fees.php?student_id=${studentId}`)
+              .then((response) => response.json())
+              .then((data) => {
+                  populateFeesTable(data);  // Populate the table with the fetched data
+              })
+              .catch((error) => {
+                  console.error("Error fetching fees data:", error);
+              });
+      }
   });
 
-  addStudentBtn.addEventListener("click", () => showModal(false));
-  closeModalBtn.addEventListener("click", closeModal);
-  saveStudentBtn.addEventListener("click", saveStudent);
+  // Close the Fees Status Modal
+  closeFeesModalButton.addEventListener("click", () => {
+      showFeesModal.style.display = "none";  // Hide the modal
+  });
+
+  // Event Listeners for adding/editing students
+  addStudentBtn.addEventListener("click", () => showModal(false));  // Open modal to add a new student
+  closeModalBtn.addEventListener("click", closeModal);  // Close the student modal
+  saveStudentBtn.addEventListener("click", saveStudent);  // Save student data
+
+  // Initial Render (Optional if you want to load pre-existing students)
+  renderTable();
 });

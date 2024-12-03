@@ -196,6 +196,23 @@ function getOrganizations() {
     }
 }
 
+function fetchData($query, $params = []) {
+    // Prepare the query
+    $qry = $this->db->connect()->prepare($query);
+
+    // Bind parameters dynamically
+    foreach ($params as $key => $value) {
+        $qry->bindValue($key, $value);
+    }
+
+    // Execute the query
+    $qry->execute();
+
+    // Return the results
+    return $qry->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
 
 
 

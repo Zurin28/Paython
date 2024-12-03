@@ -1,6 +1,8 @@
 <?php 
 session_start();
 require_once "account.class.php";
+require_once 'fee.class.php';
+require_once 'classes/Organization.php'
 ?>
 
 <!DOCTYPE html>
@@ -140,10 +142,7 @@ require_once "account.class.php";
                         <td><?= htmlspecialchars($arr['Course']) ?></td>
                         <td><?= htmlspecialchars($arr['Year']) ?></td>
                         <td><?= htmlspecialchars($arr['Section']) ?></td>
-                        <td>
-                            <button id="openModalButton" class="btn btn-danger delete-org-btn" data-id="<?= htmlspecialchars($arr['StudentID']); ?>">
-                                <i class="fas fa-trash"></i> View Status
-                            </button>
+                        <td><button class="view-status-btn" data-student-id="<?=$arr['StudentID']?>">View Status</button>
                             <form method="POST" action="delete_account.php">
                                 <input type="hidden" name="studentId" value="<?= htmlspecialchars($arr['StudentID']) ?>">
                                 <button type="submit" class="delete-btn">Delete</button>
@@ -161,7 +160,31 @@ require_once "account.class.php";
     </section>
 </section>
 
+
+
+<<!-- Fee Status Modal -->
+<div id="show-fees-modal" style="display: none;">
+    <table id="feesTable">
+        <thead>
+            <tr>
+                <th>NO.</th>
+                <th>Organization</th>
+                <th>Fee Name</th>
+                <th>Amount</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Fee rows will be dynamically added here -->
+        </tbody>
+    </table>
+    <button id="closeFeesModalButton">Close</button>
+</div>
+
+
 <script src="student.js"></script>
 <script src="script.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </body>
 </html>
