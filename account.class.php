@@ -196,6 +196,10 @@ function getOrganizations() {
     }
 }
 
+
+
+
+
     // Function to insert organization dat
 }
 

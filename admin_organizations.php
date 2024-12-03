@@ -1,51 +1,44 @@
 <?php
 session_start();
 require_once 'classes/Organization.php';
+require_once 'account.class.php';
 
 
 // Check if user is logged in
 
 
-value: try {
-    // Create database connection
-    $host = 'localhost';
-    $dbname = 'pms1';
-    $username = 'root';
-    $password = '';
-    
-    $conn = new mysqli($host, $username, $password, $dbname);
-    
-    // Check connection
-    if ($conn->connect_error) {
-        throw new Exception("Connection failed: " . $conn->connect_error);
-    }
+value:try {
+    // Assuming database.class.php provides a method to get a PDO connection
+    // For example: $conn = Database::getConnection(); 
+    $conn = Database::getConnection(); 
 
     // Get user details
-    $stmt = $conn->prepare("SELECT first_name, last_name FROM account WHERE StudentID = ?");
-    $stmt->bind_param("i", $_SESSION['StudentID']);
+    $stmt = $conn->prepare("SELECT first_name, last_name FROM account WHERE StudentID = :studentID");
+    $stmt->bindParam(':studentID', $_SESSION['StudentID'], PDO::PARAM_INT);
     $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // Fetch organizations from database
     $sql = "SELECT OrganizationID as org_id, OrgName as name FROM organizations";
-    $result = $conn->query($sql);
-    $organizations = [];
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $organizations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            $organizations[] = [
-                'id' => $row['org_id'],
-                'org_id' => $row['org_id'],
-                'name' => $row['name']
-            ];
-        }
+    // If you need to transform the data further
+    foreach ($organizations as &$org) {
+        $org = [
+            'id' => $org['org_id'],
+            'org_id' => $org['org_id'],
+            'name' => $org['name']
+        ];
     }
 
-} catch (Exception $e) {
+} catch (PDOException $e) {
+    // Log the database error and show a user-friendly message
     error_log("Database error: " . $e->getMessage());
     die("An error occurred. Please try again later.");
 }
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $orgName = $_POST['org_name'];

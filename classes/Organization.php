@@ -10,24 +10,27 @@ class Organization {
     public function getAllOrganizations() {
         try {
             $sql = "SELECT OrganizationID as org_id, OrgName as name FROM organizations";
-            $result = $this->db->query($sql);
-            $organizations = [];
-
-            if ($result && $result->num_rows > 0) {
-                while($row = $result->fetch_assoc()) {
-                    $organizations[] = [
-                        'id' => $row['org_id'],
-                        'org_id' => $row['org_id'],
-                        'name' => $row['name']
-                    ];
-                }
+            $qry = $this->db->connect()->prepare($sql);
+            $qry->execute();
+            $organizations = $qry->fetchAll(PDO::FETCH_ASSOC); // Fetch all rows as an array of associative arrays
+    
+            // Format organizations data
+            foreach ($organizations as &$org) {
+                $org = [
+                    'id' => $org['org_id'],
+                    'org_id' => $org['org_id'],
+                    'name' => $org['name'],
+                ];
             }
+    
             return $organizations;
-        } catch (Exception $e) {
+    
+        } catch (PDOException $e) {
             error_log("Error fetching organizations: " . $e->getMessage());
             return [];
         }
     }
+    
 
     function addOrganization($orgId, $orgName) {
         // Check if the organization exists
@@ -60,42 +63,50 @@ class Organization {
     
 
     function deleteOrganization($orgId) {
-        try {
-            // Prepare the delete statement
-            $sqlDelete = "DELETE FROM organizations WHERE OrganizationID = :orgId";
-            $stmt = $this->db->connect()->prepare($sqlDelete);
+        $sql = "DELETE FROM organizations WHERE OrganizationID = :orgId";
+        $qry = $this->db->connect()->prepare($sql);
     
+        try {
             // Bind the parameter
-            $stmt->bindParam(':orgId', $orgId, PDO::PARAM_STR);
+            $qry->bindParam(':orgId', $orgId, PDO::PARAM_STR);
     
             // Execute the statement
-            $stmt->execute();
+            $qry->execute();
     
             // Check if any rows were affected
-            if ($stmt->rowCount() === 0) {
+            if ($qry->rowCount() === 0) {
                 throw new Exception("No organization found with ID: " . $orgId);
             }
     
-            return true;
-    
+            return true; // Deletion successful
         } catch (PDOException $e) {
-            // Log the error and rethrow it
+            // Log the error
             error_log("Error in deleteOrganization: " . $e->getMessage());
-            throw $e;
+            return false; // Return false if an error occurs
         }
     }
+    
     
 
-    public function getOrganizationById($orgId) {
+    function getOrganizationById($orgId) {
+        $sql = "SELECT OrganizationID as org_id, OrgName as name FROM organizations WHERE OrganizationID = :orgId";
+        $qry = $this->db->connect()->prepare($sql);
+    
         try {
-            $stmt = $this->db->prepare("SELECT OrganizationID as org_id, OrgName as name FROM organizations WHERE OrganizationID = ?");
-            $stmt->bind_param("s", $orgId);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            return $result->fetch_assoc();
-        } catch (Exception $e) {
+            // Bind the parameter
+            $qry->bindParam(':orgId', $orgId, PDO::PARAM_STR);
+    
+            // Execute the query
+            $qry->execute();
+    
+            // Fetch the result
+            $organization = $qry->fetch(PDO::FETCH_ASSOC);
+            return $organization ?: null; // Return the organization or null if not found
+        } catch (PDOException $e) {
+            // Log the error
             error_log("Error in getOrganizationById: " . $e->getMessage());
-            return null;
+            return null; // Return null if an error occurs
         }
     }
+    
 } 
