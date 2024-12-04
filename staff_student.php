@@ -1,3 +1,10 @@
+<?php
+require_once 'account.class.php';
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,6 +61,10 @@
                             <th>Action</th>
                         </tr>
                     </thead>
+                    <?php 
+                    
+                    
+                    $studentFeeInfo = $yourClassInstance->getStudentFeesByOrganization($organizationId);?>
                     <tbody>
                         <tr>
                             <td>2021-00001</td>
@@ -71,33 +82,7 @@
                                 </label>
                             </td>
                         </tr>
-                        <tr>
-                            <td>2021-00002</td>
-                            <td>Maria Santos</td>
-                            <td>BSCS</td>
-                            <td>2nd Year</td>
-                            <td>B</td>
-                            <td>Tuition Fee</td>
-                            <td>₱1000.00</td>
-                            <td>Paid</td>
-                            <td><span class="paid-status">Paid</span></td>
-                        </tr>
-                        <tr>
-                            <td>2021-00003</td>
-                            <td>John Smith</td>
-                            <td>BSIT</td>
-                            <td>1st Year</td>
-                            <td>A</td>
-                            <td>Library Fee</td>
-                            <td>₱200.00</td>
-                            <td>Unpaid</td>
-                            <td>
-                                <label class="checkbox-container">
-                                    <input type="checkbox" onchange="updateStatus(this, '2021-00003')">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </td>
-                        </tr>
+                       
                     </tbody>
                 </table>
             </div>

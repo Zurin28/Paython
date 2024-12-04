@@ -13,35 +13,21 @@
 <?php include 'header.staff.php'; ?>
 
 
-    <main class="main-content">
-        <h1 class="welcome-text">Welcome, <span class="welcome-name">Juan De La Cruz!</span></h1>
+<main class="main-content">
+        <h1 class="welcome-text">Welcome, <span class="welcome-name"><?= $_SESSION['Name']?></span></h1>
         <div class="main-logo">PayThon</div>
         <div class="subtitle">CSC-CCS Payment Management System</div>
         
+        <?php foreach ($feeInfo as $fee){?>
         <div class="payment-container">
             <div class="payment-item">
                 <div class="payment-icon"></div>
                 <div class="payment-details">
-                    <h3>CSC Palaro Fee</h3>
-                    <p>College of Computing Studies - Student Council</p>
+                    <h3><?=$fee['FeeName']?></h3>
+                    <p><?=$fee['OrgID']?></p>
                 </div>
             </div>
-
-            <div class="payment-item">
-                <div class="payment-icon"></div>
-                <div class="payment-details">
-                    <h3>The University Digest Fee</h3>
-                    <p>University Publication</p>
-                </div>
-            </div>
-
-            <div class="payment-item">
-                <div class="payment-icon"></div>
-                <div class="payment-details">
-                    <h3>Gender Club - CCS Fee</h3>
-                    <p>University Organization</p>
-                </div>
-            </div>
+        <?php } ?>
 
             <button class="view-all"><a href="student_payment.php">View All</a></button>
         </div>

@@ -98,23 +98,7 @@ class Account{
     }
     
 
-function createOrg() {
-    $sql = "CREATE TABLE `pms1`.`SESSION` (
-    `OrganizationID` VARCHAR(100) NOT NULL , 
-    `StudentID` INT(11) NOT NULL , 
-    `first_name` VARCHAR(255) NOT NULL , 
-    `last_name` VARCHAR(255) NOT NULL , 
-    `WmsuEmail` VARCHAR(255) NOT NULL , 
-    `Position` VARCHAR(255) NOT NULL,
-    
-    CONSTRAINT fk_OrgID FOREIGN KEY OrganizationID REFERENCES organizations(OrganizationID),
-    CONSTRAINT fk_StudID FOREIGN KEY StudentID REFERENCES account(StudentID)) ENGINE = InnoDB;";
-    $qry = $this->db->connect()->prepare($sql);
-    if ($qry -> execute()){
-        $data = $qry->fetchAll();
-    }
-    return $data;
-  }
+
 
   function accountExists($studentId, $wmsuEmail) {
     $sql = "SELECT StudentID FROM account WHERE StudentID = :studentId OR WmsuEmail = :wmsuEmail";
@@ -211,6 +195,74 @@ function fetchData($query, $params = []) {
     // Return the results
     return $qry->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function getStudentFeesByOrganization($organizationId) {
+    // Define the SQL query
+    $sql = "SELECT 
+                a.student_id AS 'Student ID',
+                CONCAT(a.first_name, ' ', a.last_name) AS 'Name',
+                a.course AS 'Course',
+                a.year_level AS 'Year',
+                a.section AS 'Section',
+                f.fee_name AS 'Fee Name',
+                f.amount AS 'Amount',
+                sf.status AS 'Status'
+            FROM 
+                Accounts a
+            INNER JOIN 
+                Student_Fees sf ON a.student_id = sf.student_id
+            INNER JOIN 
+                Fees f ON sf.fee_id = f.fee_id
+            INNER JOIN 
+                Organizations o ON sf.org_id = o.org_id
+            WHERE 
+                o.org_id = :organization_id
+            ORDER BY 
+                a.student_id";
+    
+    // Prepare the SQL statement
+    $qry = $this->db->connect()->prepare($sql);
+
+    // Bind parameters
+    $qry->bindParam(':organization_id', $organizationId, PDO::PARAM_INT);
+
+    // Execute the query
+    $qry->execute();
+
+    // Fetch all results and return them
+    return $qry->fetchAll(PDO::FETCH_ASSOC); // Returns an associative array of the results
+}
+
+function getOrganizationId($studentId, $feeId) {
+    // SQL query to get the organization ID
+    $sql = "SELECT 
+                sf.org_id AS OrganizationID
+            FROM 
+                Student_Fees sf
+            INNER JOIN 
+                Organizations o ON sf.org_id = o.org_id
+            WHERE 
+                sf.student_id = :studentId 
+                AND sf.fee_id = :feeId
+            LIMIT 1";
+    
+    // Prepare the query
+    $qry = $this->db->connect()->prepare($sql);
+    
+    // Bind parameters
+    $qry->bindParam(':studentId', $studentId, PDO::PARAM_STR);
+    $qry->bindParam(':feeId', $feeId, PDO::PARAM_INT);
+    
+    // Execute the query
+    $qry->execute();
+    
+    // Fetch the result
+    $result = $qry->fetch(PDO::FETCH_ASSOC);
+    
+    // Return the organization ID, or null if not found
+    return $result['OrganizationID'] ?? null;
+}
+
 
 
 

@@ -33,22 +33,22 @@ class Organization {
     
 
     function addOrganization($orgId, $orgName) {
-        // Check if the organization exists
+    try {
+        // Check if the organization already exists
         $sqlCheck = "SELECT COUNT(*) as count FROM organizations WHERE OrganizationID = :orgId";
         $qryCheck = $this->db->connect()->prepare($sqlCheck);
     
         // Bind parameters
         $qryCheck->bindParam(':orgId', $orgId, PDO::PARAM_STR);
-    
-        // Execute and fetch the result
         $qryCheck->execute();
         $row = $qryCheck->fetch(PDO::FETCH_ASSOC);
     
         if ($row['count'] > 0) {
-            return false; // Organization ID already exists
+            // Organization already exists
+            return false;
         }
-    
-        // Add a new organization
+
+        // Insert the new organization
         $sqlInsert = "INSERT INTO organizations (OrganizationID, OrgName) VALUES (:orgId, :orgName)";
         $qryInsert = $this->db->connect()->prepare($sqlInsert);
     
@@ -56,9 +56,20 @@ class Organization {
         $qryInsert->bindParam(':orgId', $orgId, PDO::PARAM_STR);
         $qryInsert->bindParam(':orgName', $orgName, PDO::PARAM_STR);
     
-        // Execute the insert query and return the result
-        return $qryInsert->execute();
+        // Execute the insert query
+        if ($qryInsert->execute()) {
+            return true;
+        } else {
+            error_log("Error inserting organization: " . $qryInsert->errorInfo()[2]);
+            return false;
+        }
+    } catch (PDOException $e) {
+        // Log the exception
+        error_log("Error in addOrganization: " . $e->getMessage());
+        return false;
     }
+}
+
     
     
 
@@ -109,4 +120,26 @@ class Organization {
         }
     }
     
+    function createOrg($orgName) {
+        // Ensure the table name is safe by sanitizing the organization name
+        $safeOrgName = preg_replace('/[^a-zA-Z0-9_]/', '_', $orgName); // Remove any non-alphanumeric characters
+    
+        $sql = "CREATE TABLE `pms1_{$safeOrgName}` (
+            `OrganizationID` VARCHAR(100) NOT NULL, 
+            `StudentID` INT(11) NOT NULL, 
+            `first_name` VARCHAR(255) NOT NULL, 
+            `last_name` VARCHAR(255) NOT NULL, 
+            `WmsuEmail` VARCHAR(255) NOT NULL, 
+            `Position` VARCHAR(255) NOT NULL,
+            CONSTRAINT fk_OrgID FOREIGN KEY (OrganizationID) REFERENCES organizations(OrganizationID),
+            CONSTRAINT fk_StudID FOREIGN KEY (StudentID) REFERENCES account(StudentID)
+        ) ENGINE = InnoDB;";
+    
+        $qry = $this->db->connect()->prepare($sql);
+        
+        // Execute the query and return whether the table was created successfully
+        return $qry->execute();
+    }
+    
+
 } 
