@@ -20,15 +20,17 @@ $password = $email = '';
 <body>
     <section class="login-container">
         <div class="login">
-            <img src="" alt="Logo">
+            <img src="img/logoccs.png" alt="Logo">
             <h2>Welcome to PayThon</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
             <form action="" method="post">
                 <label for="email">Enter your WMSU email:</label>
-                <input type="email" id="email" name="email" required>
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email" name="email" placeholder="WMSU Email" required>
 
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
 
                 <a href="">Forgot Password?</a>
 
@@ -63,10 +65,7 @@ $password = $email = '';
     }
 }?>
         </div>
-        
-        <div class="design">
-            <img src="img/Screenshot 2024-11-02 034438.png" alt="basta design kay d ko alam paano ilagay yung mga border chuchu kaya yung img na lng yung ano sa figma niglagay ko dito yung sa side d ko alm paano yun"> 
-        </div>
+      
     </section>
 </body>
 </html>
