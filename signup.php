@@ -31,7 +31,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "<p style='color: red;'>Student ID or WMSU Email already exists. Please try again with different credentials.</p>";
         } else {
             // Create the account with the hashed password
-            $isCreated = $accObj->create($studentId, $first_name, $last_name, $mi, $wmsuEmail, $hashedPassword, $role, $course, $year, $section);
+
+            }
+            if($role == "staff"){
+                $isCreated = $accObj->createStaffAcc($studentId, $first_name, $last_name, $mi, $wmsuEmail, $hashedPassword, $role, $course, $year, $section);
+            }
+            elseif($role == "admin"){
+                $isCreated = $accObj->createAdminAcc($studentId, $first_name, $last_name, $mi, $wmsuEmail, $hashedPassword, $role, $course, $year, $section);
+            }
+            else{
+                $isCreated = $accObj->createStudAcc($studentId, $first_name, $last_name, $mi, $wmsuEmail, $hashedPassword, $role, $course, $year, $section);
+            }
+            
             if ($isCreated) {
                 echo "<p style='color: green;'>Account created successfully. You can now log in.</p>";
 
@@ -44,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
-}
+
 ?>
 
 <!DOCTYPE html>
@@ -101,7 +112,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label for="role">Role</label>
         <select id="role" name="role" required>
             <option value="student">Student</option>
+            <option value="staff">Staff</option>
+            <option value="admin">Admin</option>
         </select>
+        
+        
 
         <label for="course">Course</label>
         <select id="course" name="course" required>

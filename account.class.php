@@ -115,7 +115,7 @@ class Account{
 /**
  * Function to create a new account
  */
-function create($studentId, $first_name, $last_name, $mi, $wmsuEmail, $password, $role, $course, $year, $section) {
+function createStudAcc($studentId, $first_name, $last_name, $mi, $wmsuEmail, $password, $role, $course, $year, $section) {
     try {
         // Determine role flags
         
@@ -124,6 +124,65 @@ function create($studentId, $first_name, $last_name, $mi, $wmsuEmail, $password,
                 (StudentID, first_name, last_name, MI, WmsuEmail, Password, role, Course, Year, Section, isstaff, isadmin)
                 VALUES 
                 (:studentId, :first_name, :last_name, :mi, :wmsuEmail, :password, :role, :course, :year, :section, '0' , '0')";
+        $qry = $this->db->connect()->prepare($sql);
+
+        // Bind parameters
+        $qry->bindParam(':studentId', $studentId, PDO::PARAM_STR);
+        $qry->bindParam(':first_name', $first_name, PDO::PARAM_STR);
+        $qry->bindParam(':last_name', $last_name, PDO::PARAM_STR);
+        $qry->bindParam(':mi', $mi, PDO::PARAM_STR);
+        $qry->bindParam(':wmsuEmail', $wmsuEmail, PDO::PARAM_STR);
+        $qry->bindParam(':password', $password, PDO::PARAM_STR);
+        $qry->bindParam(':role', $role, PDO::PARAM_STR);
+        $qry->bindParam(':course', $course, PDO::PARAM_STR);
+        $qry->bindParam(':year', $year, PDO::PARAM_INT);
+        $qry->bindParam(':section', $section, PDO::PARAM_STR);
+
+        $qry->execute();
+        return true; // Successfully created account
+    } catch (PDOException $e) {
+        return false; // Error occurred
+    }
+}
+ 
+function createAdminAcc($studentId, $first_name, $last_name, $mi, $wmsuEmail, $password, $role, $course, $year, $section) {
+    try {
+        // Determine role flags
+        
+
+        $sql = "INSERT INTO account 
+                (StudentID, first_name, last_name, MI, WmsuEmail, Password, role, Course, Year, Section, isstaff, isadmin)
+                VALUES 
+                (:studentId, :first_name, :last_name, :mi, :wmsuEmail, :password, :role, :course, :year, :section, '1' , '1')";
+        $qry = $this->db->connect()->prepare($sql);
+
+        // Bind parameters
+        $qry->bindParam(':studentId', $studentId, PDO::PARAM_STR);
+        $qry->bindParam(':first_name', $first_name, PDO::PARAM_STR);
+        $qry->bindParam(':last_name', $last_name, PDO::PARAM_STR);
+        $qry->bindParam(':mi', $mi, PDO::PARAM_STR);
+        $qry->bindParam(':wmsuEmail', $wmsuEmail, PDO::PARAM_STR);
+        $qry->bindParam(':password', $password, PDO::PARAM_STR);
+        $qry->bindParam(':role', $role, PDO::PARAM_STR);
+        $qry->bindParam(':course', $course, PDO::PARAM_STR);
+        $qry->bindParam(':year', $year, PDO::PARAM_INT);
+        $qry->bindParam(':section', $section, PDO::PARAM_STR);
+
+        $qry->execute();
+        return true; // Successfully created account
+    } catch (PDOException $e) {
+        return false; // Error occurred
+    }
+}
+function createStaffAcc($studentId, $first_name, $last_name, $mi, $wmsuEmail, $password, $role, $course, $year, $section) {
+    try {
+        // Determine role flags
+        
+
+        $sql = "INSERT INTO account 
+                (StudentID, first_name, last_name, MI, WmsuEmail, Password, role, Course, Year, Section, isstaff, isadmin)
+                VALUES 
+                (:studentId, :first_name, :last_name, :mi, :wmsuEmail, :password, :role, :course, :year, :section, '1' , '0')";
         $qry = $this->db->connect()->prepare($sql);
 
         // Bind parameters

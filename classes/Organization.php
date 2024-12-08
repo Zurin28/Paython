@@ -3,7 +3,7 @@ require_once "database.class.php";
 class Organization {
     private $db;
 
-     function __construct($db) {
+     function __construct(){
         $this->db = new Database;
     }
 

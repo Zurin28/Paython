@@ -1,3 +1,9 @@
+<?php 
+require_once 'fee.class.php';
+require_once 'account.class.php';
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +17,11 @@
 <body>
     
 <?php include 'header.staff.php'; ?>
+<?php 
+$feeObj = new Fee;
+$feeInfo = $feeObj->viewFees();
+
+?>
 
 
 <main class="main-content">

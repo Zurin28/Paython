@@ -41,12 +41,6 @@ require_once 'classes/Organization.php'
             </a>
         </li>
         <li>
-            <a href="payment_status.php">
-                <i class='bx bx-money'></i>
-                <span class="list_name">Payment Status</span>
-            </a>
-        </li>
-        <li>
             <a href="login_logs.php">
                 <i class='bx bx-history'></i>
                 <span class="list_name">Login Logs</span>
@@ -162,7 +156,7 @@ require_once 'classes/Organization.php'
 
 
 
-<<!-- Fee Status Modal -->
+<!-- Fee Status Modal -->
 <div id="show-fees-modal" style="display: none;">
     <table id="feesTable">
         <thead>
@@ -180,7 +174,21 @@ require_once 'classes/Organization.php'
     </table>
     <button id="closeFeesModalButton">Close</button>
 </div>
+<style>
+    #show-fees-modal {
+    display: none; /* Ensures modal is hidden by default */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1050; /* Ensure it is above other elements */
+    background: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
+</style>
 
 <script src="student.js"></script>
 <script src="script.js"></script>
