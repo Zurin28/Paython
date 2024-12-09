@@ -97,7 +97,7 @@ session_start();
                 </div>
                 <div class="form-buttons">
                     <button type="submit" class="submit-btn">Add Fee</button>
-                    <button type="button" class="cancel-btn" onclick="closeAddFeeModal()">Cancel</button>
+
                 </div>
             </form>
         </div>
@@ -135,7 +135,7 @@ session_start();
                 </div>
                 <div class="form-buttons">
                     <button type="submit" class="submit-btn">Update Fee</button>
-                    <button type="button" class="cancel-btn" onclick="closeEditModal()">Cancel</button>
+                   
                 </div>
             </form>
         </div>
