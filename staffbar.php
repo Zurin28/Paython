@@ -56,11 +56,7 @@ $current_title = isset($page_titles[$current_page]) ? $page_titles[$current_page
                             <i class='bx bx-user-circle'></i>
                             Student Account
                         </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="login.php" class="logout-btn">
-                            <i class='bx bx-log-out'></i>
-                            Logout
-                        </a>
+                       
                     </div>
                 </div>
             </div>
