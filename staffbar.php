@@ -1,5 +1,17 @@
 <?php
 $current_page = basename($_SERVER['PHP_SELF']);
+
+// Define page titles
+$page_titles = [
+    'staff_dashboard.php' => 'Dashboard',
+    'staff_student.php' => 'Student List',
+    'receive_receipt.php' => 'Receipt',
+    'staff_fees.php' => 'Fees',
+    // Add more pages as needed
+];
+
+// Get the current page title
+$current_title = isset($page_titles[$current_page]) ? $page_titles[$current_page] : 'Dashboard';
 ?>
 
 <!DOCTYPE html>
@@ -75,7 +87,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </a>
             </li>
             <li>
-                <a href="staff_organizations.php" class="<?php echo ($current_page == 'staff_organizations.php') ? 'active' : ''; ?>">
+                <a href="staff_fees.php" class="<?php echo ($current_page == 'staff_organizations.php') ? 'active' : ''; ?>">
                     <i class='bx bx-group'></i>
                     <span class="list_name">Fees</span>
                 </a>
@@ -95,7 +107,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <nav class="home-section-nav">
         <div class="sidebar-button">
             <i class='bx bx-menu sidebarBtn'></i>
-            <span class="dashboard">Dashboard</span>
+            <span class="dashboard" id="topbar-title"><?php echo $current_title; ?></span>
         </div>
         
         <div class="org-dropdown">
@@ -112,11 +124,14 @@ $current_page = basename($_SERVER['PHP_SELF']);
     </nav>
 
     <script>
-        let sidebar = document.querySelector(".sidebar");
-        let sidebarBtn = document.querySelector(".sidebarBtn");
-        sidebarBtn.onclick = function() {
-            sidebar.classList.toggle("active");
-        }
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent default link behavior
+                const name = this.getAttribute('data-name');
+                document.getElementById('topbar-title').textContent = name;
+                window.location.href = this.getAttribute('href'); // Navigate to the link
+            });
+        });
     </script>
 </body>
 </html> 
