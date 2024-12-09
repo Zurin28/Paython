@@ -1,0 +1,278 @@
+/* Table Container Styles */
+.table-container {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-top: 50px;
+}
+
+/* Table Header Section */
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.table-header h2 {
+    color: #333;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* Search Section */
+.search-filter {
+    display: flex;
+    gap: 15px;
+}
+
+.search-bar {
+    padding: 10px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    width: 300px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.search-bar:focus {
+    border-color: #1a7431;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(26, 116, 49, 0.1);
+}
+
+.search-button {
+    padding: 10px 20px;
+    background: #1a7431;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.search-button:hover {
+    background: #145726;
+}
+
+/* Table Styles */
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.custom-table thead th {
+    background: #f8f9fa;
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    color: #1a7431;
+    border-bottom: 2px solid #e0e0e0;
+    white-space: nowrap;
+}
+
+.custom-table tbody tr {
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.3s ease;
+}
+
+.custom-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.custom-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.custom-table td {
+    padding: 15px;
+    color: #333;
+}
+
+/* Action Buttons */
+.table-actions {
+    display: flex;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.table-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+}
+
+.btn-view {
+    background: #1a7431;
+    color: white;
+}
+
+.btn-view:hover {
+    background: #145726;
+}
+
+.btn-delete {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-delete:hover {
+    background: #c82333;
+}
+
+/* No Results Message */
+.search {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+    font-size: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .table-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .search-filter {
+        width: 100%;
+    }
+
+    .search-bar {
+        flex: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .table-container {
+        padding: 15px;
+        margin-top: 40px;
+    }
+
+    .custom-table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .table-actions {
+        flex-direction: column;
+    }
+
+    .table-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    position: relative;
+    background: white;
+    margin: 5% auto;
+    padding: 25px;
+    width: 90%;
+    max-width: 800px;
+    border-radius: 15px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+.modal h3 {
+    color: #333;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+/* Close Button */
+.close {
+    position: absolute;
+    right: 25px;
+    top: 20px;
+    font-size: 24px;
+    color: #666;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: #dc3545;
+}
+
+/* Modal Table Styles */
+.modal .custom-table {
+    margin-top: 15px;
+}
+
+.modal .custom-table th {
+    background: #f8f9fa;
+    padding: 12px 15px;
+    font-weight: 600;
+    color: #1a7431;
+}
+
+.modal .custom-table td {
+    padding: 12px 15px;
+}
+
+/* Status Badge Styles */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.status-badge.paid {
+    background: rgba(26, 116, 49, 0.1);
+    color: #1a7431;
+}
+
+.status-badge.pending {
+    background: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+}
+
+.status-badge.unpaid {
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .modal-content {
+        margin: 10% auto;
+        padding: 20px;
+        width: 95%;
+    }
+
+    .modal .custom-table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .modal h3 {
+        font-size: 18px;
+        padding-right: 30px;
+    }
+} 
