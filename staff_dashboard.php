@@ -20,16 +20,16 @@
                 <div class="card-info">
                     <h3>Total Payments</h3>
                     <p class="number">152</p>
-                    <span class="trend positive">+12% from last month</span>
+                   
                 </div>
             </div>
 
             <div class="bento-card pending">
                 <i class='bx bx-time'></i>
                 <div class="card-info">
-                    <h3>Pending Requests</h3>
+                    <h3>Pending Payment Requests</h3>
                     <p class="number">28</p>
-                    <span class="trend negative">+5 new requests</span>
+                 
                 </div>
             </div>
 
@@ -38,7 +38,7 @@
                 <div class="card-info">
                     <h3>Total Collection</h3>
                     <p class="number">₱45,250</p>
-                    <span class="trend positive">+₱12,500 this month</span>
+                
                 </div>
             </div>
 
@@ -64,24 +64,24 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Juan Dela Cruz</td>
-                                <td>CSC Membership</td>
+                                <td>Jose Miguel Esperat</td>
+                                <td>CSC Fee</td>
                                 <td>₱500</td>
-                                <td>Mar 15, 2024</td>
+                                <td>Oct 15, 2024</td>
                                 <td><span class="status pending">Pending</span></td>
                             </tr>
                             <tr>
-                                <td>Maria Santos</td>
-                                <td>Publication Fee</td>
-                                <td>₱750</td>
-                                <td>Mar 14, 2024</td>
+                                <td>Jose Miguel Esperat</td>
+                                <td>CSC Fee</td>
+                                <td>₱500</td>
+                                <td>Oct 15, 2024</td>
                                 <td><span class="status pending">Pending</span></td>
                             </tr>
                             <tr>
-                                <td>John Smith</td>
-                                <td>Organization Fee</td>
-                                <td>₱300</td>
-                                <td>Mar 13, 2024</td>
+                                <td>Jose Miguel Esperat</td>
+                                <td>CSC Fee</td>
+                                <td>₱500</td>
+                                <td>Oct 15, 2024</td>
                                 <td><span class="status pending">Pending</span></td>
                             </tr>
                         </tbody>
@@ -101,27 +101,29 @@
                 <div class="fees-list">
                     <div class="fee-item">
                         <div class="fee-info">
-                            <h4>CSC Membership Fee</h4>
-                            <p>Created on March 15, 2024</p>
-                            <span class="staff-name">Created by: John Doe</span>
+                            <h4>CSC Fee</h4>
+                            <p>Created on Oct 10, 2024</p>
+                            <span class="staff-name">Created by: Justine Carl Morgia</span>
                         </div>
                         <span class="fee-amount">₱500</span>
                     </div>
+                    <div class="fees-list">
                     <div class="fee-item">
                         <div class="fee-info">
-                            <h4>Publication Fee</h4>
-                            <p>Created on March 14, 2024</p>
-                            <span class="staff-name">Created by: Jane Smith</span>
+                            <h4>CSC Fee</h4>
+                            <p>Created on Oct 10, 2024</p>
+                            <span class="staff-name">Created by: Justine Carl Morgia</span>
                         </div>
-                        <span class="fee-amount">₱750</span>
+                        <span class="fee-amount">₱500</span>
                     </div>
+                    <div class="fees-list">
                     <div class="fee-item">
                         <div class="fee-info">
-                            <h4>Organization Fee</h4>
-                            <p>Created on March 13, 2024</p>
-                            <span class="staff-name">Created by: Mike Johnson</span>
+                            <h4>CSC Fee</h4>
+                            <p>Created on Oct 10, 2024</p>
+                            <span class="staff-name">Created by: Justine Carl Morgia</span>
                         </div>
-                        <span class="fee-amount">₱300</span>
+                        <span class="fee-amount">₱500</span>
                     </div>
                 </div>
             </div>

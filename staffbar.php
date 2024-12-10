@@ -47,8 +47,8 @@ $current_title = isset($page_titles[$current_page]) ? $page_titles[$current_page
                         <div class="profile-header">
                             <img src="img/prof.jpg" alt="profile">
                             <div>
-                                <span class="full-name">John Doe</span>
-                                <span class="email">johndoe@example.com</span>
+                                <span class="full-name">Jose Miguel</span>
+                                <span class="email">JoseMiguel@example.com</span>
                             </div>
                         </div>
                         <div class="dropdown-divider"></div>
@@ -112,9 +112,8 @@ $current_title = isset($page_titles[$current_page]) ? $page_titles[$current_page
                 <i class='bx bx-chevron-down'></i>
             </button>
             <div class="dropdown-content">
-                <a href="#">Computer Society</a>
-                <a href="#">Junior Philippine Computer Society</a>
-                <a href="#">Institute of Computer Engineers</a>
+                <a href="#">CSC</a>
+                <a href="#">Gender</a>
             </div>
         </div>
     </nav>
