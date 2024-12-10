@@ -16,19 +16,21 @@
         <div class="content-wrapper">
             <div class="table-container">
                 <!-- Updated filter section -->
+               
                 <div class="filter-section">
-                    <div class="search-group">
-                        <div class="search-box">
+                    
+                    <div class="search-filter">
+                        <i class='bx bx-search'></i>
+                        <input type="text" class="search-bar" placeholder="Search receipt or student name...">
+                        <button class="search-btn">
                             <i class='bx bx-search'></i>
-                            <input type="text" id="searchInput" placeholder="Search student name or ID...">
-                        </div>
-                    </div>
-                    <div class="filter-group">
-                        <button class="filter-date-btn" id="dateFilter">
-                            <i class='bx bx-sort'></i>
-                            Sort by Date
+                            Search
                         </button>
                     </div>
+                    <button class="filter-date-btn">
+                        <i class='bx bx-calendar'></i>
+                        Filter by Date
+                    </button>
                 </div>
 
                 <table>
@@ -82,8 +84,8 @@
     </div>
 
     <script>
-        // Sidebar toggle functionality
-        let sidebar = document.querySelector(".sidebar");
+       // Sidebar toggle functionality
+       let sidebar = document.querySelector(".sidebar");
         let sidebarBtn = document.querySelector(".bx-menu");
         
         sidebarBtn.addEventListener("click", () => {

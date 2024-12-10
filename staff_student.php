@@ -18,12 +18,33 @@ session_start();
     <div class="content-wrapper">
         <div class="table-container">
             <div class="table-header">
-                <h2>Student Management</h2>
-                <div class="search-filter">
-                    <form method="POST">
-                        <input type="text" name="searchQuery" id="searchBar" placeholder="Search..." class="search-bar">
-                        <button type="submit" class="search-button">Search</button>
-                    </form>
+             
+                <div class="filter-section">
+                    <!-- Filter Group -->
+                    <div class="filter-group">
+                        <select id="statusFilter" class="filter-select">
+                            <option value="all">All Status</option>
+                            <option value="paid">Paid</option>
+                            <option value="unpaid">Unpaid</option>
+                        </select>
+                        <select id="courseFilter" class="filter-select">
+                            <option value="all">All Courses</option>
+                            <option value="BSCS">BSCS</option>
+                            <option value="BSIT">BSIT</option>
+                            <option value="BSIS">BSIS</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Search Filter -->
+                    <div class="search-filter">
+                        <i class='bx bx-search'></i>
+                        <input type="text" id="searchBar" class="search-bar" 
+                            placeholder="Search student name or ID...">
+                        <button class="search-btn">
+                            <i class='bx bx-search'></i>
+                            Search
+                        </button>
+                    </div>
                 </div>
             </div>
             
