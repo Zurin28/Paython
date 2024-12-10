@@ -75,74 +75,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Organizations - PayThon</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="organizations.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/organizations.css">
+    <link rel="stylesheet" href="css/table.css">
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="logo">
-                <img src="assets/images/logo.png" alt="logo">
-                <span class="logo_name">PayThon</span>
-            </div>
-            <ul class="sidebar_list">
-                <li>
-                    <a href="admin.php">
-                        <i class='bx bx-grid-alt'></i>
-                        <span class="list_name">Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="studentlist.php">
-                        <i class='bx bx-user-pin'></i>
-                        <span class="list_name">Student List</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="admin_organizations.php" class="active">
-                        <i class='bx bx-group'></i>
-                        <span class="list_name">Organization</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="payment_status.php">
-                        <i class='bx bx-money'></i>
-                        <span class="list_name">Payment Status</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="login_logs.php">
-                        <i class='bx bx-history'></i>
-                        <span class="list_name">Login Logs</span>
-                    </a>
-                </li>
-                <li class="log_out">
-                    <a href="login.php">
-                        <i class='bx bx-log-out'></i>
-                        <span class="list_name">Log out</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <?php include 'navbar.php'; ?>
 
-        <!-- Main Content -->
-        <div class="main-content">
-            <div class="topbar">
-                <div class="sidebar-button">
-                    <i class='bx bx-menu sidebarBtn'></i>
-                    <span class="dashboard">Organizations</span>
-                </div>
-                <div class="profile-details">
-                    <img src="assets/images/profile.png" alt="">
-                    <span class="admin_name"><?php echo htmlspecialchars($user['first_name'] . ' ' . $user['last_name']); ?></span>
-                    <i class='bx bx-chevron-down'></i>
-                </div>
-            </div>
-
-            <!-- Copy the content-wrapper and modals from admin_organizations.php -->
+    <!-- Main Content -->
+    <section class="home-section">
+        <div class="home-content">
             <div class="content-wrapper">
                 <div class="content-header">
                     <div class="header-actions">
@@ -395,7 +339,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
         </div>
-    </div>
+    </section>
+
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="organizations.js"></script>
     <script>

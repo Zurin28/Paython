@@ -5,19 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Receipts</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="receive_receipt.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/staffbar.css">
+    <link rel="stylesheet" href="css/receive_receipt.css">
+    
 </head>
 <body>
     <div class="container">
-        <?php 
-        include 'sidebar.php';
-    
-        ?>
+        <?php include 'staffbar.php'; ?>
 
         <div class="content-wrapper">
-            <?php include 'navbar.php'; ?>
-
             <div class="table-container">
                 <!-- Updated filter section -->
                 <div class="filter-section">
