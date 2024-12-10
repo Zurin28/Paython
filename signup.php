@@ -64,26 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup</title>
-    <style>
-        form {
-            max-width: 500px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-        }
-        input, select, button {
-            display: block;
-            width: 100%;
-            margin-bottom: 15px;
-            padding: 10px;
-            font-size: 16px;
-        }
-        label {
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="css/signup.css">
 </head>
 <body>
     <h1 style="text-align: center;">Signup Page</h1>
