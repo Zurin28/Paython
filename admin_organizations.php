@@ -20,26 +20,12 @@ value: try {
         throw new Exception("Connection failed: " . $conn->connect_error);
     }
 
-    // Check if user is logged in
- 
-
-    // Get user details with error handling
+    // Get user details
     $stmt = $conn->prepare("SELECT first_name, last_name FROM account WHERE StudentID = ?");
-    if ($stmt === false) {
-        throw new Exception("Failed to prepare statement: " . $conn->error);
-    }
-
     $stmt->bind_param("i", $_SESSION['StudentID']);
-    if (!$stmt->execute()) {
-        throw new Exception("Failed to execute statement: " . $stmt->error);
-    }
-
+    $stmt->execute();
     $result = $stmt->get_result();
     $user = $result->fetch_assoc();
-
-    if (!$user) {
-        $user = ['first_name' => 'Unknown', 'last_name' => 'User'];
-    }
 
     // Fetch organizations from database
     $sql = "SELECT OrganizationID as org_id, OrgName as name FROM organizations";
@@ -58,14 +44,14 @@ value: try {
 
 } catch (Exception $e) {
     error_log("Database error: " . $e->getMessage());
-    $user = ['first_name' => 'Unknown', 'last_name' => 'User'];
+    die("An error occurred. Please try again later.");
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $orgName = $_POST['org_name'];
     $orgID = $_POST['org_id'];
-    $_SESSION['orgName'] = $orgName;
-
+    
+    createOrg($orgName);
 
 } 
 ?>
@@ -141,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="modal-content">
                     <span class="close">&times;</span>
                     <h3 id="modal-title">Add Organization</h3>
-                    <form id="add-org-form" method="post">
+                    <form action="add_organization_handler.php"  method="post">
                         <div class="form-group">
                             <label for="org_name">Organization Name</label>
                             <input type="text" id="org_name" name="org_name" required>
@@ -150,20 +136,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <label for="org_id">Organization ID</label>
                             <input type="text" id="org_id" name="org_id" required>
                         </div>
-                        <button type="submit" class="btn" id="org-form">
+                        <button type="submit" name="add_org" class="btn" id="org-form" >
                             <i class="fas fa-plus"></i> Add Organization
                         </button>
                     </form>
                 </div>
             </div>
+            <?php
+
+?>
+
 
             <div id="members-modal" class="modal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
                     <h3>Organization Members</h3>
-                    <div id="members-list">
-                        <!-- Members will be loaded here -->
-                    </div>
+                    <div id="members-list"></div>
                 </div>
             </div>
 
@@ -171,9 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="modal-content">
                     <span class="close">&times;</span>
                     <h3>Organization Payments</h3>
-                    <div id="payments-list">
-                        <!-- Payments will be loaded here -->
-                    </div>
+                    <div id="payments-list"></div>
                 </div>
             </div>
 
@@ -271,72 +257,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             
 
-            <!-- Edit Member Modal -->
-            <div id="edit-member-modal" class="modal">
-                <div class="modal-content">
-                    <span class="close" onclick="document.getElementById('edit-member-modal').style.display='none'">&times;</span>
-                    <h2>Edit Member</h2>
-                    <form id="edit-member-form">
-                        <input type="hidden" id="edit-member-id" name="id">
-                        <div class="form-group">
-                            <label for="edit-student-id">Student ID:</label>
-                            <input type="text" id="edit-student-id" name="student_id" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit-student-name">Name:</label>
-                            <input type="text" id="edit-student-name" name="student_name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit-course">Course:</label>
-                            <input type="text" id="edit-course" name="course" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit-year">Year:</label>
-                            <input type="text" id="edit-year" name="year" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit-position">Position:</label>
-                            <input type="text" id="edit-position" name="position" required>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn">Update Member</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Edit Fee Modal -->
-            <div id="edit-fee-modal" class="modal">
-                <div class="modal-content">
-                    <span class="close" onclick="document.getElementById('edit-fee-modal').style.display='none'">&times;</span>
-                    <h2>Edit Fee</h2>
-                    <form id="edit-fee-form">
-                        <input type="hidden" id="edit-fee-id" name="fee_id">
-                        <div class="form-group">
-                            <label for="edit-fee-name">Fee Name:</label>
-                            <input type="text" id="edit-fee-name" name="fee_name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit-amount">Amount:</label>
-                            <input type="number" id="edit-amount" name="amount" step="0.01" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit-due-date">Due Date:</label>
-                            <input type="date" id="edit-due-date" name="due_date" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit-status">Status:</label>
-                            <select id="edit-status" name="status" required>
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn">Update Fee</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                
 
         </div>
     </section>

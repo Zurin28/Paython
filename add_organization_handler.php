@@ -3,6 +3,7 @@
 require_once 'account.class.php';
 require_once 'classes/Organization.php';
 require_once 'database.class.php'; // Include the Database class
+session_start();
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -22,6 +23,7 @@ try {
     if (isset($_POST['org_name']) && isset($_POST['org_id'])) {
         $orgName = $_POST['org_name'];
         $orgID = $_POST['org_id'];
+        $_SESSION['orgName'] = $orgName;
 
         // Call the addOrganization function to insert the data into the database
         $result = $org->addOrganization($orgName, $orgID);

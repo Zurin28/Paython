@@ -27,6 +27,7 @@ function viewFees() {
     return $data;
   }
 
+/*************  ✨ Codeium Command 🌟  *************/
   function getFeeStatus($student_id) {
     // Query to get the fee status for the student
     $sql = "
@@ -45,6 +46,7 @@ function viewFees() {
     $data = $qry->fetchAll(PDO::FETCH_ASSOC);
     return $data;
 }
+/******  ea9d0024-6bfb-4a80-b69a-3da38a6a6650  *******/
 
 
 
