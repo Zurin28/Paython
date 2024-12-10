@@ -29,9 +29,8 @@ require_once 'classes/Organization.php';
                         <div class="card-info">
                             <h3>Total Students</h3>
                             <p class="number">2,150</p>
-                            <p class="trend positive">
-                                <i class="fas fa-arrow-up"></i> 3.5% from last month
-                            </p>
+                   
+    
                         </div>
                     </div>
                 </div>
@@ -44,9 +43,7 @@ require_once 'classes/Organization.php';
                         <div class="card-info">
                             <h3>Organizations</h3>
                             <p class="number">24</p>
-                            <p class="trend positive">
-                                <i class="fas fa-arrow-up"></i> 2 new this month
-                            </p>
+                         
                         </div>
                     </div>
                 </div>
@@ -59,9 +56,7 @@ require_once 'classes/Organization.php';
                         <div class="card-info">
                             <h3>Pending Requests</h3>
                             <p class="number">18</p>
-                            <p class="trend neutral">
-                                <i class="fas fa-minus"></i> No change
-                            </p>
+                          
                         </div>
                     </div>
                 </div>
@@ -83,7 +78,7 @@ require_once 'classes/Organization.php';
                         </div>
                         <div class="activity-details">
                             <p class="activity-text">
-                                <span class="staff-name">John Doe</span> approved payment request from <span class="highlight">CS Organization</span>
+                                <span class="staff-name">Jose Miguel Esperat</span> approved payment request from <span class="highlight">CS Organization</span>
                             </p>
                             <p class="activity-time">2 hours ago</p>
                         </div>
@@ -91,11 +86,11 @@ require_once 'classes/Organization.php';
 
                     <div class="activity-item">
                         <div class="activity-icon">
-                            <i class="fas fa-user-plus"></i>
+                        <i class='bx bx-money'></i>
                         </div>
                         <div class="activity-details">
                             <p class="activity-text">
-                                <span class="staff-name">Jane Smith</span> added new member to <span class="highlight">IEEE</span>
+                                <span class="staff-name">Joel Josh Que</span> added Fee for <span class="highlight">Venom Organization</span>
                             </p>
                             <p class="activity-time">5 hours ago</p>
                         </div>

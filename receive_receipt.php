@@ -46,9 +46,9 @@
                         <tr>
                             <td>2021-00001</td>
                             <td>Juan Dela Cruz</td>
-                            <td>CSC Palaro Fee</td>
+                            <td>CSC Fee</td>
                             <td>GCash</td>
-                            <td>2024-03-15</td>
+                            <td>2024-10-15</td>
                             <td class='action-buttons'>
                                 <button onclick="viewReceipt('sample_receipt.jpg')" class="btn view">View</button>
                                 <button onclick="acceptPayment('2021-00001')" class="btn accept">Accept</button>
@@ -56,11 +56,11 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>2021-00002</td>
-                            <td>Maria Santos</td>
-                            <td>Publication Fee</td>
+                        <td>2021-00001</td>
+                            <td>Mariane Soriano</td>
+                            <td>CSC Fee</td>
                             <td>GCash</td>
-                            <td>2024-03-14</td>
+                            <td>2024-10-15</td>
                             <td class='action-buttons'>
                                 <button onclick="viewReceipt('img/pic.jpg')" class="btn view">View</button>
                                 <button onclick="acceptPayment('2021-00002')" class="btn accept">Accept</button>

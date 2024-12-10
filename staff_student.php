@@ -50,7 +50,7 @@ session_start();
                                 <td>BSCS</td>
                                 <td>3rd Year</td>
                                 <td>A</td>
-                                <td>Membership Fee</td>
+                                <td>CSC Fee</td>
                                 <td>₱500.00</td>
                                 <td>Unpaid</td>
                                 <td>
@@ -62,23 +62,23 @@ session_start();
                             </tr>
                             <tr>
                                 <td>2021-00002</td>
-                                <td>Maria Santos</td>
+                                <td>Mariane Soriano</td>
                                 <td>BSCS</td>
                                 <td>2nd Year</td>
                                 <td>B</td>
-                                <td>Tuition Fee</td>
-                                <td>₱1000.00</td>
+                                <td>CSC Fee</td>
+                                <td>₱500.00</td>
                                 <td>Paid</td>
                                 <td><span class="paid-status">Paid</span></td>
                             </tr>
                             <tr>
                                 <td>2021-00003</td>
-                                <td>John Smith</td>
+                                <td>John Cruz</td>
                                 <td>BSIT</td>
                                 <td>1st Year</td>
                                 <td>A</td>
-                                <td>Library Fee</td>
-                                <td>₱200.00</td>
+                                <td>CSC Fee</td>
+                                <td>₱500.00</td>
                                 <td>Unpaid</td>
                                 <td>
                                     <label class="checkbox-container">
