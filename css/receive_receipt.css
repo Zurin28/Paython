@@ -21,65 +21,157 @@
 /* Filter Section */
 .filter-section {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 15px;
     margin-bottom: 20px;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.search-group {
-    flex: 1;
-    min-width: 250px;
-}
-
-.search-box {
-    display: flex;
-    align-items: center;
-    background: #f8f9fa;
-    border: 1px solid #e0e0e0;
+    padding: 15px;
+    background: #fff;
     border-radius: 8px;
-    padding: 8px 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-.search-box i {
-    color: #666;
-    margin-right: 10px;
-}
-
-.search-box input {
-    border: none;
-    background: none;
-    width: 100%;
-    padding: 5px;
+/* Filter Select Styles */
+.filter-select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
     font-size: 14px;
+    min-width: 150px;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
 }
 
-.search-box input:focus {
+.filter-select:hover {
+    border-color: #1a7431;
+}
+
+.filter-select:focus {
     outline: none;
+    border-color: #1a7431;
+    box-shadow: 0 0 0 2px rgba(26, 116, 49, 0.1);
 }
 
-.filter-group {
-    display: flex;
-    gap: 10px;
-}
-
-.filter-date-btn {
+/* Search Filter Styles */
+.search-filter {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    margin-left: auto;
+    position: relative;
+}
+
+.search-bar {
+    padding: 10px 15px 10px 40px;
+    border: 2px solid #e0e0e0;
+    border-radius: 30px;
+    font-size: 14px;
+    width: 250px;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.search-bar:focus {
+    outline: none;
+    border-color: #1a7431;
+    box-shadow: 0 0 10px rgba(26, 116, 49, 0.1);
+    background: #fff;
+}
+
+.search-bar:hover {
+    border-color: #1a7431;
+    background: #fff;
+}
+
+/* Search Icon */
+.search-filter i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    font-size: 18px;
+}
+
+/* Search Button */
+.search-btn {
     padding: 8px 20px;
     background: #1a7431;
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 30px;
     cursor: pointer;
     font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.search-btn:hover {
+    background: #145726;
+}
+
+.search-btn i {
+    font-size: 16px;
+}
+
+/* Filter Date Button */
+.filter-date-btn {
+    padding: 8px 20px;
+    background: #1a7431;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     transition: all 0.3s ease;
 }
 
 .filter-date-btn:hover {
     background: #145726;
+}
+
+.filter-date-btn i {
+    font-size: 16px;
+}
+
+/* Placeholder color */
+.search-bar::placeholder {
+    color: #999;
+    font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .filter-section {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .search-filter {
+        margin-left: 0;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .search-bar {
+        width: 100%;
+    }
+
+    .search-btn,
+    .filter-date-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .filter-select {
+        width: 100%;
+    }
 }
 
 /* Table Styles */
@@ -185,39 +277,6 @@ tbody tr:hover {
 
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .filter-section {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .search-group {
-        width: 100%;
-    }
-}
-
-@media (max-width: 768px) {
-    .content-wrapper {
-        margin-left: 80px;
-        padding: 15px;
-        padding-top: 70px;
-    }
-
-    .table-container {
-        padding: 15px;
-    }
-
-    .action-buttons {
-        flex-direction: column;
-    }
-
-    .btn {
-        width: 100%;
-        text-align: center;
-    }
-}
-
 /* Scrollbar Styles */
 .table-container {
     overflow-x: auto;
@@ -262,4 +321,5 @@ tbody tr:hover {
 .close:hover {
     color: #333;
     background: rgba(0, 0, 0, 0.1);
-} 
+}
+ 

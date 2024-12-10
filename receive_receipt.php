@@ -16,19 +16,21 @@
         <div class="content-wrapper">
             <div class="table-container">
                 <!-- Updated filter section -->
+               
                 <div class="filter-section">
-                    <div class="search-group">
-                        <div class="search-box">
+                    
+                    <div class="search-filter">
+                        <i class='bx bx-search'></i>
+                        <input type="text" class="search-bar" placeholder="Search receipt or student name...">
+                        <button class="search-btn">
                             <i class='bx bx-search'></i>
-                            <input type="text" id="searchInput" placeholder="Search student name or ID...">
-                        </div>
-                    </div>
-                    <div class="filter-group">
-                        <button class="filter-date-btn" id="dateFilter">
-                            <i class='bx bx-sort'></i>
-                            Sort by Date
+                            Search
                         </button>
                     </div>
+                    <button class="filter-date-btn">
+                        <i class='bx bx-calendar'></i>
+                        Filter by Date
+                    </button>
                 </div>
 
                 <table>
@@ -46,9 +48,9 @@
                         <tr>
                             <td>2021-00001</td>
                             <td>Juan Dela Cruz</td>
-                            <td>CSC Palaro Fee</td>
+                            <td>CSC Fee</td>
                             <td>GCash</td>
-                            <td>2024-03-15</td>
+                            <td>2024-10-15</td>
                             <td class='action-buttons'>
                                 <button onclick="viewReceipt('sample_receipt.jpg')" class="btn view">View</button>
                                 <button onclick="acceptPayment('2021-00001')" class="btn accept">Accept</button>
@@ -56,11 +58,11 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>2021-00002</td>
-                            <td>Maria Santos</td>
-                            <td>Publication Fee</td>
+                        <td>2021-00001</td>
+                            <td>Mariane Soriano</td>
+                            <td>CSC Fee</td>
                             <td>GCash</td>
-                            <td>2024-03-14</td>
+                            <td>2024-10-15</td>
                             <td class='action-buttons'>
                                 <button onclick="viewReceipt('img/pic.jpg')" class="btn view">View</button>
                                 <button onclick="acceptPayment('2021-00002')" class="btn accept">Accept</button>
@@ -82,8 +84,8 @@
     </div>
 
     <script>
-        // Sidebar toggle functionality
-        let sidebar = document.querySelector(".sidebar");
+       // Sidebar toggle functionality
+       let sidebar = document.querySelector(".sidebar");
         let sidebarBtn = document.querySelector(".bx-menu");
         
         sidebarBtn.addEventListener("click", () => {

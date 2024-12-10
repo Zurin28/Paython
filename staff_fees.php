@@ -40,11 +40,11 @@ session_start();
                 <tbody>
                     <tr>
                         <td>FEE001</td>
-                        <td>CSC Membership</td>
+                        <td>CSC Fee</td>
                         <td>₱500</td>
-                        <td>Mar 15, 2024</td>
-                        <td>Apr 15, 2024</td>
-                        <td>John Doe</td>
+                        <td>Oct 10, 2024</td>
+                        <td>Nov 15, 2024</td>
+                        <td>Justine Carl Morgia</td>
                         <td><span class="status pending">Pending</span></td>
                         <td>
                             <div class="action-buttons">
