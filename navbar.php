@@ -7,7 +7,7 @@ $page_titles = [
     'admin_dashboard.php' => 'Dashboard',
     'studentlist.php' => 'Student List',
     'admin_organizations.php' => 'Organizations',
-    'staff_organizations.php' => 'LogIn Logs',
+    'admin_login_logs.php' => 'LogIn Logs',
     // Add more pages as needed
 ];
 
@@ -64,7 +64,7 @@ $current_title = isset($page_titles[$current_page]) ? $page_titles[$current_page
                 </a>
             </li>
             <li>
-                <a href="staff_organizations.php" data-name="LogIn Logs" class="menu-item">
+                <a href="admin_login_logs.php" data-name="LogIn Logs" class="menu-item">
                     <i class='bx bx-group'></i>
                     <span class="list_name">LogIn Logs</span>
                 </a>
