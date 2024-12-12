@@ -4,11 +4,11 @@
         PayThon
     </div>
     <nav class="nav">
-        <a href="stundent_overview.php" <?php echo (basename($_SERVER['PHP_SELF']) == 'stundent_overview.php') ? 'class="active"' : ''; ?>>Overview</a>
-        <a href="student_payment.php" <?php echo (basename($_SERVER['PHP_SELF']) == 'student_payment.php') ? 'class="active"' : ''; ?>>Payments</a>
+        <a href="student.staff.php" <?php echo (basename($_SERVER['PHP_SELF']) == 'student.staff.php') ? 'class="active"' : ''; ?>>Overview</a>
+        <a href="student.staff.payment.php" <?php echo (basename($_SERVER['PHP_SELF']) == 'student.staff.payment.php') ? 'class="active"' : ''; ?>>Payments</a>
     </nav>
     <div style="display: flex; align-items: center; gap: 20px;">
-        <?php if (basename($_SERVER['PHP_SELF']) == 'student_payment.php'): ?>
+        <?php if (basename($_SERVER['PHP_SELF']) == 'student.staff.payment.php'): ?>
         <div class="search-container">
             <i class='bx bx-search search-icon'></i>
             <input type="text" class="search-input" placeholder="Search payments...">

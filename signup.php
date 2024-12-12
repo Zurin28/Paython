@@ -1,5 +1,6 @@
 <?php
 require_once "account.class.php";
+require_once "Fee.class.php";
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -23,39 +24,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Hash the password before storing it
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        // Create an Account object
+        // Create objects and get database connection
+        $db = new Database();
+        $conn = $db->connect();
         $accObj = new Account();
+        $feeObj = new Fee();
 
         // Check if the account already exists
         if ($accObj->accountExists($studentId, $wmsuEmail)) {
             echo "<p style='color: red;'>Student ID or WMSU Email already exists. Please try again with different credentials.</p>";
         } else {
-            // Create the account with the hashed password
+            try {
+                // Start transaction
+                $conn->beginTransaction();
 
-            }
-            if($role == "staff"){
-                $isCreated = $accObj->createStaffAcc($studentId, $first_name, $last_name, $mi, $wmsuEmail, $hashedPassword, $role, $course, $year, $section);
-            }
-            elseif($role == "admin"){
-                $isCreated = $accObj->createAdminAcc($studentId, $first_name, $last_name, $mi, $wmsuEmail, $hashedPassword, $role, $course, $year, $section);
-            }
-            else{
-                $isCreated = $accObj->createStudAcc($studentId, $first_name, $last_name, $mi, $wmsuEmail, $hashedPassword, $role, $course, $year, $section);
-            }
-            
-            if ($isCreated) {
-                echo "<p style='color: green;'>Account created successfully. You can now log in.</p>";
+                // Create the account based on role
+                $isCreated = false;
+                if($role == "staff") {
+                    $isCreated = $accObj->createStaffAcc($studentId, $first_name, $last_name, $mi, $wmsuEmail, $hashedPassword, $role, $course, $year, $section);
+                }
+                elseif($role == "admin") {
+                    $isCreated = $accObj->createAdminAcc($studentId, $first_name, $last_name, $mi, $wmsuEmail, $hashedPassword, $role, $course, $year, $section);
+                }
+                else {
+                    $isCreated = $accObj->createStudAcc($studentId, $first_name, $last_name, $mi, $wmsuEmail, $hashedPassword, $role, $course, $year, $section);
+                    
+                    // Initialize student fees only for student accounts
+                    if ($isCreated) {
+                        if (!$feeObj->initializeStudentFees($studentId)) {
+                            throw new Exception("Failed to initialize student fees");
+                        }
+                    }
+                }
 
-                // Delay using sleep and a meta-refresh tag
-                echo "<meta http-equiv='refresh' content='3;url=login.php'>";
-
-                exit;
-            } else {
+                if ($isCreated) {
+                    // Commit transaction
+                    $conn->commit();
+                    
+                    echo "<p style='color: green;'>Account created successfully. You can now log in.</p>";
+                    // Delay using sleep and a meta-refresh tag
+                    echo "<meta http-equiv='refresh' content='3;url=login.php'>";
+                    exit;
+                } else {
+                    throw new Exception("Failed to create account");
+                }
+            } catch (Exception $e) {
+                // Rollback on error
+                if ($conn->inTransaction()) {
+                    $conn->rollBack();
+                }
                 echo "<p style='color: red;'>Failed to create account. Please try again later.</p>";
+                error_log("Error in signup: " . $e->getMessage());
             }
         }
     }
-
+}
 ?>
 
 <!DOCTYPE html>

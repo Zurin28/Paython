@@ -48,10 +48,10 @@ value: try {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $orgName = $_POST['org_name'];
+    $organizationName = $_POST['org_name'];
     $orgID = $_POST['org_id'];
     
-    createOrg($orgName);
+
 
 } 
 ?>
@@ -100,10 +100,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <td><?php echo htmlspecialchars($org['org_id']); ?></td>
                             <td><?php echo htmlspecialchars($org['name']); ?></td>
                             <td class="actions">
-                                <button class="btn view-members-btn" data-id="<?php echo $org['id']; ?>">
+                                <button class="btn view-members-btn" data-id="<?php echo htmlspecialchars($org['org_id']); ?>" data-name="<?php echo htmlspecialchars($org['name']); ?>">
                                     <i class="fas fa-users"></i> View Members
                                 </button>
-                                <button class="btn view-payments-btn" data-id="<?php echo $org['id']; ?>">
+                                <button class="btn view-payments-btn" data-id="<?php echo htmlspecialchars($org['org_id']); ?>" data-name="<?php echo htmlspecialchars($org['name']); ?>">
                                     <i class="fas fa-money-bill"></i> View Payments
                                 </button>
                                 <button class="btn add-member-btn" data-id="<?php echo $org['id']; ?>" data-name="<?php echo htmlspecialchars($org['name']); ?>">
@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="modal-content">
                     <span class="close">&times;</span>
                     <h3 id="modal-title">Add Organization</h3>
-                    <form action="add_organization_handler.php"  method="post">
+                    <form id="add-org-form" method="post">
                         <div class="form-group">
                             <label for="org_name">Organization Name</label>
                             <input type="text" id="org_name" name="org_name" required>
@@ -136,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <label for="org_id">Organization ID</label>
                             <input type="text" id="org_id" name="org_id" required>
                         </div>
-                        <button type="submit" name="add_org" class="btn" id="org-form" >
+                        <button type="submit" class="btn">
                             <i class="fas fa-plus"></i> Add Organization
                         </button>
                     </form>
@@ -146,14 +146,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 ?>
 
-
-            <div id="members-modal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h3>Organization Members</h3>
-                    <div id="members-list"></div>
-                </div>
-            </div>
 
             <div id="payments-modal" class="modal">
                 <div class="modal-content">
@@ -165,54 +157,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <!-- Add Member Modal -->
             <div id="add-member-modal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h3>Add Member to <span id="org-name-display"></span></h3>
-                    <form id="add-member-form" method="post">
-                        <input type="hidden" name="org_id" id="member-org-id">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="student_id">Student ID</label>
-                                <input type="text" id="student_id" name="student_id" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="student_name">Student Name</label>
-                                <input type="text" id="student_name" name="student_name" required>
-                            </div>
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Add Member to <span id="org-name-display"></span></h3>
+                            <span class="close">&times;</span>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="course">Course</label>
-                                <select id="course" name="course" required>
-                                    <option value="">Select Course</option>
-                                    <option value="CS">Computer Science</option>
-                                    <option value="IT">Information Technology</option>
-                                    <option value="ACT-APPDEV">ACT - Application Development</option>
-                                    <option value="ACT-NETWORK">ACT - Networking</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="year">Year</label>
-                                <select id="year" name="year" required>
-                                    <option value="">Select Year</option>
-                                    <option value="1">1st Year</option>
-                                    <option value="2">2nd Year</option>
-                                    <option value="3">3rd Year</option>
-                                    <option value="4">4th Year</option>
-                                    <option value="5">Over 4 Years</option>
-                                </select>
-                            </div>
+                        <div class="modal-body">
+                            <form id="add-member-form" method="post">
+                                <input type="hidden" name="org_id" id="member-org-id">
+                                <div class="form-group">
+                                    <label for="student_id">Student ID</label>
+                                    <input type="text" id="student_id" name="student_id" required>
+                                </div>
+                                <div class="student-details">
+                                    <div class="form-group">
+                                        <label for="student_name">Student Name</label>
+                                        <input type="text" id="student_name" name="student_name" readonly>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="course">Course</label>
+                                            <input type="text" id="course" name="course" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="year">Year</label>
+                                            <input type="text" id="year" name="year" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="section">Section</label>
+                                            <input type="text" id="section" name="section" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Email</label>
+                                            <input type="text" id="email" name="email" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="position">Position</label>
+                                        <select id="position" name="position" required>
+                                            <option value="">Select Position</option>
+                                            <option value="President">President</option>
+                                            <option value="Vice President">Vice President</option>
+                                            <option value="Secretary">Secretary</option>
+                                            <option value="Treasurer">Treasurer</option>
+                                            <option value="Member">Member</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn" id="add-member-submit">
+                                        <i class="fas fa-plus"></i> Add Member
+                                    </button>
+                                </div>
+                            </form>
                         </div>
-                        <div class="form-group">
-                            <label for="position">Position</label>
-                            <input type="text" id="position" name="position" required placeholder="Enter position">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" name="add_member" class="btn">
-                                <i class="fas fa-plus"></i> Add Member
-                            </button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
 
@@ -222,6 +224,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <span class="close">&times;</span>
                     <h3>Add Payment for <span id="payment-org-name"></span></h3>
                     <form id="add-payment-form" method="post">
+                        <input type="hidden" name="add_payment" value="1">
                         <input type="hidden" name="org_id" id="payment-org-id">
                         <div class="form-row">
                             <div class="form-group">
@@ -262,6 +265,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </section>
 
+    <!-- View Members Modal -->
+    <div id="view-members-modal" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Members of <span id="org-name-header"></span></h3>
+                    <span class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="members-table">
+                            <thead>
+                                <tr>
+                                    <th style="border: 1px solid #ddd;">#</th>
+                                    <th style="border: 1px solid #ddd;">Student ID</th>
+                                    <th style="border: 1px solid #ddd;">Name</th>
+                                    <th style="border: 1px solid #ddd;">Email</th>
+                                    <th style="border: 1px solid #ddd;">Position</th>
+                                    <th style="border: 1px solid #ddd;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="members-table-body">
+                                <!-- Members will be loaded here dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Payments Modal -->
+    <div id="view-payments-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Payments for <span id="org-name-payments"></span></h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <table class="payments-table">
+                    <thead>
+                        <tr>
+                            <th style="border: 1px solid #ddd;">#</th>
+                            <th style="border: 1px solid #ddd;">Fee Name</th>
+                            <th style="border: 1px solid #ddd;">Amount</th>
+                            <th style="border: 1px solid #ddd;">Due Date</th>
+                            <th style="border: 1px solid #ddd;">Description</th>
+                            <th style="border: 1px solid #ddd;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="payments-table-body">
+                        <!-- Payments will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="organizations.js"></script>
     <script>
@@ -272,5 +333,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             sidebar.classList.toggle("active");
         }
     </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Modal element exists:', !!document.getElementById('view-payments-modal'));
+        console.log('Table body exists:', !!document.getElementById('payments-table-body'));
+        console.log('Org name span exists:', !!document.getElementById('org-name-payments'));
+    });
+    </script>
+    <div class="modal" id="payments-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Organization Payments</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="payments-content">
+                        <!-- Payments will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -105,7 +105,7 @@ class ModalController {
 
     closeModal(modal) {
         if (!modal) return;
-        
+
         modal.style.display = 'none';
         document.body.style.overflow = ''; // Restore scrolling
 
@@ -120,61 +120,76 @@ document.addEventListener('DOMContentLoaded', () => {
     new ModalController();
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Get modal elements
+document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('show-fees-modal');
     const closeBtn = modal.querySelector('.close');
-    const viewButtons = document.querySelectorAll('.view-status-btn');
+    const loadingIndicator = document.getElementById('loading-indicator');
 
-    // Open modal when View button is clicked
-    viewButtons.forEach(button => {
-        button.onclick = function() {
-            const studentId = this.getAttribute('data-student-id');
+    // Event delegation for view buttons
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('view-status-btn') ||
+            e.target.closest('.view-status-btn')) {
+            const button = e.target.classList.contains('view-status-btn') ?
+                e.target :
+                e.target.closest('.view-status-btn');
+            const studentId = button.getAttribute('data-student-id');
+
             modal.style.display = "block";
-            
-            // Here you can add AJAX call to fetch student fees
-            fetchStudentFees(studentId);
+            loadingIndicator.style.display = "block";
+
+            fetch(`get_student_fees.php?student_id=${studentId}`)
+                .then(response => response.json())
+                .then(data => {
+                    loadingIndicator.style.display = "none";
+                    updateFeesTable(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    loadingIndicator.style.display = "none";
+                });
         }
     });
 
+    function updateFeesTable(fees) {
+        const tbody = document.querySelector('#feesTable tbody');
+        tbody.innerHTML = ''; // Clear existing rows
+
+        if (fees.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="5" class="text-center">No fees found for this student</td>
+                </tr>`;
+            return;
+        }
+
+        fees.forEach((fee, index) => {
+            const statusClass = fee.paymentStatus.toLowerCase().replace(/\s+/g, '-');
+            const row = `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${fee.organization}</td>
+                    <td>${fee.FeeName}</td>
+                    <td>₱${fee.Amount}</td>
+                    <td>
+                        <span class="status-badge ${statusClass}">
+                            ${fee.paymentStatus}
+                        </span>
+                    </td>
+                </tr>
+            `;
+            tbody.innerHTML += row;
+        });
+    }
+
     // Close modal when X is clicked
-    closeBtn.onclick = function() {
+    closeBtn.onclick = function () {
         modal.style.display = "none";
     }
 
     // Close modal when clicking outside
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
-    }
-
-    // Function to fetch student fees (you'll need to implement this)
-    function fetchStudentFees(studentId) {
-        // Example AJAX call
-        fetch(`get_student_fees.php?student_id=${studentId}`)
-            .then(response => response.json())
-            .then(data => {
-                const tbody = document.querySelector('#feesTable tbody');
-                tbody.innerHTML = ''; // Clear existing rows
-                
-                data.forEach((fee, index) => {
-                    const row = `
-                        <tr>
-                            <td>${index + 1}</td>
-                            <td>${fee.organization}</td>
-                            <td>${fee.fee_name}</td>
-                            <td>${fee.amount}</td>
-                            <td>
-                                <span class="status-badge ${fee.status.toLowerCase()}">
-                                    ${fee.status}
-                                </span>
-                            </td>
-                        </tr>
-                    `;
-                    tbody.innerHTML += row;
-                });
-            })
-            .catch(error => console.error('Error:', error));
     }
 });

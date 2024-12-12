@@ -53,5 +53,56 @@ class StudentFee {
         $qry->bindParam(':feeID', $feeID);
         return $qry->execute();
     }
+
+    public function getStudentFeesWithDetails($organizationId = null) {
+        try {
+            $sql = "SELECT 
+                    a.StudentID as studentID,
+                    a.first_name,
+                    a.last_name,
+                    a.Course,
+                    a.Year,
+                    a.Section,
+                    f.FeeID,
+                    f.FeeName,
+                    f.Amount
+                FROM account a, fees f";
+            
+            // Add WHERE clause if organizationId is provided
+            if ($organizationId) {
+                $sql .= " WHERE f.OrgID = :orgId";
+                $qry = $this->db->connect()->prepare($sql);
+                $qry->execute([':orgId' => $organizationId]);
+            } else {
+                $qry = $this->db->connect()->prepare($sql);
+                $qry->execute();
+            }
+            
+            return $qry->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error in getStudentFeesWithDetails: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function getStudentFeeStatus($studentId, $feeId) {
+        try {
+            $sql = "SELECT paymentStatus FROM student_fees 
+                    WHERE studentID = :studentId 
+                    AND feeID = :feeId";
+            
+            $qry = $this->db->connect()->prepare($sql);
+            $qry->execute([
+                ':studentId' => $studentId,
+                ':feeId' => $feeId
+            ]);
+            
+            $result = $qry->fetch(PDO::FETCH_ASSOC);
+            return $result ? $result['paymentStatus'] : 'Unpaid';
+        } catch (PDOException $e) {
+            error_log("Error getting fee status: " . $e->getMessage());
+            return 'Unpaid';
+        }
+    }
 }
 ?>

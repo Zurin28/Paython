@@ -1,7 +1,7 @@
 <?php 
 session_start();
 require_once "account.class.php";
-require_once 'fee.class.php';
+require_once 'Fee.class.php';
 require_once 'classes/Organization.php';
 ?>
 
@@ -108,27 +108,28 @@ require_once 'classes/Organization.php';
         </div>
     </section>
 
-    <!-- Fee Status Modal -->
-    <div id="show-fees-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3>Student Fees Status</h3>
-            <table id="feesTable" class="custom-table">
-                <thead>
-                    <tr>
-                        <th>NO.</th>
-                        <th>Organization</th>
-                        <th>Fee Name</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Fee rows will be dynamically added here -->
-                </tbody>
-            </table>
-        </div>
+   <!-- Fee Status Modal -->
+<div id="show-fees-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Student Fees Status</h3>
+        <div id="loading-indicator" style="display: none;">Loading...</div>
+        <table id="feesTable" class="custom-table">
+            <thead>
+                <tr>
+                    <th>NO.</th>
+                    <th>Organization</th>
+                    <th>Fee Name</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Fee rows will be dynamically added here -->
+            </tbody>
+        </table>
     </div>
+</div>
 
     <script src="js/modal.js"></script>
     <script src="js/student.js"></script>

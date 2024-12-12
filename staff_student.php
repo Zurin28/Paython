@@ -1,5 +1,29 @@
 <?php 
 session_start();
+require_once 'classes/Organization.php';
+require_once 'studentfees.class.php';
+
+// Test database connection
+try {
+    $db = new Database();
+    $conn = $db->connect();
+    error_log("Database connection successful");
+} catch (Exception $e) {
+    error_log("Database connection failed: " . $e->getMessage());
+}
+
+// Initialize classes
+$organizationObj = new Organization();
+$studentFeeObj = new StudentFee();
+
+// Get selected organization from URL parameter
+$selectedOrgId = isset($_GET['org']) ? $_GET['org'] : null;
+
+// Get organizations for dropdown
+$organizations = $organizationObj->getAllOrganizations();
+
+// Get student fees data filtered by organization if selected
+$studentFees = $studentFeeObj->getStudentFeesWithDetails($selectedOrgId);
 ?>
 
 <!DOCTYPE html>
@@ -50,73 +74,52 @@ session_start();
             
             <div class="table-wrapper">
                 <table class="custom-table">
-                    <!-- Your table content -->
                     <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Course</th>
+                            <th>Year</th>
+                            <th>Section</th>
+                            <th>Fee Name</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($studentFees as $fee): 
+                            $status = $studentFeeObj->getStudentFeeStatus($fee['studentID'], $fee['FeeID']);
+                        ?>
                             <tr>
-                                <th>Student ID</th>
-                                <th>Name</th>
-                                <th>Course</th>
-                                <th>Year</th>
-                                <th>Section</th>
-                                <th>Fee Name</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>2021-00001</td>
-                                <td>Juan Dela Cruz</td>
-                                <td>BSCS</td>
-                                <td>3rd Year</td>
-                                <td>A</td>
-                                <td>CSC Fee</td>
-                                <td>₱500.00</td>
-                                <td>Unpaid</td>
+                                <td><?php echo htmlspecialchars($fee['studentID']); ?></td>
+                                <td><?php echo htmlspecialchars($fee['first_name'] . ' ' . $fee['last_name']); ?></td>
+                                <td><?php echo htmlspecialchars($fee['Course']); ?></td>
+                                <td><?php echo htmlspecialchars($fee['Year']); ?></td>
+                                <td><?php echo htmlspecialchars($fee['Section']); ?></td>
+                                <td><?php echo htmlspecialchars($fee['FeeName']); ?></td>
+                                <td>₱<?php echo number_format($fee['Amount'], 2); ?></td>
+                                <td><?php echo htmlspecialchars($status); ?></td>
                                 <td>
-                                    <label class="checkbox-container">
-                                        <input type="checkbox" onchange="updateStatus(this, '2021-00001')">
-                                        <span class="checkmark"></span>
-                                    </label>
+                                    <?php if ($status !== 'Paid'): ?>
+                                        <label class="checkbox-container">
+                                            <input type="checkbox" onchange="updateStatus(this, '<?php echo $fee['studentID']; ?>')">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    <?php else: ?>
+                                        <span class="paid-status">Paid</span>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>2021-00002</td>
-                                <td>Mariane Soriano</td>
-                                <td>BSCS</td>
-                                <td>2nd Year</td>
-                                <td>B</td>
-                                <td>CSC Fee</td>
-                                <td>₱500.00</td>
-                                <td>Paid</td>
-                                <td><span class="paid-status">Paid</span></td>
-                            </tr>
-                            <tr>
-                                <td>2021-00003</td>
-                                <td>John Cruz</td>
-                                <td>BSIT</td>
-                                <td>1st Year</td>
-                                <td>A</td>
-                                <td>CSC Fee</td>
-                                <td>₱500.00</td>
-                                <td>Unpaid</td>
-                                <td>
-                                    <label class="checkbox-container">
-                                        <input type="checkbox" onchange="updateStatus(this, '2021-00003')">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                        <?php endforeach; ?>
+                    </tbody>
                 </table>
             </div>
         </div>
     </div>
 
     <script>
-          let sidebar = document.querySelector(".sidebar");
+        let sidebar = document.querySelector(".sidebar");
         let sidebarBtn = document.querySelector(".sidebarBtn");
         sidebarBtn.onclick = function() {
             sidebar.classList.toggle("active");
@@ -130,6 +133,15 @@ session_start();
                 alert(`Payment status updated for Student ID: ${studentId}`);
             }
         }
+
+        document.getElementById('organizationSelect').addEventListener('change', function() {
+            const orgId = this.value;
+            if (orgId) {
+                window.location.href = 'staff_student.php?org=' + orgId;
+            } else {
+                window.location.href = 'staff_student.php';
+            }
+        });
     </script>
 </body>
 </html>

@@ -40,7 +40,7 @@ $feeInfo = $feeObj->viewFees();
             </div>
         <?php } ?>
 
-            <button class="view-all"><a href="student_payment.php">View All</a></button>
+            <button class="view-all"><a href="student.staff.payment.php">View All</a></button>
         </div>
     </main>
     <script>

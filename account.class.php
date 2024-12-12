@@ -117,8 +117,7 @@ class Account{
  */
 function createStudAcc($studentId, $first_name, $last_name, $mi, $wmsuEmail, $password, $role, $course, $year, $section) {
     try {
-        // Determine role flags
-        
+        $this->db->connect()->beginTransaction();
 
         $sql = "INSERT INTO account 
                 (StudentID, first_name, last_name, MI, WmsuEmail, Password, role, Course, Year, Section, isstaff, isadmin)
@@ -139,9 +138,19 @@ function createStudAcc($studentId, $first_name, $last_name, $mi, $wmsuEmail, $pa
         $qry->bindParam(':section', $section, PDO::PARAM_STR);
 
         $qry->execute();
-        return true; // Successfully created account
+
+        // Initialize student fees
+        $fee = new Fee();
+        $fee->initializeStudentFees($studentId);
+
+        $this->db->connect()->commit();
+        return true;
     } catch (PDOException $e) {
-        return false; // Error occurred
+        if ($this->db->connect()->inTransaction()) {
+            $this->db->connect()->rollBack();
+        }
+        error_log("Error in createStudAcc: " . $e->getMessage());
+        return false;
     }
 }
  
@@ -320,6 +329,21 @@ function getOrganizationId($studentId, $feeId) {
     
     // Return the organization ID, or null if not found
     return $result['OrganizationID'] ?? null;
+}
+
+function getStudentDetails($studentID) {
+    try {
+        $sql = "SELECT StudentID, first_name, last_name, Course, Year, Section, WmsuEmail 
+                FROM account 
+                WHERE StudentID = :studentID";
+        $qry = $this->db->connect()->prepare($sql);
+        $qry->bindParam(':studentID', $studentID, PDO::PARAM_STR);
+        $qry->execute();
+        return $qry->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error fetching user details: " . $e->getMessage());
+        return null;
+    }
 }
 
 

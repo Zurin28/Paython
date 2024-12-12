@@ -1,4 +1,9 @@
 <?php
+require_once 'classes/Organization.php';
+$organizationObj = new Organization();
+$organizations = $organizationObj->getAllOrganizations();
+
+
 $current_page = basename($_SERVER['PHP_SELF']);
 
 // Define page titles
@@ -107,14 +112,15 @@ $current_title = isset($page_titles[$current_page]) ? $page_titles[$current_page
         </div>
         
         <div class="org-dropdown">
-            <button class="dropbtn">
-                Select Organization 
-                <i class='bx bx-chevron-down'></i>
-            </button>
-            <div class="dropdown-content">
-                <a href="#">CSC</a>
-                <a href="#">Gender</a>
-            </div>
+            <select id="organizationSelect" class="org-select">
+                <option value="">Select Organization</option>
+                <?php foreach ($organizations as $org): ?>
+                    <option value="<?php echo htmlspecialchars($org['org_id']); ?>"
+                            <?php echo (isset($_GET['org']) && $_GET['org'] == $org['org_id']) ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($org['name']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
         </div>
     </nav>
 
