@@ -3,6 +3,16 @@ session_start();
 require_once "account.class.php";
 require_once 'Fee.class.php';
 require_once 'classes/Organization.php';
+require_once 'classes/academicperiod.class.php';
+
+// Get current academic period
+$academicPeriod = new AcademicPeriod();
+$currentPeriod = $academicPeriod->getCurrentAcademicPeriod();
+
+if (!$currentPeriod) {
+    echo "<p style='color: red;'>No active academic period set. Please contact the administrator.</p>";
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -60,16 +70,16 @@ require_once 'classes/Organization.php';
 
                         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['searchQuery'])) {
                             $searchQuery = trim($_POST['searchQuery']);
-                            $accInfo = $account->searchAccounts($searchQuery);
+                            $accInfo = $account->searchAccounts($searchQuery, $currentPeriod['school_year'], $currentPeriod['semester']);
                         } else {
-                            $accInfo = $account->viewAccounts();
+                            $accInfo = $account->viewAccounts($currentPeriod['school_year'], $currentPeriod['semester']);
                         }
 
                         if (empty($accInfo)) {
                         ?>
                         <tr>
                             <td colspan="8">
-                                <p class="search">No Student Information</p>
+                                <p class="search">No Student Information for <?= htmlspecialchars($currentPeriod['school_year']) ?> - <?= htmlspecialchars($currentPeriod['semester']) ?> Semester</p>
                             </td>
                         </tr>
                         <?php 

@@ -1,0 +1,220 @@
+body {
+    color: #333;
+    padding-top: 80px;
+}
+
+.home-section {
+    position: relative;
+    background: #f5f5f5;
+    min-height: 100vh;
+    width: calc(100% - 240px);
+    left: 240px;
+    transition: all 0.5s ease;
+}
+
+.home-content {
+    padding: 20px;
+}
+
+.content-wrapper {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.form-section {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.form-section h3 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    max-width: 400px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #1a7431;
+}
+
+.admin-logs-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.admin-logs-table thead {
+    background-color: #f8f9fa;
+}
+
+.admin-logs-table th {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 2px solid #dee2e6;
+    color: #333;
+    font-weight: 600;
+}
+
+.admin-logs-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #dee2e6;
+    vertical-align: middle;
+}
+
+.admin-logs-table tbody tr:hover {
+    background-color: #f1f3f5;
+    transition: background-color 0.3s ease;
+}
+
+.status-badge {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.status-approved {
+    background: #e6f4ea;
+    color: #1a7431;
+}
+
+.btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.btn-success {
+    background-color: #1a7431;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #155c25;
+}
+
+.btn-custom-green {
+    background-color: #1a7431;
+    color: white;
+    border: 1px solid #1a7431;
+}
+
+.btn-custom-green:hover {
+    background-color: #155c25;
+    color: white;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Add new search styles */
+.search-filter {
+    margin-bottom: 20px;
+}
+
+.search-filter form {
+    display: flex;
+    gap: 10px;
+}
+
+.search-bar {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.search-button {
+    padding: 8px 16px;
+    background-color: #1a7431;
+    /* Changed to match your green theme */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-button:hover {
+    background-color: #155c25;
+    /* Changed to match your hover green */
+}
+
+/* Update the h3 styling */
+.content-wrapper h3 {
+    font-weight: 700;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #1a7431;
+}
+
+.page-title {
+    font-weight: 700;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #1a7431;
+}
+
+/* Add this at the top of your CSS file to ensure it has high specificity */
+.home-section .content-wrapper .page-title {
+    font-weight: 700 !important;
+    font-size: 24px !important;
+    color: #333 !important;
+    margin-bottom: 20px !important;
+    padding-bottom: 10px !important;
+    border-bottom: 2px solid #1a7431 !important;
+}

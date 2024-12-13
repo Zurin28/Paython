@@ -104,8 +104,20 @@ document.addEventListener("DOMContentLoaded", () => {
   // Fee Management Functions
   function populateFeesTable(data) {
       feesTableBody.innerHTML = ""; // Clear existing rows
-      if (data.length > 0) {
-          data.forEach((fee, index) => {
+      
+      // Add academic period header if available
+      if (data.academic_period) {
+          const headerRow = document.createElement("tr");
+          headerRow.innerHTML = `
+              <td colspan="3" class="academic-period-header">
+                  ${data.academic_period.school_year} - ${data.academic_period.semester} Semester
+              </td>
+          `;
+          feesTableBody.appendChild(headerRow);
+      }
+
+      if (data.fees && data.fees.length > 0) {
+          data.fees.forEach((fee, index) => {
               const row = document.createElement("tr");
               row.innerHTML = `
                   <td>${index + 1}</td>
@@ -117,28 +129,38 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
           // If no data is available, display a message
           const row = document.createElement("tr");
-          row.innerHTML = `<td colspan="3">No fees data found</td>`;
+          row.innerHTML = `<td colspan="3">No fees data found for this period</td>`;
           feesTableBody.appendChild(row);
       }
   }
 
   // Event delegation to handle clicks on all "View Status" buttons
   studentTable.addEventListener("click", (event) => {
-      // Check if the clicked element is a "view status" button
       if (event.target && event.target.classList.contains("view-status-btn")) {
           const studentId = event.target.dataset.studentId;
 
           // Show the fees modal
           showFeesModal.style.display = "block";
 
-          // Fetch the fees data related to the student
-          fetch(`fetch_fees.php?student_id=${studentId}`)
-              .then((response) => response.json())
-              .then((data) => {
-                  populateFeesTable(data);  // Populate the table with the fetched data
+          // Fetch current academic period and fees data
+          fetch('get_current_period.php')
+              .then(response => response.json())
+              .then(period => {
+                  if (!period.school_year || !period.semester) {
+                      alert('No active academic period set.');
+                      return;
+                  }
+
+                  // Fetch the fees data with academic period
+                  return fetch(`fetch_fees.php?student_id=${studentId}&school_year=${period.school_year}&semester=${period.semester}`);
+              })
+              .then(response => response.json())
+              .then(data => {
+                  populateFeesTable(data);
               })
               .catch((error) => {
-                  console.error("Error fetching fees data:", error);
+                  console.error("Error fetching data:", error);
+                  feesTableBody.innerHTML = `<tr><td colspan="3">Error loading fee data</td></tr>`;
               });
       }
   });

@@ -181,16 +181,52 @@ document.addEventListener('DOMContentLoaded', function () {
     const addPaymentBtns = document.getElementsByClassName('add-payment-btn');
     for (let btn of addPaymentBtns) {
         btn.onclick = function () {
-            const orgId = this.dataset.id;
-            const orgName = this.dataset.name;
-            document.getElementById('payment-org-id').value = orgId;
-            document.getElementById('payment-org-name').textContent = orgName;
+            // First check if there's an active academic period
+            fetch('get_current_period.php')
+                .then(response => response.json())
+                .then(period => {
+                    if (!period.school_year || !period.semester) {
+                        alert('No active academic period set. Please set an academic period first.');
+                        return;
+                    }
 
-            const dueDate = new Date();
-            dueDate.setDate(dueDate.getDate() + 30);
-            document.getElementById('due_date').value = dueDate.toISOString().split('T')[0];
+                    const orgId = this.dataset.id;
+                    const orgName = this.dataset.name;
+                    document.getElementById('payment-org-id').value = orgId;
+                    document.getElementById('payment-org-name').textContent = orgName;
 
-            addPaymentModal.style.display = 'block';
+                    // Add academic period to hidden inputs
+                    const form = document.getElementById('add-payment-form');
+                    let yearInput = form.querySelector('input[name="school_year"]');
+                    let semesterInput = form.querySelector('input[name="semester"]');
+
+                    if (!yearInput) {
+                        yearInput = document.createElement('input');
+                        yearInput.type = 'hidden';
+                        yearInput.name = 'school_year';
+                        form.appendChild(yearInput);
+                    }
+                    if (!semesterInput) {
+                        semesterInput = document.createElement('input');
+                        semesterInput.type = 'hidden';
+                        semesterInput.name = 'semester';
+                        form.appendChild(semesterInput);
+                    }
+
+                    yearInput.value = period.school_year;
+                    semesterInput.value = period.semester;
+
+                    // Set default due date
+                    const dueDate = new Date();
+                    dueDate.setDate(dueDate.getDate() + 30);
+                    document.getElementById('due_date').value = dueDate.toISOString().split('T')[0];
+
+                    addPaymentModal.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error checking academic period. Please try again.');
+                });
         }
     }
 
@@ -206,32 +242,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Form submissions
-    const addOrgForm = document.getElementById('add-org-form');
-    if (addOrgForm) {
-        addOrgForm.addEventListener('submit', function (e) {
-            e.preventDefault();
 
-            const formData = new FormData(this);
-
-            fetch('add_organization_handler.php', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        alert('Organization added successfully');
-                        window.location.reload(); // Reload the page to show new organization
-                    } else {
-                        alert(data.message || 'Error adding organization');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while adding the organization');
-                });
-        });
-    }
 
     const memberForm = document.getElementById('add-member-form');
     if (memberForm) {
@@ -241,18 +252,30 @@ document.addEventListener('DOMContentLoaded', function () {
             // Check if all required fields are filled
             const studentId = document.getElementById('student_id').value.trim();
             const position = document.getElementById('position').value.trim();
+            const studentName = document.getElementById('student_name').value.trim();
 
-            if (!studentId || !position) {
-                alert('Please fill in all required fields');
+            if (!studentId || !position || !studentName) {
+                alert('Please fill in all required fields and ensure student details are loaded');
                 return;
             }
 
-            const formData = new FormData(this);
+            // First fetch current academic period
+            fetch('get_current_period.php')
+                .then(response => response.json())
+                .then(period => {
+                    if (!period.school_year || !period.semester) {
+                        throw new Error('No active academic period found');
+                    }
 
-            fetch('add_member_handler.php', {
-                method: 'POST',
-                body: formData
-            })
+                    const formData = new FormData(this);
+                    formData.append('school_year', period.school_year);
+                    formData.append('semester', period.semester);
+
+                    return fetch('add_member_handler.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+                })
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
@@ -260,9 +283,49 @@ document.addEventListener('DOMContentLoaded', function () {
                         // Close modal and reset form
                         document.getElementById('add-member-modal').style.display = 'none';
                         this.reset();
-                        // Refresh members list if needed
-                        if (typeof refreshMembersList === 'function') {
-                            refreshMembersList(formData.get('org_id'));
+                        clearAndHideFields(); // Clear and hide fields after successful submission
+                        
+                        // Refresh the members list in the view members modal if it's open
+                        const orgId = formData.get('org_id');
+                        const viewMembersModal = document.getElementById('view-members-modal');
+                        if (viewMembersModal && viewMembersModal.style.display === 'block') {
+                            fetch(`get_org_members.php?org_id=${orgId}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    const tbody = document.getElementById('members-table-body');
+                                    tbody.innerHTML = ''; // Clear existing content
+
+                                    if (data.length === 0) {
+                                        tbody.innerHTML = '<tr><td colspan="6" class="text-center">No members found</td></tr>';
+                                        return;
+                                    }
+
+                                    data.forEach((member, index) => {
+                                        const row = `
+                                            <tr>
+                                                <td style="border: 1px solid #ddd;">${index + 1}</td>
+                                                <td style="border: 1px solid #ddd;">${member.StudentID}</td>
+                                                <td style="border: 1px solid #ddd;">${member.first_name} ${member.last_name}</td>
+                                                <td style="border: 1px solid #ddd;">${member.WmsuEmail}</td>
+                                                <td style="border: 1px solid #ddd;">${member.Position}</td>
+                                                <td style="border: 1px solid #ddd;">
+                                                    <button class="btn btn-danger remove-member-btn" 
+                                                        data-student-id="${member.StudentID}" 
+                                                        data-org-id="${orgId}">
+                                                        <i class="fas fa-user-minus"></i> Remove
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        `;
+                                        tbody.innerHTML += row;
+                                    });
+
+                                    // Reattach event listeners for the new buttons
+                                    attachRemoveButtonListeners();
+                                })
+                                .catch(error => {
+                                    console.error('Error refreshing members list:', error);
+                                });
                         }
                     } else {
                         alert(data.message || 'Failed to add member');
@@ -270,44 +333,91 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('An error occurred while adding the member');
+                    alert('An error occurred while adding the member: ' + error.message);
                 });
         });
     }
 
     if (paymentForm) {
+        console.log('Payment form found:', !!paymentForm);
+
         paymentForm.addEventListener('submit', function (e) {
             e.preventDefault();
+            console.log('Payment form submitted');
 
-            const formData = new FormData(this);
-            formData.append('add_payment', '1');
+            // Validate required fields
+            const feeId = document.getElementById('fee_id').value.trim();
+            const feeName = document.getElementById('fee_name').value.trim();
+            const amount = document.getElementById('amount').value.trim();
+            const dueDate = document.getElementById('due_date').value.trim();
 
-            fetch('add_payment_handler.php', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.json())
+            if (!feeId || !feeName || !amount || !dueDate) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            let formData; // Declare formData in the outer scope
+
+            // First fetch current academic period
+            fetch('get_current_period.php')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to get academic period');
+                    }
+                    return response.json();
+                })
+                .then(period => {
+                    if (!period.school_year || !period.semester) {
+                        throw new Error('No active academic period found');
+                    }
+
+                    formData = new FormData(paymentForm); // Assign to the outer scope variable
+                    formData.append('add_payment', '1');
+                    formData.append('school_year', period.school_year);
+                    formData.append('semester', period.semester);
+
+                    console.log('Submitting payment with data:', Object.fromEntries(formData));
+
+                    return fetch('add_payment_handler.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+                })
+                .then(async response => {
+                    const rawResponse = await response.text();
+                    console.log('Raw response:', rawResponse);
+
+                    try {
+                        const data = JSON.parse(rawResponse);
+                        return data;
+                    } catch (e) {
+                        throw new Error(`Invalid JSON response: ${rawResponse}`);
+                    }
+                })
                 .then(data => {
+                    console.log('Parsed response:', data);
                     if (data.status === 'success') {
                         alert(data.message);
                         // Close the modal
                         document.getElementById('add-payment-modal').style.display = 'none';
                         // Reset the form
-                        this.reset();
+                        paymentForm.reset();
                         // Optionally refresh the payments list if visible
-                        const orgId = formData.get('org_id');
+                        const orgId = formData.get('org_id'); // Now formData is accessible here
                         if (document.getElementById('payments-modal').style.display === 'block') {
                             refreshPaymentsList(orgId);
                         }
                     } else {
-                        alert(data.message || 'Failed to add payment');
+                        throw new Error(data.message || 'Failed to add payment');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('An error occurred while adding the payment');
+                    alert('An error occurred while adding the payment: ' + error.message);
                 });
         });
+    } else {
+        console.error('Payment form not found in DOM');
     }
 
     // Add this search functionality
@@ -383,14 +493,78 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Add this function to refresh the payments list
     function refreshPaymentsList(orgId) {
-        fetch(`get_org_payments.php?org_id=${orgId}`)
-            .then(response => response.text())
+        if (!orgId) {
+            console.error('No organization ID provided for refresh');
+            return;
+        }
+
+        // First get current academic period
+        fetch('get_current_period.php')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to get academic period');
+                }
+                return response.json();
+            })
+            .then(period => {
+                if (!period.school_year || !period.semester) {
+                    throw new Error('No active academic period found');
+                }
+
+                // Then fetch payments with academic period
+                return fetch(`get_org_payments.php?org_id=${orgId}&school_year=${period.school_year}&semester=${period.semester}`);
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
-                document.getElementById('payments-list').innerHTML = data;
+                const paymentsList = document.getElementById('payments-list');
+                if (paymentsList) {
+                    // Clear existing content
+                    paymentsList.innerHTML = '';
+
+                    // Add new content
+                    if (Array.isArray(data) && data.length > 0) {
+                        const table = document.createElement('table');
+                        table.className = 'payments-table';
+
+                        // Add table header
+                        table.innerHTML = `
+                            <thead>
+                                <tr>
+                                    <th>Fee Name</th>
+                                    <th>Amount</th>
+                                    <th>Due Date</th>
+                                    <th>Description</th>
+                                    <th>School Year</th>
+                                    <th>Semester</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.map(payment => `
+                                    <tr>
+                                        <td>${payment.fee_name}</td>
+                                        <td>₱${parseFloat(payment.amount).toFixed(2)}</td>
+                                        <td>${payment.due_date}</td>
+                                        <td>${payment.description || ''}</td>
+                                        <td>${payment.school_year}</td>
+                                        <td>${payment.semester}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        `;
+                        paymentsList.appendChild(table);
+                    } else {
+                        paymentsList.innerHTML = '<p>No payments found for the current academic period</p>';
+                    }
+                }
             })
             .catch(error => {
-                console.error('Error:', error);
-                alert('Error refreshing payments list');
+                console.error('Error refreshing payments:', error);
+                alert('Error refreshing payments list: ' + error.message);
             });
     }
 
@@ -623,44 +797,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Handle form submission
-    document.getElementById('edit-member-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-        const modal = document.getElementById('edit-member-modal');
-        const orgId = modal.dataset.orgId;
-
-        fetch('update_member.php', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Refresh the members table
-                    fetch(`get_org_members.php?org_id=${orgId}`)
-                        .then(response => response.text())
-                        .then(html => {
-                            const membersList = document.getElementById('members-list');
-                            if (membersList) {
-                                membersList.innerHTML = html;
-                            }
-                            // Close the modal
-                            modal.style.display = 'none';
-                            alert('Member updated successfully');
-                        })
-                        .catch(error => {
-                            console.error('Error refreshing table:', error);
-                            alert('Member updated but error refreshing display');
-                        });
-                } else {
-                    alert(data.message || 'Error updating member');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error updating member');
-            });
-    });
 
     // Close modal when clicking the X
     document.querySelector('.close').addEventListener('click', function () {
@@ -730,53 +866,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Handle fee form submission
-    document.getElementById('edit-fee-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-        const modal = document.getElementById('edit-fee-modal');
-        const orgId = modal.dataset.orgId;
-
-        // Debug: Log form data
-        for (let pair of formData.entries()) {
-            console.log(pair[0] + ': ' + pair[1]);
-        }
-
-        fetch('update_fee.php', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Server response:', data); // Debug log
-                if (data.success) {
-                    // Refresh the fees table
-                    const paymentsList = document.querySelector('.payments-content');
-                    if (paymentsList) {
-                        fetch(`get_org_payments.php?org_id=${orgId}`)
-                            .then(response => response.text())
-                            .then(html => {
-                                paymentsList.innerHTML = html;
-                                // Close the modal
-                                modal.style.display = 'none';
-                                alert(data.message || 'Fee updated successfully');
-                            })
-                            .catch(error => {
-                                console.error('Error refreshing table:', error);
-                                alert('Fee updated but error refreshing display');
-                            });
-                    } else {
-                        console.error('Could not find payments-content element');
-                        alert('Fee updated but could not refresh display');
-                    }
-                } else {
-                    alert(data.message || 'Error updating fee');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while updating the fee. Please check the console for details.');
-            });
-    });
+   
 
     // Close modal when clicking the X
     document.querySelector('.close').addEventListener('click', function () {
@@ -814,31 +904,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Edit fee form submission
-    document.getElementById('edit-fee-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-
-        fetch('update_fee.php', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert(data.message);
-                    document.getElementById('edit-fee-modal').style.display = 'none';
-                    // Refresh the fees list
-                    const orgId = document.getElementById('edit-fee-org-id').value;
-                    refreshFeesList(orgId);
-                } else {
-                    alert(data.message || 'Error updating fee');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while updating the fee');
-            });
-    });
+   
 
     // Helper function to refresh lists
     function refreshFeesList(orgId) {
@@ -889,80 +955,47 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Handle fee form submission
-    document.getElementById('edit-fee-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-        const modal = document.getElementById('edit-fee-modal');
-        const orgId = modal.dataset.orgId;
-
-        fetch('update_fee.php', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Refresh the fees table
-                    fetch(`get_org_payments.php?org_id=${orgId}`)
-                        .then(response => response.text())
-                        .then(html => {
-                            const feesList = document.getElementById('payments-list');
-                            if (feesList) {
-                                feesList.innerHTML = html;
-                            }
-                            // Close the modal
-                            modal.style.display = 'none';
-                            alert('Fee updated successfully');
-                        })
-                        .catch(error => {
-                            console.error('Error refreshing table:', error);
-                            alert('Fee updated but error refreshing display');
-                        });
-                } else {
-                    alert(data.message || 'Error updating fee');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error updating fee');
-            });
-    });
+    +
 
     // Auto-fill student details when student ID is entered
-    document.getElementById('student_id').addEventListener('input', function () {
+    document.getElementById('student_id').addEventListener('input', function() {
         const studentId = this.value.trim();
-
-        if (studentId.length >= 5) {
-            fetch('get_student_details.php?student_id=' + encodeURIComponent(studentId))
+        const studentDetailsFields = document.querySelector('.student-details');
+        
+        if (studentId.length >= 5) { // Start searching after 5 digits
+            fetch(`get_student_details.php?student_id=${encodeURIComponent(studentId)}`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Response:', data); // Debug log
-
+                    console.log('Student details response:', data); // Debug log
+                    
                     if (data.status === 'success' && data.student) {
                         // Auto-fill the form fields
-                        document.getElementById('student_name').value =
+                        document.getElementById('student_name').value = 
                             `${data.student.first_name} ${data.student.last_name}`;
                         document.getElementById('course').value = data.student.Course || '';
                         document.getElementById('year').value = data.student.Year || '';
                         document.getElementById('section').value = data.student.Section || '';
                         document.getElementById('email').value = data.student.WmsuEmail || '';
 
-                        // Show all fields
-                        document.querySelector('.student-details').style.display = 'block';
+                        // Show all fields and enable submit button
+                        studentDetailsFields.style.display = 'block';
                         document.getElementById('add-member-submit').disabled = false;
                     } else {
                         clearAndHideFields();
+                        alert('Student not found');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
                     clearAndHideFields();
+                    alert('Error fetching student details');
                 });
         } else {
             clearAndHideFields();
         }
     });
 
+    // Add this helper function
     function clearAndHideFields() {
         document.getElementById('student_name').value = '';
         document.getElementById('course').value = '';
@@ -973,8 +1006,8 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('add-member-submit').disabled = true;
     }
 
-    // Initialize form state
-    document.addEventListener('DOMContentLoaded', function () {
+    // Initialize form state when page loads
+    document.addEventListener('DOMContentLoaded', function() {
         clearAndHideFields();
     });
 
@@ -1140,8 +1173,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             <td>${payment.due_date || ''}</td>
                             <td>${payment.description || ''}</td>
                             <td>
-                                <button class="btn btn-primary btn-sm view-fee-details" 
-                                        data-fee-id="${payment.fee_id}">
+                                <button class="btn btn-primary view-fee-details" data-fee-id="${payment.fee_id}">
                                     <i class="fas fa-eye"></i> View
                                 </button>
                             </td>
@@ -1177,46 +1209,59 @@ document.addEventListener('DOMContentLoaded', function () {
         const orgId = $(this).data('id');
         const orgName = $(this).data('name');
 
-        // Update modal title
-        $('#org-name-payments').text(orgName);
+        // Get current academic period
+        fetch('get_current_period.php')
+            .then(response => response.json())
+            .then(period => {
+                // Update modal title with academic period
+                $('#org-name-payments').text(`${orgName} - ${period.school_year} ${period.semester} Semester`);
 
-        // Show modal
-        $('#view-payments-modal').show();
+                // Show modal
+                $('#view-payments-modal').show();
 
-        // Load payments data
-        $.ajax({
-            url: 'get_org_payments.php',
-            type: 'GET',
-            data: { org_id: orgId },
-            success: function (response) {
-                const tbody = $('#payments-table-body');
-                tbody.empty();
+                // Load payments data with academic period
+                $.ajax({
+                    url: 'get_org_payments.php',
+                    type: 'GET',
+                    data: {
+                        org_id: orgId,
+                        school_year: period.school_year,
+                        semester: period.semester
+                    },
+                    success: function (response) {
+                        const tbody = $('#payments-table-body');
+                        tbody.empty();
 
-                if (Array.isArray(response)) {
-                    response.forEach((payment, index) => {
-                        tbody.append(`
-                            <tr>
-                                <td style="border: 1px solid #ddd;">${index + 1}</td>
-                                <td style="border: 1px solid #ddd;">${payment.fee_name}</td>
-                                <td style="border: 1px solid #ddd;">₱${parseFloat(payment.amount).toFixed(2)}</td>
-                                <td style="border: 1px solid #ddd;">${payment.due_date}</td>
-                                <td style="border: 1px solid #ddd;">${payment.description}</td>
-                                <td style="border: 1px solid #ddd;">
-                                    <button class="btn btn-primary view-fee-details" data-fee-id="${payment.fee_id}">
-                                        <i class="fas fa-eye"></i> View
-                                    </button>
-                                </td>
-                            </tr>
-                        `);
-                    });
-                } else {
-                    tbody.append('<tr><td colspan="6" style="text-align: center;">No payments found</td></tr>');
-                }
-            },
-            error: function () {
-                $('#payments-table-body').html('<tr><td colspan="6" style="text-align: center;">Error loading payments</td></tr>');
-            }
-        });
+                        if (Array.isArray(response)) {
+                            response.forEach((payment, index) => {
+                                tbody.append(`
+                                    <tr>
+                                        <td style="border: 1px solid #ddd;">${index + 1}</td>
+                                        <td style="border: 1px solid #ddd;">${payment.fee_name}</td>
+                                        <td style="border: 1px solid #ddd;">₱${parseFloat(payment.amount).toFixed(2)}</td>
+                                        <td style="border: 1px solid #ddd;">${payment.due_date}</td>
+                                        <td style="border: 1px solid #ddd;">${payment.description}</td>
+                                        <td style="border: 1px solid #ddd;">
+                                            <button class="btn btn-primary view-fee-details" data-fee-id="${payment.fee_id}">
+                                                <i class="fas fa-eye"></i> View
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `);
+                            });
+                        } else {
+                            tbody.append('<tr><td colspan="6" style="text-align: center;">No payments found</td></tr>');
+                        }
+                    },
+                    error: function () {
+                        $('#payments-table-body').html('<tr><td colspan="6" style="text-align: center;">Error loading payments</td></tr>');
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error loading academic period information.');
+            });
     });
 
     // Close modal when clicking the X
@@ -1230,31 +1275,144 @@ document.addEventListener('DOMContentLoaded', function () {
             $('#view-payments-modal').hide();
         }
     });
+
+    // Add Payment Button Click Handler
+    $(document).on('click', '.add-payment-btn', function (e) {
+        e.preventDefault();
+        const orgId = $(this).data('id');
+        const orgName = $(this).data('name');
+        const addPaymentModal = document.getElementById('add-payment-modal');
+
+        // First check if there's an active academic period
+        $.ajax({
+            url: 'get_current_period.php',
+            method: 'GET',
+            success: function (response) {
+                try {
+                    const period = JSON.parse(response);
+                    if (period && period.school_year && period.semester) {
+                        // Show the modal and set the values
+                        $('#payment-org-id').val(orgId);
+                        $('#payment-org-name').text(orgName);
+
+                        // Add hidden fields for academic period
+                        const form = $('#add-payment-form');
+
+                        // Remove any existing hidden fields first
+                        form.find('input[name="school_year"]').remove();
+                        form.find('input[name="semester"]').remove();
+
+                        // Add new hidden fields
+                        form.append(`
+                            <input type="hidden" name="school_year" value="${period.school_year}">
+                            <input type="hidden" name="semester" value="${period.semester}">
+                        `);
+
+                        // Set default due date
+                        const dueDate = new Date();
+                        dueDate.setDate(dueDate.getDate() + 30);
+                        $('#due_date').val(dueDate.toISOString().split('T')[0]);
+
+                        // Show modal
+                        $('#add-payment-modal').show();
+
+                    } else {
+                        alert('No active academic period set. Please set an academic period first.');
+                    }
+                } catch (e) {
+                    console.error('Error parsing academic period:', e);
+                    alert('Error checking academic period. Please try again.');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX Error:', error);
+                alert('Error checking academic period. Please try again.');
+            }
+        });
+    });
+
+    // Close modal when X is clicked
+    $('.close').click(function () {
+        $(this).closest('.modal').hide();
+    });
+
+    // Close modal when clicking outside
+    $(window).click(function (event) {
+        if ($(event.target).hasClass('modal')) {
+            $('.modal').hide();
+        }
+    });
+
+    // Add organization form submission
+    $('#add-org-form').on('submit', function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: $(this).attr('action'),
+            method: 'POST',
+            data: $(this).serialize(),
+            success: function (response) {
+                alert(response); // Will show "Organization added successfully" or error message
+                if (response === "Organization added successfully") {
+                    $('#org-modal').hide(); // Hide the modal instead of reloading
+                    $('#add-org-form')[0].reset(); // Reset the form
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX Error:', error);
+                alert('An error occurred while adding the organization');
+            }
+        });
+    });
+
+    // Close modal when X is clicked
+    $('.close').click(function () {
+        $(this).closest('.modal').hide();
+    });
+
+    // Close modal when clicking outside
+    $(window).click(function (event) {
+        if ($(event.target).hasClass('modal')) {
+            $('.modal').hide();
+        }
+    });
+
+    // Only add event listeners if elements exist
+
+    if (viewPaymentBtns && viewPaymentBtns.length > 0) {
+        viewPaymentBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                // Your view payment logic here
+            });
+        });
+    }
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
     // View payments button click handler
-    $(document).on('click', '.view-payments-btn', function() {
+    $(document).on('click', '.view-payments-btn', function () {
         const orgId = $(this).data('id');
         console.log('Viewing payments for org:', orgId);
 
         // Show modal
         $('#payments-modal').modal('show');
-        
+
         // Load payments
         $.ajax({
             url: 'get_org_payments.php',
             type: 'GET',
             data: { org_id: orgId },
-            success: function(response) {
+            success: function (response) {
                 console.log('Response:', response);
                 $('.payments-content').html(response);
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error('Error:', error);
                 $('.payments-content').html('<p class="text-danger">Error loading payments</p>');
             }
         });
     });
 });
+
+
 

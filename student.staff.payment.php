@@ -1,6 +1,8 @@
 <?php require_once 'fee.class.php';
       require_once 'classes/Organization.php';
       require_once 'studentfees.class.php';
+      require_once 'classes/academicperiod.class.php';
+      
      
 ?>
 
@@ -84,13 +86,13 @@ foreach ($feeInfo as $fee) {
     // Find if this fee exists in the student's fees record
     $studentFee = null;
     foreach ($studentFeeInfo as $studentFeeRecord) {
-        var_dump($studentFeeRecord);
+       
         if ($studentFeeRecord['studentID'] === $loggedInStudentID && $studentFeeRecord['feeID'] === $feeID) {
             $studentFee = $studentFeeRecord;
             break;
         }
     }
-    var_dump($studentFee);
+   
     // If no student fee record exists, the student has not been assigned this fee
     if ($studentFee === null) {
         $status = 'Not Paid';
@@ -99,7 +101,6 @@ foreach ($feeInfo as $fee) {
         $status = isset($studentFee['Status']) && $studentFee['Status'] === 'Paid' ? 'Paid' : 'Not Paid';
     }
 
-    var_dump($studentFee);
     // Find the organization name associated with this fee (if exists)
     $organizationName = 'N/A'; // Default if organization is not found
 

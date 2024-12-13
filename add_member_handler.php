@@ -1,9 +1,19 @@
 <?php
 require_once 'classes/Organization.php';
 require_once 'account.class.php';
+require_once 'classes/academicperiod.class.php';
+
 header('Content-Type: application/json');
 
 try {
+    // Get current academic period
+    $academicPeriod = new AcademicPeriod();
+    $currentPeriod = $academicPeriod->getCurrentAcademicPeriod();
+
+    if (!$currentPeriod) {
+        throw new Exception("No active academic period found");
+    }
+
     if (!isset($_POST['org_id']) || !isset($_POST['student_id']) || !isset($_POST['position'])) {
         throw new Exception('All required fields must be filled');
     }
@@ -33,14 +43,16 @@ try {
         throw new Exception('Student not found');
     }
 
-    // Now add the member
+    // Now add the member with academic period
     $result = $org->addMember(
         $_POST['org_id'],
         $_POST['student_id'],
         $studentDetails['first_name'],
         $studentDetails['last_name'],
         $studentDetails['WmsuEmail'],
-        $_POST['position']
+        $_POST['position'],
+        $currentPeriod['school_year'],
+        $currentPeriod['semester']
     );
 
     if ($result) {

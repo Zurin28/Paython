@@ -1,7 +1,7 @@
 <?php require_once 'fee.class.php';
       require_once 'classes/Organization.php';
       require_once 'studentfees.class.php';
-     
+      require_once 'classes/academicperiod.class.php';
 ?>
 
 
@@ -84,13 +84,13 @@ foreach ($feeInfo as $fee) {
     // Find if this fee exists in the student's fees record
     $studentFee = null;
     foreach ($studentFeeInfo as $studentFeeRecord) {
-        var_dump($studentFeeRecord);
+        
         if ($studentFeeRecord['studentID'] === $loggedInStudentID && $studentFeeRecord['feeID'] === $feeID) {
             $studentFee = $studentFeeRecord;
             break;
         }
     }
-    var_dump($studentFee);
+    
     // If no student fee record exists, the student has not been assigned this fee
     if ($studentFee === null) {
         $status = 'Not Paid';
@@ -99,7 +99,6 @@ foreach ($feeInfo as $fee) {
         $status = isset($studentFee['Status']) && $studentFee['Status'] === 'Paid' ? 'Paid' : 'Not Paid';
     }
 
-    var_dump($studentFee);
     // Find the organization name associated with this fee (if exists)
     $organizationName = 'N/A'; // Default if organization is not found
 
@@ -112,14 +111,19 @@ foreach ($feeInfo as $fee) {
     }
  
 
-    // Output the row with the fee status
-    echo "<tr>
+    // Output the row with the fee status and data attributes
+    echo "<tr data-fee-id='{$feeID}' data-organization-id='" . ($studentFee['OrganizationID'] ?? '') . "'>
             <td>{$organizationName}</td>
             <td>{$feeName}</td>
             <td>{$status}</td>
             <td>{$amount}</td>
             <td>{$Due}</td>
-            <td><button class='action-button pay-now' id='payNowBtn'>Pay Now</button></td>
+            <td><button class='action-button pay-now' id='payNowBtn' 
+                data-fee-id='{$feeID}'
+                data-fee-name='{$feeName}'
+                data-organization='{$organizationName}'
+                data-amount='{$amount}'
+                data-due='{$Due}'>Pay Now</button></td>
         </tr>";
 }
 ?>

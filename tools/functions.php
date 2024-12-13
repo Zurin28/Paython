@@ -1,6 +1,5 @@
 <?php
 $_title_ = "";
-
 function clean_input($input)
 {
     // trim() removes any whitespace or predefined characters from both sides of a string.

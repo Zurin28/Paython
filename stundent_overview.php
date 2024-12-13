@@ -3,6 +3,7 @@
 <?php 
 require_once 'fee.class.php';
 require_once 'account.class.php';
+require_once 'classes/academicperiod.class.php';
 session_start();
 ?>
 <!DOCTYPE html>

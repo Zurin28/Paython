@@ -22,25 +22,29 @@ const successModal = document.getElementById("successModal");
 const payNowBtn = document.getElementById("payNowBtn");
 
 // Function to load modal content
-function loadModalContent() {
-    // Create new XMLHttpRequest object
+function loadModalContent(event) {
+    const button = event.target;
+    const feeData = {
+        feeId: button.dataset.feeId,
+        organizationName: button.dataset.organization,
+        feeName: button.dataset.feeName,
+        amount: button.dataset.amount,
+        dueDate: button.dataset.due
+    };
+    
     const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'payment_modal.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     
-    // Configure the request
-    xhr.open('GET', 'payment_modal.php', true);
-    
-    // Setup request handler
     xhr.onload = function() {
         if (this.status === 200) {
-            // Insert the modal content
             modal.innerHTML = this.responseText;
-            
-            // Show the modal
             modal.style.display = "block";
             
             // Add event listeners after content is loaded
             const closeBtn = modal.querySelector(".close");
             const doneButton = modal.querySelector(".btn-done");
+            const cancelButton = modal.querySelector(".btn-cancel");
             
             // Close modal when clicking X
             closeBtn.addEventListener('click', () => {
@@ -70,6 +74,11 @@ function loadModalContent() {
                     statusCell.textContent = "Pending";
                 }, 2000);
             });
+            
+            // Handle Cancel button click
+            cancelButton.addEventListener('click', () => {
+                modal.style.display = "none";
+            });
         } else {
             console.error('Error loading modal content');
             modal.innerHTML = '<div class="modal-content"><p>Error loading payment form. Please try again.</p></div>';
@@ -82,8 +91,8 @@ function loadModalContent() {
         modal.innerHTML = '<div class="modal-content"><p>Error loading payment form. Please try again.</p></div>';
     };
     
-    // Send the request
-    xhr.send();
+    // Send the fee data with the request
+    xhr.send('feeData=' + JSON.stringify(feeData));
 }
 
 // Open payment modal when clicking Pay Now

@@ -27,11 +27,21 @@ class StudentFee {
 
     // Function to add a new student fee record
     function addStudentFee($studentID, $feeID, $status) {
-        $sql = "INSERT INTO student_fees (studentID, feeID, status) VALUES (:studentID, :feeID, :status)";
+        // Get current academic period
+        $academicPeriod = new AcademicPeriod();
+        $currentPeriod = $academicPeriod->getCurrentAcademicPeriod();
+        if (!$currentPeriod) {
+            throw new Exception("No current academic period set.");
+        }
+
+        $sql = "INSERT INTO student_fees (studentID, feeID, status, school_year, semester) 
+                VALUES (:studentID, :feeID, :status, :school_year, :semester)";
         $qry = $this->db->connect()->prepare($sql);
         $qry->bindParam(':studentID', $studentID);
         $qry->bindParam(':feeID', $feeID);
         $qry->bindParam(':status', $status);
+        $qry->bindParam(':school_year', $currentPeriod['school_year']);
+        $qry->bindParam(':semester', $currentPeriod['semester']);
         return $qry->execute();
     }
 

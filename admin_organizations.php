@@ -1,12 +1,9 @@
 <?php
 session_start();
 require_once 'classes/Organization.php';
+require_once 'classes/academicperiod.class.php';
 
-
-// Check if user is logged in
-
-
-value: try {
+try {
     // Create database connection
     $host = 'localhost';
     $dbname = 'pms1';
@@ -20,6 +17,14 @@ value: try {
         throw new Exception("Connection failed: " . $conn->connect_error);
     }
 
+    // Get current academic period
+    $academicPeriod = new AcademicPeriod();
+    $currentPeriod = $academicPeriod->getCurrentAcademicPeriod();
+
+    if (!$currentPeriod) {
+        throw new Exception("No active academic period found");
+    }
+
     // Get user details
     $stmt = $conn->prepare("SELECT first_name, last_name FROM account WHERE StudentID = ?");
     $stmt->bind_param("i", $_SESSION['StudentID']);
@@ -27,9 +32,15 @@ value: try {
     $result = $stmt->get_result();
     $user = $result->fetch_assoc();
 
-    // Fetch organizations from database
-    $sql = "SELECT OrganizationID as org_id, OrgName as name FROM organizations";
-    $result = $conn->query($sql);
+    // Fetch organizations from database for current period only
+    $sql = "SELECT OrganizationID as org_id, OrgName as name 
+            FROM organizations 
+            WHERE school_year = ? AND semester = ?";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $currentPeriod['school_year'], $currentPeriod['semester']);
+    $stmt->execute();
+    $result = $stmt->get_result();
     $organizations = [];
 
     if ($result->num_rows > 0) {
@@ -42,17 +53,66 @@ value: try {
         }
     }
 
+    // Debug log
+    error_log("Current Period: " . print_r($currentPeriod, true));
+    error_log("Organizations found: " . count($organizations));
+
 } catch (Exception $e) {
     error_log("Database error: " . $e->getMessage());
     die("An error occurred. Please try again later.");
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $organizationName = $_POST['org_name'];
-    $orgID = $_POST['org_id'];
-    
+    try {
+        $organizationName = $_POST['org_name'];
+        $orgID = $_POST['org_id'];
+        
+        // Get current academic period
+        $academicPeriod = new AcademicPeriod();
+        $currentPeriod = $academicPeriod->getCurrentAcademicPeriod();
 
+        if (!$currentPeriod) {
+            throw new Exception("No active academic period found");
+        }
 
+        // Create organization instance
+        $organization = new Organization();
+
+        // Insert organization with current academic period
+        $insertSql = "INSERT INTO organizations (OrganizationID, OrgName, school_year, semester) 
+                      VALUES (?, ?, ?, ?)";
+        
+        $insertStmt = $conn->prepare($insertSql);
+        $insertStmt->bind_param("ssss", 
+            $orgID, 
+            $organizationName, 
+            $currentPeriod['school_year'], 
+            $currentPeriod['semester']
+        );
+
+        if ($insertStmt->execute()) {
+            // Create members table for the new organization
+            if ($organization->createOrgMember($organizationName)) {
+                echo "<script>
+                    alert('Organization added successfully');
+                    window.location.href = 'admin_organizations.php';
+                </script>";
+                exit();
+            } else {
+                throw new Exception("Failed to create members table");
+            }
+        } else {
+            throw new Exception("Failed to add organization");
+        }
+
+    } catch (Exception $e) {
+        error_log("Error adding organization: " . $e->getMessage());
+        echo "<script>
+            alert('An error occurred while adding the organization');
+            window.location.href = 'admin_organizations.php';
+        </script>";
+        exit();
+    }
 } 
 ?>
 
@@ -157,66 +217,73 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <!-- Add Member Modal -->
             <div id="add-member-modal" class="modal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3>Add Member to <span id="org-name-display"></span></h3>
-                            <span class="close">&times;</span>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Member to <span id="org-name-display"></span></h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="add-member-form" method="post">
+                    <input type="hidden" name="org_id" id="member-org-id">
+                    <div class="form-group">
+                        <label for="student_id">Student ID</label>
+                        <input type="text" 
+                               id="student_id" 
+                               name="student_id" 
+                               required 
+                               pattern="[0-9]+" 
+                               minlength="5" 
+                               placeholder="Enter student ID">
+                    </div>
+                    <div class="student-details" style="display: none;">
+                        <div class="form-group">
+                            <label for="student_name">Student Name</label>
+                            <input type="text" id="student_name" name="student_name" readonly>
                         </div>
-                        <div class="modal-body">
-                            <form id="add-member-form" method="post">
-                                <input type="hidden" name="org_id" id="member-org-id">
-                                <div class="form-group">
-                                    <label for="student_id">Student ID</label>
-                                    <input type="text" id="student_id" name="student_id" required>
-                                </div>
-                                <div class="student-details">
-                                    <div class="form-group">
-                                        <label for="student_name">Student Name</label>
-                                        <input type="text" id="student_name" name="student_name" readonly>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group">
-                                            <label for="course">Course</label>
-                                            <input type="text" id="course" name="course" readonly>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="year">Year</label>
-                                            <input type="text" id="year" name="year" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group">
-                                            <label for="section">Section</label>
-                                            <input type="text" id="section" name="section" readonly>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="email">Email</label>
-                                            <input type="text" id="email" name="email" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="position">Position</label>
-                                        <select id="position" name="position" required>
-                                            <option value="">Select Position</option>
-                                            <option value="President">President</option>
-                                            <option value="Vice President">Vice President</option>
-                                            <option value="Secretary">Secretary</option>
-                                            <option value="Treasurer">Treasurer</option>
-                                            <option value="Member">Member</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn" id="add-member-submit">
-                                        <i class="fas fa-plus"></i> Add Member
-                                    </button>
-                                </div>
-                            </form>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="course">Course</label>
+                                <input type="text" id="course" name="course" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="year">Year</label>
+                                <input type="text" id="year" name="year" readonly>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="section">Section</label>
+                                <input type="text" id="section" name="section" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="text" id="email" name="email" readonly>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <!-- Position dropdown moved outside student-details div -->
+                    <div class="form-group">
+                        <label for="position">Position</label>
+                        <select id="position" name="position" required>
+                            <option value="">Select Position</option>
+                            <option value="President">President</option>
+                            <option value="Vice President">Vice President</option>
+                            <option value="Secretary">Secretary</option>
+                            <option value="Treasurer">Treasurer</option>
+                            <option value="Member">Member</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn" id="add-member-submit" disabled>
+                            <i class="fas fa-plus"></i> Add Member
+                        </button>
+                    </div>
+                </form>
             </div>
+        </div>
+    </div>
+</div>
 
             <!-- Add Payment Modal -->
             <div id="add-payment-modal" class="modal">

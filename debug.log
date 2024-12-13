@@ -1,0 +1,908 @@
+[12-Dec-2024 21:00:05 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:00:05 Europe/Berlin] Executing account creation with params: Array
+(
+    [:studentId] => 1
+    [:first_name] => Novi
+    [:last_name] => Diaz
+    [:mi] => M
+    [:wmsuEmail] => 1@gmail.com
+    [:password] => $2y$10$1lsomI21kAa/omMmKmsCXOBX/FiNEtYEYz9/BuNb3JaqEfbjnTtGy
+    [:role] => student
+    [:course] => Computer Science
+    [:year] => 1
+    [:section] => a
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:00:05 Europe/Berlin] Account created, initializing fees...
+[12-Dec-2024 21:00:05 Europe/Berlin] Initializing fees for student: 1
+[12-Dec-2024 21:00:05 Europe/Berlin] Current period: Array
+(
+    [school_year] => 2025-2026
+    [semester] => Summer
+)
+
+[12-Dec-2024 21:00:05 Europe/Berlin] Executing query: SELECT FeeID, OrgID FROM Fees 
+                WHERE school_year = :school_year 
+                AND semester = :semester
+[12-Dec-2024 21:00:05 Europe/Berlin] With parameters: Array
+(
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:00:05 Europe/Berlin] Found fees: Array
+(
+)
+
+[12-Dec-2024 21:00:05 Europe/Berlin] No fees found for current period
+[12-Dec-2024 21:00:05 Europe/Berlin] PDO Error in createStudAcc: There is no active transaction
+[12-Dec-2024 21:00:05 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\account.class.php(183): PDO->commit()
+#1 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Diaz', 'M', '1@gmail.com', '$2y$10$1lsomI21...', 'student', 'Computer Scienc...', '1', 'a', '2025-2026', 'Summer')
+#2 {main}
+[12-Dec-2024 21:05:05 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:05:05 Europe/Berlin] Executing account creation with params: Array
+(
+    [:studentId] => 1
+    [:first_name] => Novi
+    [:last_name] => Diaz
+    [:mi] => M
+    [:wmsuEmail] => 1@gmail.com
+    [:password] => $2y$10$LbBiRvD7UhCMwmloQdMkKeE9K6K8iq3/7EAMw7.Wy7Lpl1gdkt3o6
+    [:role] => student
+    [:course] => Computer Science
+    [:year] => 1
+    [:section] => a
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:05:05 Europe/Berlin] Account created, initializing fees...
+[12-Dec-2024 21:05:05 Europe/Berlin] Initializing fees for student: 1
+[12-Dec-2024 21:05:05 Europe/Berlin] Current period: Array
+(
+    [school_year] => 2025-2026
+    [semester] => Summer
+)
+
+[12-Dec-2024 21:05:05 Europe/Berlin] Executing query: SELECT FeeID, OrgID FROM Fees 
+                WHERE school_year = :school_year 
+                AND semester = :semester
+[12-Dec-2024 21:05:05 Europe/Berlin] With parameters: Array
+(
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:05:05 Europe/Berlin] Found fees: Array
+(
+)
+
+[12-Dec-2024 21:05:05 Europe/Berlin] No fees found for current period
+[12-Dec-2024 21:05:05 Europe/Berlin] Successfully created account and initialized fees
+[12-Dec-2024 21:06:58 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:06:58 Europe/Berlin] Executing account creation with params: Array
+(
+    [:studentId] => 1
+    [:first_name] => Novi
+    [:last_name] => Diaz
+    [:mi] => M
+    [:wmsuEmail] => 1@gmail.com
+    [:password] => $2y$10$kOWFc04/bTy.80QNAnfTQ..F4lgc9pxo5fvOfqof7T5BVsKVXvbIe
+    [:role] => student
+    [:course] => Computer Science
+    [:year] => 1
+    [:section] => a
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:06:58 Europe/Berlin] Account created, initializing fees...
+[12-Dec-2024 21:06:58 Europe/Berlin] Initializing fees for student: 1
+[12-Dec-2024 21:06:58 Europe/Berlin] Current period: Array
+(
+    [school_year] => 2025-2026
+    [semester] => Summer
+)
+
+[12-Dec-2024 21:06:58 Europe/Berlin] Executing query: SELECT FeeID, OrgID FROM Fees 
+                WHERE school_year = :school_year 
+                AND semester = :semester
+[12-Dec-2024 21:06:58 Europe/Berlin] With parameters: Array
+(
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:06:58 Europe/Berlin] Found fees: Array
+(
+    [0] => Array
+        (
+            [FeeID] => 1
+            [OrgID] => VENOM
+        )
+
+)
+
+[12-Dec-2024 21:06:58 Europe/Berlin] Inserting fee record: Array
+(
+    [FeeID] => 1
+    [OrgID] => VENOM
+)
+
+[12-Dec-2024 21:06:58 Europe/Berlin] Error inserting individual fee: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'orgID' in 'field list'
+[12-Dec-2024 21:06:58 Europe/Berlin] PDO Error in initializeStudentFees: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'orgID' in 'field list'
+[12-Dec-2024 21:06:58 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\Fee.class.php(118): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\account.class.php(179): Fee->initializeStudentFees('1')
+#2 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Diaz', 'M', '1@gmail.com', '$2y$10$kOWFc04/...', 'student', 'Computer Scienc...', '1', 'a', '2025-2026', 'Summer')
+#3 {main}
+[12-Dec-2024 21:06:58 Europe/Berlin] Failed to initialize student fees
+[12-Dec-2024 21:06:58 Europe/Berlin] General Error in createStudAcc: Failed to initialize student fees
+[12-Dec-2024 21:06:58 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Diaz', 'M', '1@gmail.com', '$2y$10$kOWFc04/...', 'student', 'Computer Scienc...', '1', 'a', '2025-2026', 'Summer')
+#1 {main}
+[12-Dec-2024 21:07:32 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:07:32 Europe/Berlin] Executing account creation with params: Array
+(
+    [:studentId] => 1
+    [:first_name] => Novi
+    [:last_name] => Diaz
+    [:mi] => M
+    [:wmsuEmail] => 1@gmail.com
+    [:password] => $2y$10$72gbeavQVv73RNFSd/Df2e.YM7iohdbnVnlD78mQrBmaK661ByBzK
+    [:role] => student
+    [:course] => Computer Science
+    [:year] => 1
+    [:section] => a
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:07:32 Europe/Berlin] Account created, initializing fees...
+[12-Dec-2024 21:07:32 Europe/Berlin] Initializing fees for student: 1
+[12-Dec-2024 21:07:32 Europe/Berlin] Current period: Array
+(
+    [school_year] => 2025-2026
+    [semester] => Summer
+)
+
+[12-Dec-2024 21:07:32 Europe/Berlin] Executing query: SELECT FeeID, OrgID FROM Fees 
+                WHERE school_year = :school_year 
+                AND semester = :semester
+[12-Dec-2024 21:07:32 Europe/Berlin] With parameters: Array
+(
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:07:32 Europe/Berlin] Found fees: Array
+(
+    [0] => Array
+        (
+            [FeeID] => 1
+            [OrgID] => VENOM
+        )
+
+)
+
+[12-Dec-2024 21:07:32 Europe/Berlin] Inserting fee record: Array
+(
+    [FeeID] => 1
+    [OrgID] => VENOM
+)
+
+[12-Dec-2024 21:07:32 Europe/Berlin] Error inserting individual fee: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'orgID' in 'field list'
+[12-Dec-2024 21:07:32 Europe/Berlin] PDO Error in initializeStudentFees: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'orgID' in 'field list'
+[12-Dec-2024 21:07:32 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\Fee.class.php(118): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\account.class.php(179): Fee->initializeStudentFees('1')
+#2 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Diaz', 'M', '1@gmail.com', '$2y$10$72gbeavQ...', 'student', 'Computer Scienc...', '1', 'a', '2025-2026', 'Summer')
+#3 {main}
+[12-Dec-2024 21:07:32 Europe/Berlin] Failed to initialize student fees
+[12-Dec-2024 21:07:32 Europe/Berlin] General Error in createStudAcc: Failed to initialize student fees
+[12-Dec-2024 21:07:32 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Diaz', 'M', '1@gmail.com', '$2y$10$72gbeavQ...', 'student', 'Computer Scienc...', '1', 'a', '2025-2026', 'Summer')
+#1 {main}
+[12-Dec-2024 21:09:15 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:09:15 Europe/Berlin] Executing account creation with params: Array
+(
+    [:studentId] => 1
+    [:first_name] => Novi
+    [:last_name] => Diaz
+    [:mi] => M
+    [:wmsuEmail] => 1@gmail.com
+    [:password] => $2y$10$hUe70DMuVmzZY19E2oZQx.yBwb5KYOuJ8Eh46wl1g81qPRPNPzuwG
+    [:role] => student
+    [:course] => Computer Science
+    [:year] => 1
+    [:section] => a
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:09:15 Europe/Berlin] Account created, initializing fees...
+[12-Dec-2024 21:09:15 Europe/Berlin] Initializing fees for student: 1
+[12-Dec-2024 21:09:15 Europe/Berlin] Current period: Array
+(
+    [school_year] => 2025-2026
+    [semester] => Summer
+)
+
+[12-Dec-2024 21:09:15 Europe/Berlin] Executing query: SELECT FeeID, OrgID FROM Fees 
+                WHERE school_year = :school_year 
+                AND semester = :semester
+[12-Dec-2024 21:09:15 Europe/Berlin] With parameters: Array
+(
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:09:15 Europe/Berlin] Found fees: Array
+(
+    [0] => Array
+        (
+            [FeeID] => 1
+            [OrgID] => VENOM
+        )
+
+)
+
+[12-Dec-2024 21:09:15 Europe/Berlin] Inserting fee record: Array
+(
+    [FeeID] => 1
+    [OrgID] => VENOM
+)
+
+[12-Dec-2024 21:09:15 Europe/Berlin] Error inserting individual fee: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'OrgID' in 'field list'
+[12-Dec-2024 21:09:15 Europe/Berlin] PDO Error in initializeStudentFees: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'OrgID' in 'field list'
+[12-Dec-2024 21:09:15 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\Fee.class.php(117): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\account.class.php(179): Fee->initializeStudentFees('1')
+#2 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Diaz', 'M', '1@gmail.com', '$2y$10$hUe70DMu...', 'student', 'Computer Scienc...', '1', 'a', '2025-2026', 'Summer')
+#3 {main}
+[12-Dec-2024 21:09:15 Europe/Berlin] Failed to initialize student fees
+[12-Dec-2024 21:09:15 Europe/Berlin] General Error in createStudAcc: Failed to initialize student fees
+[12-Dec-2024 21:09:15 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Diaz', 'M', '1@gmail.com', '$2y$10$hUe70DMu...', 'student', 'Computer Scienc...', '1', 'a', '2025-2026', 'Summer')
+#1 {main}
+[12-Dec-2024 21:12:49 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:12:49 Europe/Berlin] Executing account creation with params: Array
+(
+    [:studentId] => 1
+    [:first_name] => Novi
+    [:last_name] => Diaz
+    [:mi] => M
+    [:wmsuEmail] => 1@gmail.com
+    [:password] => $2y$10$o4CZG.zsBwuoaeljt733xeI/NEC6t7dPjn/ULx1jFsGKepYni22Ja
+    [:role] => student
+    [:course] => Computer Science
+    [:year] => 1
+    [:section] => a
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:12:49 Europe/Berlin] Account created, initializing fees...
+[12-Dec-2024 21:12:49 Europe/Berlin] Initializing fees for student: 1
+[12-Dec-2024 21:12:49 Europe/Berlin] Current period: Array
+(
+    [school_year] => 2025-2026
+    [semester] => Summer
+)
+
+[12-Dec-2024 21:12:49 Europe/Berlin] Found fees: Array
+(
+    [0] => Array
+        (
+            [FeeID] => 1
+        )
+
+)
+
+[12-Dec-2024 21:12:49 Europe/Berlin] Inserting fee record: Array
+(
+    [FeeID] => 1
+)
+
+[12-Dec-2024 21:13:07 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:13:07 Europe/Berlin] Executing account creation with params: Array
+(
+    [:studentId] => 1
+    [:first_name] => 1
+    [:last_name] => 1
+    [:mi] => a
+    [:wmsuEmail] => 1@gmail.com
+    [:password] => $2y$10$0YzSIYHKV1kMZk1dKQKwIuyefrsw8KnR6Bcz0MOQ9ewrGkvuIKQx2
+    [:role] => student
+    [:course] => Associate in Computer Technology
+    [:year] => 3
+    [:section] => B
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:13:14 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:13:14 Europe/Berlin] Executing account creation with params: Array
+(
+    [:studentId] => 1
+    [:first_name] => 1
+    [:last_name] => 1
+    [:mi] => a
+    [:wmsuEmail] => 1@gmail.com
+    [:password] => $2y$10$yfZ6Lo3koR3p9O1RjMjJfucO4ZssawW0YDFN69il4skEnCkTi7ZGi
+    [:role] => student
+    [:course] => Associate in Computer Technology
+    [:year] => 3
+    [:section] => B
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:13:40 Europe/Berlin] Error inserting individual fee: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:13:40 Europe/Berlin] PDO Error in initializeStudentFees: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:13:40 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\Fee.class.php(110): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\account.class.php(179): Fee->initializeStudentFees('1')
+#2 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Diaz', 'M', '1@gmail.com', '$2y$10$o4CZG.zs...', 'student', 'Computer Scienc...', '1', 'a', '2025-2026', 'Summer')
+#3 {main}
+[12-Dec-2024 21:13:40 Europe/Berlin] Failed to initialize student fees
+[12-Dec-2024 21:13:40 Europe/Berlin] General Error in createStudAcc: Failed to initialize student fees
+[12-Dec-2024 21:13:40 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Diaz', 'M', '1@gmail.com', '$2y$10$o4CZG.zs...', 'student', 'Computer Scienc...', '1', 'a', '2025-2026', 'Summer')
+#1 {main}
+[12-Dec-2024 21:13:40 Europe/Berlin] PDO Error in createStudAcc: SQLSTATE[40001]: Serialization failure: 1213 Deadlock found when trying to get lock; try restarting transaction
+[12-Dec-2024 21:13:40 Europe/Berlin] Account created, initializing fees...
+[12-Dec-2024 21:13:40 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\account.class.php(174): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', '1', '1', 'a', '1@gmail.com', '$2y$10$0YzSIYHK...', 'student', 'Associate in Co...', '3', 'B', '2025-2026', 'Summer')
+#2 {main}
+[12-Dec-2024 21:13:40 Europe/Berlin] Initializing fees for student: 1
+[12-Dec-2024 21:13:40 Europe/Berlin] Current period: Array
+(
+    [school_year] => 2025-2026
+    [semester] => Summer
+)
+
+[12-Dec-2024 21:13:40 Europe/Berlin] Found fees: Array
+(
+    [0] => Array
+        (
+            [FeeID] => 1
+        )
+
+)
+
+[12-Dec-2024 21:13:40 Europe/Berlin] Inserting fee record: Array
+(
+    [FeeID] => 1
+)
+
+[12-Dec-2024 21:13:54 Europe/Berlin] Starting account creation for student: 123123
+[12-Dec-2024 21:13:54 Europe/Berlin] Executing account creation with params: Array
+(
+    [:studentId] => 123123
+    [:first_name] => Novi
+    [:last_name] => Diaz
+    [:mi] => O
+    [:wmsuEmail] => 123123@gmail.com
+    [:password] => $2y$10$Z2DAC8iWe4t43jWd8tJp9.xLrXO3vHhlCqzMcdOK16MjLvpakddiS
+    [:role] => student
+    [:course] => Computer Science
+    [:year] => 1
+    [:section] => a
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:14:31 Europe/Berlin] Error inserting individual fee: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:14:31 Europe/Berlin] PDO Error in initializeStudentFees: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:14:31 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\Fee.class.php(110): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\account.class.php(179): Fee->initializeStudentFees('1')
+#2 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', '1', '1', 'a', '1@gmail.com', '$2y$10$yfZ6Lo3k...', 'student', 'Associate in Co...', '3', 'B', '2025-2026', 'Summer')
+#3 {main}
+[12-Dec-2024 21:14:31 Europe/Berlin] Failed to initialize student fees
+[12-Dec-2024 21:14:31 Europe/Berlin] General Error in createStudAcc: Failed to initialize student fees
+[12-Dec-2024 21:14:31 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', '1', '1', 'a', '1@gmail.com', '$2y$10$yfZ6Lo3k...', 'student', 'Associate in Co...', '3', 'B', '2025-2026', 'Summer')
+#1 {main}
+[12-Dec-2024 21:14:31 Europe/Berlin] Account created, initializing fees...
+[12-Dec-2024 21:14:31 Europe/Berlin] Initializing fees for student: 123123
+[12-Dec-2024 21:14:31 Europe/Berlin] Current period: Array
+(
+    [school_year] => 2025-2026
+    [semester] => Summer
+)
+
+[12-Dec-2024 21:14:31 Europe/Berlin] Found fees: Array
+(
+    [0] => Array
+        (
+            [FeeID] => 1
+        )
+
+)
+
+[12-Dec-2024 21:14:31 Europe/Berlin] Inserting fee record: Array
+(
+    [FeeID] => 1
+)
+
+[12-Dec-2024 21:15:09 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:15:09 Europe/Berlin] Executing account creation with params: Array
+(
+    [:studentId] => 1
+    [:first_name] => Novi
+    [:last_name] => Diaz
+    [:mi] => O
+    [:wmsuEmail] => 1@gmail.com
+    [:password] => $2y$10$Dl6v3WYKq2gpHA9eM0J9heLl1FFdOumC1WaG0h5aBFzo9oG0HQ6Sa
+    [:role] => student
+    [:course] => Computer Science
+    [:year] => 1
+    [:section] => A
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:15:09 Europe/Berlin] Account created, initializing fees...
+[12-Dec-2024 21:15:09 Europe/Berlin] Initializing fees for student: 1
+[12-Dec-2024 21:15:09 Europe/Berlin] Current period: Array
+(
+    [school_year] => 2025-2026
+    [semester] => Summer
+)
+
+[12-Dec-2024 21:15:09 Europe/Berlin] Found fees: Array
+(
+    [0] => Array
+        (
+            [FeeID] => 1
+        )
+
+)
+
+[12-Dec-2024 21:15:09 Europe/Berlin] Inserting fee record: Array
+(
+    [FeeID] => 1
+)
+
+[12-Dec-2024 21:15:22 Europe/Berlin] Error inserting individual fee: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:15:22 Europe/Berlin] PDO Error in initializeStudentFees: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:15:22 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\Fee.class.php(110): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\account.class.php(179): Fee->initializeStudentFees('123123')
+#2 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('123123', 'Novi', 'Diaz', 'O', '123123@gmail.co...', '$2y$10$Z2DAC8iW...', 'student', 'Computer Scienc...', '1', 'a', '2025-2026', 'Summer')
+#3 {main}
+[12-Dec-2024 21:15:22 Europe/Berlin] Failed to initialize student fees
+[12-Dec-2024 21:15:22 Europe/Berlin] General Error in createStudAcc: Failed to initialize student fees
+[12-Dec-2024 21:15:22 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('123123', 'Novi', 'Diaz', 'O', '123123@gmail.co...', '$2y$10$Z2DAC8iW...', 'student', 'Computer Scienc...', '1', 'a', '2025-2026', 'Summer')
+#1 {main}
+[12-Dec-2024 21:15:51 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:15:51 Europe/Berlin] Executing account creation with params: Array
+(
+    [:studentId] => 1
+    [:first_name] => Novi
+    [:last_name] => Diaz
+    [:mi] => O
+    [:wmsuEmail] => 1@gmail.com
+    [:password] => $2y$10$1bOInPft9Tdeq0c7G4PhQebSgXoWRfpFebkkRS6iU/16O2k1k6rYe
+    [:role] => student
+    [:course] => Computer Science
+    [:year] => 1
+    [:section] => A
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:16:00 Europe/Berlin] Error inserting individual fee: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:16:00 Europe/Berlin] PDO Error in initializeStudentFees: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:16:00 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\Fee.class.php(110): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\account.class.php(179): Fee->initializeStudentFees('1')
+#2 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Diaz', 'O', '1@gmail.com', '$2y$10$Dl6v3WYK...', 'student', 'Computer Scienc...', '1', 'A', '2025-2026', 'Summer')
+#3 {main}
+[12-Dec-2024 21:16:00 Europe/Berlin] Failed to initialize student fees
+[12-Dec-2024 21:16:00 Europe/Berlin] General Error in createStudAcc: Failed to initialize student fees
+[12-Dec-2024 21:16:00 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Diaz', 'O', '1@gmail.com', '$2y$10$Dl6v3WYK...', 'student', 'Computer Scienc...', '1', 'A', '2025-2026', 'Summer')
+#1 {main}
+[12-Dec-2024 21:16:00 Europe/Berlin] Account created, initializing fees...
+[12-Dec-2024 21:16:00 Europe/Berlin] Initializing fees for student: 1
+[12-Dec-2024 21:16:00 Europe/Berlin] Current period: Array
+(
+    [school_year] => 2025-2026
+    [semester] => Summer
+)
+
+[12-Dec-2024 21:16:00 Europe/Berlin] Found fees: Array
+(
+    [0] => Array
+        (
+            [FeeID] => 1
+        )
+
+)
+
+[12-Dec-2024 21:16:00 Europe/Berlin] Inserting fee record: Array
+(
+    [FeeID] => 1
+)
+
+[12-Dec-2024 21:16:51 Europe/Berlin] Error inserting individual fee: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:16:51 Europe/Berlin] PDO Error in initializeStudentFees: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:16:51 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\Fee.class.php(110): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\account.class.php(179): Fee->initializeStudentFees('1')
+#2 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Diaz', 'O', '1@gmail.com', '$2y$10$1bOInPft...', 'student', 'Computer Scienc...', '1', 'A', '2025-2026', 'Summer')
+#3 {main}
+[12-Dec-2024 21:16:51 Europe/Berlin] Failed to initialize student fees
+[12-Dec-2024 21:16:51 Europe/Berlin] General Error in createStudAcc: Failed to initialize student fees
+[12-Dec-2024 21:16:51 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Diaz', 'O', '1@gmail.com', '$2y$10$1bOInPft...', 'student', 'Computer Scienc...', '1', 'A', '2025-2026', 'Summer')
+#1 {main}
+[12-Dec-2024 21:17:26 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:19:09 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:20:00 Europe/Berlin] General Error in createStudAcc: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:20:00 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\account.class.php(158): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Diaz', 'O', '1@gmail.com', '$2y$10$Ql2lQuSZ...', 'student', 'Computer Scienc...', '1', 'A', '2025-2026', 'Summer')
+#2 {main}
+[12-Dec-2024 21:20:01 Europe/Berlin] PHP Warning:  Uncaught PDOException: SQLSTATE[08S01]: Communication link failure: 1053 Server shutdown in progress in C:\xampp\htdocs\Paython\Fee.class.php:110
+Stack trace:
+#0 C:\xampp\htdocs\Paython\Fee.class.php(110): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\account.class.php(177): Fee->initializeStudentFees('1')
+#2 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Diaz', 'O', '1@gmail.com', '$2y$10$uAY4eWNg...', 'student', 'Computer Scienc...', '1', 'A', '2025-2026', 'Summer')
+#3 {main}
+  thrown in C:\xampp\htdocs\Paython\Fee.class.php on line 110
+[12-Dec-2024 21:20:01 Europe/Berlin] PHP Fatal error:  Maximum execution time of 120 seconds exceeded in C:\xampp\htdocs\Paython\Fee.class.php on line 120
+[12-Dec-2024 21:20:23 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:21:14 Europe/Berlin] Error in initializeStudentFees: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:21:14 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\Fee.class.php(107): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\account.class.php(177): Fee->initializeStudentFees('1')
+#2 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Diaz', 'O', '1@gmail.com', '$2y$10$wvKUOvyH...', 'student', 'Computer Scienc...', '1', 'A', '2025-2026', 'Summer')
+#3 {main}
+[12-Dec-2024 21:21:14 Europe/Berlin] General Error in createStudAcc: Failed to initialize student fees
+[12-Dec-2024 21:21:14 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Diaz', 'O', '1@gmail.com', '$2y$10$wvKUOvyH...', 'student', 'Computer Scienc...', '1', 'A', '2025-2026', 'Summer')
+#1 {main}
+[12-Dec-2024 21:22:28 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:23:19 Europe/Berlin] Error in initializeStudentFees: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:23:19 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\Fee.class.php(107): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\account.class.php(177): Fee->initializeStudentFees('1')
+#2 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Esperadesa', 'A', '1@gmail.com', '$2y$10$3AXqb7jt...', 'student', 'Associate in Co...', '2', 'A', '2023-2024', '2nd')
+#3 {main}
+[12-Dec-2024 21:23:19 Europe/Berlin] General Error in createStudAcc: Failed to initialize student fees
+[12-Dec-2024 21:23:19 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Esperadesa', 'A', '1@gmail.com', '$2y$10$3AXqb7jt...', 'student', 'Associate in Co...', '2', 'A', '2023-2024', '2nd')
+#1 {main}
+[12-Dec-2024 21:23:47 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:24:38 Europe/Berlin] Error in initializeStudentFees: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:24:38 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\Fee.class.php(107): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\account.class.php(177): Fee->initializeStudentFees('1')
+#2 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Esperat', 'B', '1@gmail.com', '$2y$10$G729Q6N0...', 'student', 'Application Dev...', '1', 'A', '2023-2024', '2nd')
+#3 {main}
+[12-Dec-2024 21:24:38 Europe/Berlin] General Error in createStudAcc: Failed to initialize student fees
+[12-Dec-2024 21:24:38 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Esperat', 'B', '1@gmail.com', '$2y$10$G729Q6N0...', 'student', 'Application Dev...', '1', 'A', '2023-2024', '2nd')
+#1 {main}
+[12-Dec-2024 21:28:03 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:28:03 Europe/Berlin] Executing account creation with params: Array
+(
+    [:studentId] => 1
+    [:first_name] => Novi
+    [:last_name] => Esperadesa
+    [:mi] => A
+    [:wmsuEmail] => 1@gmail.com
+    [:password] => $2y$10$aOF4n8mzsxpgrWZ.tCmwqOmLat1mhB1yAEtLaujm/h4SDdV1sNP5.
+    [:role] => student
+    [:course] => Associate in Computer Technology
+    [:year] => 2
+    [:section] => A
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:28:03 Europe/Berlin] General Error in createStudAcc: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'status' in 'field list'
+[12-Dec-2024 21:28:03 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\account.class.php(180): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Esperadesa', 'A', '1@gmail.com', '$2y$10$aOF4n8mz...', 'student', 'Associate in Co...', '2', 'A', '2025-2026', 'Summer')
+#2 {main}
+[12-Dec-2024 21:31:14 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:31:14 Europe/Berlin] Executing account creation with params: Array
+(
+    [:studentId] => 1
+    [:first_name] => Novi
+    [:last_name] => Esperadesa
+    [:mi] => A
+    [:wmsuEmail] => 1@gmail.com
+    [:password] => $2y$10$Lal89DihMtzyPBtnsrUspezDTQM9LYQAzp0/tW13Or11fvFIWpFTi
+    [:role] => student
+    [:course] => Associate in Computer Technology
+    [:year] => 2
+    [:section] => A
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:31:14 Europe/Berlin] Account created, initializing fees...
+[12-Dec-2024 21:32:05 Europe/Berlin] Error in initializeStudentFees: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:32:05 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\Fee.class.php(104): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\account.class.php(203): Fee->initializeStudentFees('1')
+#2 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Esperadesa', 'A', '1@gmail.com', '$2y$10$Lal89Dih...', 'student', 'Associate in Co...', '2', 'A', '2025-2026', 'Summer')
+#3 {main}
+[12-Dec-2024 21:32:05 Europe/Berlin] General Error in createStudAcc: Failed to initialize student fees
+[12-Dec-2024 21:32:05 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Esperadesa', 'A', '1@gmail.com', '$2y$10$Lal89Dih...', 'student', 'Associate in Co...', '2', 'A', '2025-2026', 'Summer')
+#1 {main}
+[12-Dec-2024 21:37:44 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:37:44 Europe/Berlin] Executing account creation with params: Array
+(
+    [:studentId] => 1
+    [:first_name] => Novi
+    [:last_name] => Esperadesa
+    [:mi] => A
+    [:wmsuEmail] => 1@gmail.com
+    [:password] => $2y$10$FXK1gm1vKtcOjXG2zySao.FltDDlxeRffe7br5gibh.HG2lhBxJ5y
+    [:role] => student
+    [:course] => Associate in Computer Technology
+    [:year] => 2
+    [:section] => A
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:37:44 Europe/Berlin] Account created, initializing fees...
+[12-Dec-2024 21:37:44 Europe/Berlin] Initializing fees for student: 1
+[12-Dec-2024 21:37:44 Europe/Berlin] Current period: Array
+(
+    [school_year] => 2025-2026
+    [semester] => Summer
+)
+
+[12-Dec-2024 21:37:44 Europe/Berlin] Found fees: Array
+(
+    [0] => Array
+        (
+            [FeeID] => 1
+        )
+
+)
+
+[12-Dec-2024 21:37:44 Europe/Berlin] Inserting fee record: Array
+(
+    [FeeID] => 1
+)
+
+[12-Dec-2024 21:37:51 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:37:51 Europe/Berlin] Executing account creation with params: Array
+(
+    [:studentId] => 1
+    [:first_name] => Novi
+    [:last_name] => Esperadesa
+    [:mi] => A
+    [:wmsuEmail] => 1@gmail.com
+    [:password] => $2y$10$id6WTyzsPFuwpYn70t7is.gUC5Vg7tpXiJJPC5xHqo8W4COKjFLQm
+    [:role] => student
+    [:course] => Associate in Computer Technology
+    [:year] => 2
+    [:section] => A
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:38:35 Europe/Berlin] Error in initializeStudentFees: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:38:35 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\Fee.class.php(127): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\account.class.php(203): Fee->initializeStudentFees('1')
+#2 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Esperadesa', 'A', '1@gmail.com', '$2y$10$FXK1gm1v...', 'student', 'Associate in Co...', '2', 'A', '2025-2026', 'Summer')
+#3 {main}
+[12-Dec-2024 21:38:36 Europe/Berlin] General Error in createStudAcc: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:38:36 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\Fee.class.php(127): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\account.class.php(203): Fee->initializeStudentFees('1')
+#2 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Esperadesa', 'A', '1@gmail.com', '$2y$10$FXK1gm1v...', 'student', 'Associate in Co...', '2', 'A', '2025-2026', 'Summer')
+#3 {main}
+[12-Dec-2024 21:38:36 Europe/Berlin] Account created, initializing fees...
+[12-Dec-2024 21:38:36 Europe/Berlin] Initializing fees for student: 1
+[12-Dec-2024 21:38:36 Europe/Berlin] Current period: Array
+(
+    [school_year] => 2025-2026
+    [semester] => Summer
+)
+
+[12-Dec-2024 21:38:36 Europe/Berlin] Found fees: Array
+(
+    [0] => Array
+        (
+            [FeeID] => 1
+        )
+
+)
+
+[12-Dec-2024 21:38:36 Europe/Berlin] Inserting fee record: Array
+(
+    [FeeID] => 1
+)
+
+[12-Dec-2024 21:39:27 Europe/Berlin] Error in initializeStudentFees: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:39:27 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\Fee.class.php(127): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\account.class.php(203): Fee->initializeStudentFees('1')
+#2 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Esperadesa', 'A', '1@gmail.com', '$2y$10$id6WTyzs...', 'student', 'Associate in Co...', '2', 'A', '2025-2026', 'Summer')
+#3 {main}
+[12-Dec-2024 21:39:27 Europe/Berlin] General Error in createStudAcc: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:39:27 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\Fee.class.php(127): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\account.class.php(203): Fee->initializeStudentFees('1')
+#2 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Esperadesa', 'A', '1@gmail.com', '$2y$10$id6WTyzs...', 'student', 'Associate in Co...', '2', 'A', '2025-2026', 'Summer')
+#3 {main}
+[12-Dec-2024 21:50:43 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:50:43 Europe/Berlin] Executing account creation with params: Array
+(
+    [:studentId] => 1
+    [:first_name] => Novi
+    [:last_name] => Esperadesa
+    [:mi] => A
+    [:wmsuEmail] => 1@gmail.com
+    [:password] => $2y$10$SNX3e9tq4CBtIHatFIdH1.7nuMo3GYZJES.WcHVidFJDKbQ20Y.tG
+    [:role] => student
+    [:course] => Associate in Computer Technology
+    [:year] => 2
+    [:section] => A
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:50:43 Europe/Berlin] Account created, initializing fees...
+[12-Dec-2024 21:50:43 Europe/Berlin] Initializing fees for student: 1
+[12-Dec-2024 21:50:43 Europe/Berlin] Current period: Array
+(
+    [school_year] => 2025-2026
+    [semester] => Summer
+)
+
+[12-Dec-2024 21:50:43 Europe/Berlin] Found fees: Array
+(
+    [0] => Array
+        (
+            [FeeID] => 1
+        )
+
+)
+
+[12-Dec-2024 21:50:43 Europe/Berlin] Inserting fee record: Array
+(
+    [FeeID] => 1
+)
+
+[12-Dec-2024 21:51:34 Europe/Berlin] Error in initializeStudentFees: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:51:34 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\Fee.class.php(127): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\account.class.php(203): Fee->initializeStudentFees('1')
+#2 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Esperadesa', 'A', '1@gmail.com', '$2y$10$SNX3e9tq...', 'student', 'Associate in Co...', '2', 'A', '2025-2026', 'Summer')
+#3 {main}
+[12-Dec-2024 21:51:34 Europe/Berlin] General Error in createStudAcc: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:51:34 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\Fee.class.php(127): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Paython\account.class.php(203): Fee->initializeStudentFees('1')
+#2 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Esperadesa', 'A', '1@gmail.com', '$2y$10$SNX3e9tq...', 'student', 'Associate in Co...', '2', 'A', '2025-2026', 'Summer')
+#3 {main}
+[12-Dec-2024 21:53:45 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:53:45 Europe/Berlin] Executing account creation with params: Array
+(
+    [:studentId] => 1
+    [:first_name] => Novi
+    [:last_name] => Esperadesa
+    [:mi] => A
+    [:wmsuEmail] => 1@gmail.com
+    [:password] => $2y$10$GtZkgWOYywITvHLji2ahoO5knrME8N1xVp4RuJWlfcLATwSxRLgjC
+    [:role] => student
+    [:course] => Associate in Computer Technology
+    [:year] => 2
+    [:section] => A
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:53:45 Europe/Berlin] Account created, initializing fees...
+[12-Dec-2024 21:53:45 Europe/Berlin] Initializing fees for student: 1
+[12-Dec-2024 21:53:45 Europe/Berlin] Current period: Array
+(
+    [school_year] => 2025-2026
+    [semester] => Summer
+)
+
+[12-Dec-2024 21:53:45 Europe/Berlin] Found fees: Array
+(
+    [0] => Array
+        (
+            [FeeID] => 1
+        )
+
+)
+
+[12-Dec-2024 21:53:45 Europe/Berlin] Inserting fee record: Array
+(
+    [FeeID] => 1
+)
+
+[12-Dec-2024 21:54:36 Europe/Berlin] Error in initializeStudentFees: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:54:36 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\Fee.class.php(112): PDOStatement->execute()
+#1 C:\xampp\htdocs\Paython\account.class.php(203): Fee->initializeStudentFees('1')
+#2 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Esperadesa', 'A', '1@gmail.com', '$2y$10$GtZkgWOY...', 'student', 'Associate in Co...', '2', 'A', '2025-2026', 'Summer')
+#3 {main}
+[12-Dec-2024 21:54:36 Europe/Berlin] General Error in createStudAcc: Failed to initialize student fees
+[12-Dec-2024 21:54:36 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\signup.php(52): Account->createStudAcc('1', 'Novi', 'Esperadesa', 'A', '1@gmail.com', '$2y$10$GtZkgWOY...', 'student', 'Associate in Co...', '2', 'A', '2025-2026', 'Summer')
+#1 {main}
+[12-Dec-2024 21:56:35 Europe/Berlin] Starting signup process...
+[12-Dec-2024 21:56:35 Europe/Berlin] Form submitted. Processing POST request...
+[12-Dec-2024 21:56:35 Europe/Berlin] Current Period: Array
+(
+    [school_year] => 2025-2026
+    [semester] => Summer
+)
+
+[12-Dec-2024 21:56:35 Europe/Berlin] Form data collected: Array
+(
+    [studentId] => 1
+    [first_name] => Novi
+    [last_name] => Esperadesa
+    [mi] => A
+    [wmsuEmail] => 1@gmail.com
+    [password] => 1
+    [confirm_password] => 1
+    [course] => Associate in Computer Technology
+    [year] => 2
+    [section] => A
+)
+
+[12-Dec-2024 21:56:35 Europe/Berlin] Attempting to create new account...
+[12-Dec-2024 21:56:35 Europe/Berlin] Starting account creation for student: 1
+[12-Dec-2024 21:56:35 Europe/Berlin] Executing account creation with params: Array
+(
+    [:studentId] => 1
+    [:first_name] => Novi
+    [:last_name] => Esperadesa
+    [:mi] => A
+    [:wmsuEmail] => 1@gmail.com
+    [:password] => $2y$10$8jlfllGtAWCzneVKIMNPb..refSaNjNsdpxtPBSXRap6WcFz18eJ6
+    [:role] => student
+    [:course] => Associate in Computer Technology
+    [:year] => 2
+    [:section] => A
+    [:school_year] => 2025-2026
+    [:semester] => Summer
+)
+
+[12-Dec-2024 21:56:35 Europe/Berlin] Account created, initializing fees...
+[12-Dec-2024 21:56:35 Europe/Berlin] Initializing fees for student: 1
+[12-Dec-2024 21:56:35 Europe/Berlin] Current period: Array
+(
+    [school_year] => 2025-2026
+    [semester] => Summer
+)
+
+[12-Dec-2024 21:56:35 Europe/Berlin] Found fees: Array
+(
+    [0] => Array
+        (
+            [FeeID] => 1
+        )
+
+)
+
+[12-Dec-2024 21:56:35 Europe/Berlin] Inserting fee record: Array
+(
+    [FeeID] => 1
+)
+
+[12-Dec-2024 21:57:26 Europe/Berlin] Error in initializeStudentFees: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
+[12-Dec-2024 21:57:26 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\Fee.class.php(112): PDOStatement->execute()
+#1 C:\xampp\htdocs\Paython\account.class.php(203): Fee->initializeStudentFees('1')
+#2 C:\xampp\htdocs\Paython\signup.php(63): Account->createStudAcc('1', 'Novi', 'Esperadesa', 'A', '1@gmail.com', '$2y$10$8jlfllGt...', 'student', 'Associate in Co...', '2', 'A', '2025-2026', 'Summer')
+#3 {main}
+[12-Dec-2024 21:57:26 Europe/Berlin] General Error in createStudAcc: Failed to initialize student fees
+[12-Dec-2024 21:57:26 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Paython\signup.php(63): Account->createStudAcc('1', 'Novi', 'Esperadesa', 'A', '1@gmail.com', '$2y$10$8jlfllGt...', 'student', 'Associate in Co...', '2', 'A', '2025-2026', 'Summer')
+#1 {main}
+[12-Dec-2024 21:57:26 Europe/Berlin] Failed to create account
+[12-Dec-2024 21:58:17 Europe/Berlin] Starting signup process...
+[12-Dec-2024 21:58:20 Europe/Berlin] Starting signup process...
+[12-Dec-2024 21:58:20 Europe/Berlin] Form submitted. Processing POST request...
+[12-Dec-2024 21:58:20 Europe/Berlin] Current Period: Array
+(
+    [school_year] => 2025-2026
+    [semester] => Summer
+)
+
+[12-Dec-2024 21:58:20 Europe/Berlin] Form data collected: Array
+(
+    [studentId] => 1
+    [first_name] => Novi
+    [last_name] => Esperadesa
+    [mi] => A
+    [wmsuEmail] => 1@gmail.com
+    [password] => 1
+    [confirm_password] => 1
+    [course] => Associate in Computer Technology
+    [year] => 2
+    [section] => A
+)
+
+[12-Dec-2024 21:58:20 Europe/Berlin] Attempting to create new account...
+[12-Dec-2024 21:58:20 Europe/Berlin] Account created successfully
+[12-Dec-2024 21:58:22 Europe/Berlin] Starting signup process...

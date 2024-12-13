@@ -86,21 +86,66 @@ class ModalController {
         });
     }
 
-    openModal(modalType, data = {}) {
+    async openModal(modalType, data = {}) {
         const modal = this.modals[modalType];
         if (!modal) return;
 
-        // Set data if provided
-        if (data.orgId) {
-            modal.querySelector('[name="org_id"]')?.setAttribute('value', data.orgId);
-        }
-        if (data.orgName) {
-            const nameDisplay = modal.querySelector('#org-name-display, #payment-org-name');
-            if (nameDisplay) nameDisplay.textContent = data.orgName;
-        }
+        try {
+            // Fetch current academic period first
+            const response = await fetch('get_current_period.php');
+            const period = await response.json();
 
-        modal.style.display = 'block';
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            if (!period.school_year || !period.semester) {
+                alert('No active academic period set. Please set an academic period first.');
+                return;
+            }
+
+            // Add academic period to hidden inputs in the modal forms
+            const forms = modal.querySelectorAll('form');
+            forms.forEach(form => {
+                // Add or update hidden inputs for academic period
+                let yearInput = form.querySelector('input[name="school_year"]');
+                let semesterInput = form.querySelector('input[name="semester"]');
+                
+                if (!yearInput) {
+                    yearInput = document.createElement('input');
+                    yearInput.type = 'hidden';
+                    yearInput.name = 'school_year';
+                    form.appendChild(yearInput);
+                }
+                if (!semesterInput) {
+                    semesterInput = document.createElement('input');
+                    semesterInput.type = 'hidden';
+                    semesterInput.name = 'semester';
+                    form.appendChild(semesterInput);
+                }
+                
+                yearInput.value = period.school_year;
+                semesterInput.value = period.semester;
+            });
+
+            // Update any period displays in the modal
+            const periodDisplay = modal.querySelector('.current-period');
+            if (periodDisplay) {
+                periodDisplay.textContent = `${period.school_year} - ${period.semester} Semester`;
+            }
+
+            // Set data if provided
+            if (data.orgId) {
+                modal.querySelector('[name="org_id"]')?.setAttribute('value', data.orgId);
+            }
+            if (data.orgName) {
+                const nameDisplay = modal.querySelector('#org-name-display, #payment-org-name');
+                if (nameDisplay) nameDisplay.textContent = data.orgName;
+            }
+
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+
+        } catch (error) {
+            console.error('Error fetching academic period:', error);
+            alert('Error loading academic period information. Please try again.');
+        }
     }
 
     closeModal(modal) {

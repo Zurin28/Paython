@@ -43,6 +43,13 @@ class Organization {
         $conn = null;
         $transactionStarted = false;
 
+        // Get current academic period
+        $academicPeriod = new AcademicPeriod();
+        $currentPeriod = $academicPeriod->getCurrentAcademicPeriod();
+        if (!$currentPeriod) {
+            throw new Exception("No current academic period set.");
+        }
+
         // Input validation
         if (empty($orgId) || empty($orgName)) {
             throw new Exception("Organization ID and name are required");
@@ -71,10 +78,13 @@ class Organization {
             $transactionStarted = true;
 
             // Insert into organizations table
-            $insertSql = "INSERT INTO organizations (OrganizationID, OrgName) VALUES (:orgId, :orgName)";
+            $insertSql = "INSERT INTO organizations (OrganizationID, OrgName, school_year, semester) 
+                          VALUES (:orgId, :orgName, :school_year, :semester)";
             $insertStmt = $conn->prepare($insertSql);
             $insertStmt->bindParam(':orgId', $orgId, PDO::PARAM_STR);
             $insertStmt->bindParam(':orgName', $orgName, PDO::PARAM_STR);
+            $insertStmt->bindParam(':school_year', $currentPeriod['school_year'], PDO::PARAM_STR);
+            $insertStmt->bindParam(':semester', $currentPeriod['semester'], PDO::PARAM_STR);
             
             if (!$insertStmt->execute()) {
                 throw new Exception("Failed to insert organization record");
@@ -269,73 +279,43 @@ class Organization {
     
     
 
-    public function addMember($orgId, $studentId, $firstName, $lastName, $wmsuemail, $position) {
+    public function addMember($orgId, $studentId, $firstName, $lastName, $email, $position, $schoolYear, $semester) {
         try {
-            // Get organization details
-            $orgDetails = $this->getOrganizationById($orgId);
-            if (!$orgDetails) {
-                throw new Exception("Organization not found");
-            }
-
-            $tableName = 'pms1_' . preg_replace('/[^a-zA-Z0-9_]/', '_', $orgDetails['name']);
+            $sql = "INSERT INTO organization_members 
+                    (org_id, StudentID, first_name, last_name, WmsuEmail, Position, school_year, semester) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             
-            // Check if student is already a member
-            $checkSql = "SELECT COUNT(*) as count FROM `$tableName` WHERE StudentID = :studentId";
-            $checkQuery = $this->db->connect()->prepare($checkSql);
-            $checkQuery->bindParam(':studentId', $studentId);
-            $checkQuery->execute();
-            
-            if ($checkQuery->fetch(PDO::FETCH_ASSOC)['count'] > 0) {
-                throw new Exception("This student is already a member of this organization.");
-            }
-            
-            // Add member
-            $sql = "INSERT INTO `$tableName` 
-                    (OrganizationID, StudentID, first_name, last_name, WmsuEmail, Position) 
-                    VALUES (:orgId, :studentId, :firstName, :lastName, :wmsuemail, :position)";
-            
-            $query = $this->db->connect()->prepare($sql);
-            
-            $query->bindParam(':orgId', $orgId);
-            $query->bindParam(':studentId', $studentId);
-            $query->bindParam(':firstName', $firstName);
-            $query->bindParam(':lastName', $lastName);
-            $query->bindParam(':wmsuemail', $wmsuemail);
-            $query->bindParam(':position', $position);
-            
-            return $query->execute();
+            $stmt = $this->db->connect()->prepare($sql);
+            return $stmt->execute([
+                $orgId, 
+                $studentId, 
+                $firstName, 
+                $lastName, 
+                $email, 
+                $position,
+                $schoolYear,
+                $semester
+            ]);
         } catch (PDOException $e) {
-            error_log("Error in addMember: " . $e->getMessage());
-            throw new Exception("Failed to add member: " . $e->getMessage());
+            error_log("Error adding member: " . $e->getMessage());
+            return false;
         }
     }
 
-    public function getOrganizationMembers($orgId) {
+    public function getOrganizationMembers($orgId, $schoolYear, $semester) {
         try {
-            // Get organization details to get the correct table name
-            $orgDetails = $this->getOrganizationById($orgId);
-            if (!$orgDetails) {
-                throw new Exception("Organization not found");
-            }
-
-            // Create table name using organization name
-            $tableName = 'pms1_' . preg_replace('/[^a-zA-Z0-9_]/', '_', $orgDetails['name']);
+            $sql = "SELECT * FROM organization_members 
+                    WHERE org_id = ? 
+                    AND school_year = ? 
+                    AND semester = ?
+                    ORDER BY Position";
             
-            // Query to get all members
-            $sql = "SELECT m.*, a.first_name, a.last_name, a.WmsuEmail 
-                    FROM `$tableName` m 
-                    JOIN account a ON m.StudentID = a.StudentID 
-                    WHERE m.OrganizationID = :orgId 
-                    ORDER BY m.Position, a.first_name";
-                    
-            $query = $this->db->connect()->prepare($sql);
-            $query->bindParam(':orgId', $orgId);
-            $query->execute();
-            
-            return $query->fetchAll(PDO::FETCH_ASSOC);
+            $stmt = $this->db->connect()->prepare($sql);
+            $stmt->execute([$orgId, $schoolYear, $semester]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            error_log("Error in getOrganizationMembers: " . $e->getMessage());
-            throw new Exception("Failed to get members: " . $e->getMessage());
+            error_log("Error getting members: " . $e->getMessage());
+            return [];
         }
     }
 

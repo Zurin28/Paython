@@ -1,5 +1,6 @@
 <?php
 require_once 'classes/Fee.class.php';
+require_once 'classes/AcademicPeriod.php';
 
 // Ensure proper content type
 header('Content-Type: application/json');
@@ -15,11 +16,19 @@ try {
 
     $orgId = $_GET['org_id'];
     
+    // Get current academic period
+    $academicPeriod = new AcademicPeriod();
+    $currentPeriod = $academicPeriod->getCurrentAcademicPeriod();
+
+    if (!$currentPeriod) {
+        throw new Exception("No active academic period found");
+    }
+
     // Log the incoming request
     error_log("Fetching payments for org_id: " . $orgId);
 
     $fee = new Fee();
-    $payments = $fee->getOrganizationPayments($orgId);
+    $payments = $fee->getOrganizationPayments($orgId, $currentPeriod['school_year'], $currentPeriod['semester']);
     
     // Log the result
     error_log("Payments found: " . json_encode($payments));
